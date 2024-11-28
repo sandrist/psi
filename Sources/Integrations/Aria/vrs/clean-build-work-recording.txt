@@ -1,0 +1,582 @@
+D:\repos\winaria\vrs>dir
+D:\repos\winaria\vrs>notepad CMakeLists.txt
+D:\repos\winaria\vrs>cd build
+D:\repos\winaria\vrs\build>dir
+D:\repos\winaria\vrs\build>del CMakeCache.txt
+D:\repos\winaria\vrs\build>del Kin-CMakeCache.txt.org
+D:\repos\winaria\vrs\build>del Kin2-CMakeCache.txt.org
+D:\repos\winaria\vrs\build>del Kin3-CMakeCache.txt.org
+D:\repos\winaria\vrs\build>dir
+D:\repos\winaria\vrs\build>cd D:\repos\winaria\vrs\build
+D:\repos\winaria\vrs\build>cmake .. -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE="D:\repos\winaria\vcpkg\scripts\buildsystems\vcpkg.cmake"
+-- External dependencies at D:/repos/winaria/vrs/build/external
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.22631.
+-- The CXX compiler identification is MSVC 19.41.34123.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- CMAKE_CXX_COMPILER: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe
+-- CMAKE_CXX_COMPILER_VERSION: 19.41.34123.0
+-- Found bcrypt library: D:/Windows Kits/10/Lib/10.0.26100.0/um/x86/bcrypt.lib
+CMake Error at CMakeLists.txt:78 (target_link_libraries):
+  Cannot specify link libraries for target "vrs" which is not built by this
+  project.
+
+-- Configuring incomplete, errors occurred!
+
+D:\repos\winaria\vrs\build>cd ..
+D:\repos\winaria\vrs>notepad CMakeLists.txt
+D:\repos\winaria\vrs>cd build
+D:\repos\winaria\vrs\build>cmake .. -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE="D:\repos\winaria\vcpkg\scripts\buildsystems\vcpkg.cmake"
+-- External dependencies at D:/repos/winaria/vrs/build/external
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.22631.
+-- CMAKE_CXX_COMPILER: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe
+-- CMAKE_CXX_COMPILER_VERSION: 19.41.34123.0
+-- Found Boost: D:/repos/winaria/vcpkg/installed/x64-windows/share/boost/BoostConfig.cmake (found version "1.85.0") found components: filesystem date_time system
+-- Found Threads: TRUE
+-- Found RapidJson: D:/repos/winaria/vrs/build/external/rapidjson
+-- Found Lz4: D:/repos/winaria/vcpkg/installed/x64-windows/lib/lz4.lib
+-- Found Zstd: D:/repos/winaria/vcpkg/installed/x64-windows/lib/zstd.lib
+-- Found xxHash: D:/repos/winaria/vcpkg/installed/x64-windows/lib/xxhash.lib
+-- Found ZLIB: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/zlib.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/zlibd.lib (found version "1.3.1")
+-- Found PNG: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/libpng16.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/libpng16d.lib (found version "1.6.43")
+-- Found JPEG: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/jpeg.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/jpeg.lib (found version "62")
+-- Found TurboJpeg: D:/repos/winaria/vcpkg/installed/x64-windows/lib/turbojpeg.lib
+-- Found GTest: D:/repos/winaria/vcpkg/installed/x64-windows/share/gtest/GTestConfig.cmake (found version "1.15.2")
+-- Could NOT find QT (missing: QT_DIR)
+CMake Warning at tools/vrsplayer/CMakeLists.txt:51 (message):
+  Qt5 or Qt6 were not found, so vrsplayer will not be included.
+
+
+-- Configuring done (5.9s)
+-- Generating done (3.4s)
+-- Build files have been written to: D:/repos/winaria/vrs/build
+
+D:\repos\winaria\vrs\build>cd..
+D:\repos\winaria\vrs>notepad CMakeLists.txt
+D:\repos\winaria\vrs>cd ..
+D:\repos\winaria>cd vcpkg
+D:\repos\winaria\vcpkg>.\vcpkg.exe install bcrypt
+warning: The vcpkg D:\repos\winaria\vcpkg\vcpkg.exe is using detected vcpkg root D:\repos\winaria\vcpkg and ignoring mismatched VCPKG_ROOT environment value D:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\vcpkg. To suppress this message, unset the environment variable or use the --vcpkg-root command line switch.
+Computing installation plan...
+error: while looking for bcrypt:x64-windows:
+D:\repos\winaria\vcpkg\ports\bcrypt: error: bcrypt does not exist
+D:\repos\winaria\vcpkg>cd ..
+D:\repos\winaria>cd vrs
+D:\repos\winaria\vrs>cd build
+D:\repos\winaria\vrs\build>dir
+D:\repos\winaria\vrs\build>del CMakeCache.txt
+D:\repos\winaria\vrs\build>cmake .. -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE="D:\repos\winaria\vcpkg\scripts\buildsystems\vcpkg.cmake"
+-- External dependencies at D:/repos/winaria/vrs/build/external
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.22631.
+-- The CXX compiler identification is MSVC 19.41.34123.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- CMAKE_CXX_COMPILER: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe
+-- CMAKE_CXX_COMPILER_VERSION: 19.41.34123.0
+-- Found bcrypt library: D:/Windows Kits/10/Lib/10.0.26100.0/um/x86/bcrypt.lib
+CMake Error at CMakeLists.txt:76 (target_link_libraries):
+  Cannot specify link libraries for target "vrs" which is not built by this
+  project.
+-- Configuring incomplete, errors occurred!
+D:\repos\winaria\vrs\build>notepad ..\CMakeLists.txt
+D:\repos\winaria\vrs\build>cmake .. -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE="D:\repos\winaria\vcpkg\scripts\buildsystems\vcpkg.cmake"
+-- External dependencies at D:/repos/winaria/vrs/build/external
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.22631.
+-- CMAKE_CXX_COMPILER: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe
+-- CMAKE_CXX_COMPILER_VERSION: 19.41.34123.0
+-- Found Boost: D:/repos/winaria/vcpkg/installed/x64-windows/share/boost/BoostConfig.cmake (found version "1.85.0") found components: filesystem date_time system
+-- Found Threads: TRUE
+-- Found RapidJson: D:/repos/winaria/vrs/build/external/rapidjson
+-- Found Lz4: D:/repos/winaria/vcpkg/installed/x64-windows/lib/lz4.lib
+-- Found Zstd: D:/repos/winaria/vcpkg/installed/x64-windows/lib/zstd.lib
+-- Found xxHash: D:/repos/winaria/vcpkg/installed/x64-windows/lib/xxhash.lib
+-- Found ZLIB: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/zlib.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/zlibd.lib (found version "1.3.1")
+-- Found PNG: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/libpng16.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/libpng16d.lib (found version "1.6.43")
+-- Found JPEG: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/jpeg.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/jpeg.lib (found version "62")
+-- Found TurboJpeg: D:/repos/winaria/vcpkg/installed/x64-windows/lib/turbojpeg.lib
+-- Found GTest: D:/repos/winaria/vcpkg/installed/x64-windows/share/gtest/GTestConfig.cmake (found version "1.15.2")
+-- Found bcrypt library: D:/Windows Kits/10/Lib/10.0.26100.0/um/x86/bcrypt.lib
+CMake Error at CMakeLists.txt:91 (target_link_libraries):
+  Cannot specify link libraries for target "vrs" which is not built by this
+  project.
+-- Configuring incomplete, errors occurred!
+
+D:\repos\winaria\vrs\build>dir
+ Volume in drive D is DATADRIVE1
+ Volume Serial Number is F230-2B33
+
+D:\repos\winaria\vrs\build>del CMakeCache.txt
+D:\repos\winaria\vrs\build>cmake .. -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE="D:\repos\winaria\vcpkg\scripts\buildsystems\vcpkg.cmake"
+-- External dependencies at D:/repos/winaria/vrs/build/external
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.22631.
+-- The CXX compiler identification is MSVC 19.41.34123.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- CMAKE_CXX_COMPILER: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe
+-- CMAKE_CXX_COMPILER_VERSION: 19.41.34123.0
+-- Found Boost: D:/repos/winaria/vcpkg/installed/x64-windows/share/boost/BoostConfig.cmake (found version "1.85.0") found components: filesystem date_time system
+-- Found Threads: TRUE
+-- Found RapidJson: D:/repos/winaria/vrs/build/external/rapidjson
+-- Found Lz4: D:/repos/winaria/vcpkg/installed/x64-windows/lib/lz4.lib
+-- Found Zstd: D:/repos/winaria/vcpkg/installed/x64-windows/lib/zstd.lib
+-- Found xxHash: D:/repos/winaria/vcpkg/installed/x64-windows/lib/xxhash.lib
+-- Found ZLIB: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/zlib.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/zlibd.lib (found version "1.3.1")
+-- Found PNG: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/libpng16.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/libpng16d.lib (found version "1.6.43")
+-- Found JPEG: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/jpeg.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/jpeg.lib (found version "62")
+-- Found TurboJpeg: D:/repos/winaria/vcpkg/installed/x64-windows/lib/turbojpeg.lib
+-- Found GTest: D:/repos/winaria/vcpkg/installed/x64-windows/share/gtest/GTestConfig.cmake (found version "1.15.2")
+-- Found bcrypt library: D:/Windows Kits/10/Lib/10.0.26100.0/um/x86/bcrypt.lib
+CMake Error at CMakeLists.txt:91 (target_link_libraries):
+  Cannot specify link libraries for target "vrs" which is not built by this
+  project.
+
+-- Configuring incomplete, errors occurred!
+
+D:\repos\winaria\vrs\build>notepad ..\CMakeLists.txt
+D:\repos\winaria\vrs\build>del CMakeCache.txt
+D:\repos\winaria\vrs\build>cmake .. -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE="D:\repos\winaria\vcpkg\scripts\buildsystems\vcpkg.cmake"
+-- External dependencies at D:/repos/winaria/vrs/build/external
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.22631.
+-- The CXX compiler identification is MSVC 19.41.34123.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- CMAKE_CXX_COMPILER: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe
+-- CMAKE_CXX_COMPILER_VERSION: 19.41.34123.0
+-- Found Boost: D:/repos/winaria/vcpkg/installed/x64-windows/share/boost/BoostConfig.cmake (found version "1.85.0") found components: filesystem date_time system
+-- Found Threads: TRUE
+-- Found RapidJson: D:/repos/winaria/vrs/build/external/rapidjson
+-- Found Lz4: D:/repos/winaria/vcpkg/installed/x64-windows/lib/lz4.lib
+-- Found Zstd: D:/repos/winaria/vcpkg/installed/x64-windows/lib/zstd.lib
+-- Found xxHash: D:/repos/winaria/vcpkg/installed/x64-windows/lib/xxhash.lib
+-- Found ZLIB: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/zlib.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/zlibd.lib (found version "1.3.1")
+-- Found PNG: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/libpng16.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/libpng16d.lib (found version "1.6.43")
+-- Found JPEG: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/jpeg.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/jpeg.lib (found version "62")
+-- Found TurboJpeg: D:/repos/winaria/vcpkg/installed/x64-windows/lib/turbojpeg.lib
+-- Found GTest: D:/repos/winaria/vcpkg/installed/x64-windows/share/gtest/GTestConfig.cmake (found version "1.15.2")
+-- KiranM Found bcrypt library: D:/Windows Kits/10/Lib/10.0.26100.0/um/x86/bcrypt.lib
+-- Could NOT find QT (missing: QT_DIR)
+CMake Warning at tools/vrsplayer/CMakeLists.txt:51 (message):
+  Qt5 or Qt6 were not found, so vrsplayer will not be included.
+
+
+-- Configuring done (10.1s)
+-- Generating done (2.2s)
+-- Build files have been written to: D:/repos/winaria/vrs/build
+
+D:\repos\winaria\vrs\build>dir
+D:\repos\winaria\vrs\build>del CMakeCache.txt
+D:\repos\winaria\vrs\build>cmake .. -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE="D:\repos\winaria\vcpkg\scripts\buildsystems\vcpkg.cmake"
+-- External dependencies at D:/repos/winaria/vrs/build/external
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.22631.
+-- The CXX compiler identification is MSVC 19.41.34123.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- CMAKE_CXX_COMPILER: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe
+-- CMAKE_CXX_COMPILER_VERSION: 19.41.34123.0
+-- Found Boost: D:/repos/winaria/vcpkg/installed/x64-windows/share/boost/BoostConfig.cmake (found version "1.85.0") found components: filesystem date_time system
+-- Found Threads: TRUE
+-- Found RapidJson: D:/repos/winaria/vrs/build/external/rapidjson
+-- Found Lz4: D:/repos/winaria/vcpkg/installed/x64-windows/lib/lz4.lib
+-- Found Zstd: D:/repos/winaria/vcpkg/installed/x64-windows/lib/zstd.lib
+-- Found xxHash: D:/repos/winaria/vcpkg/installed/x64-windows/lib/xxhash.lib
+-- Found ZLIB: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/zlib.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/zlibd.lib (found version "1.3.1")
+-- Found PNG: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/libpng16.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/libpng16d.lib (found version "1.6.43")
+-- Found JPEG: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/jpeg.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/jpeg.lib (found version "62")
+-- Found TurboJpeg: D:/repos/winaria/vcpkg/installed/x64-windows/lib/turbojpeg.lib
+-- Found GTest: D:/repos/winaria/vcpkg/installed/x64-windows/share/gtest/GTestConfig.cmake (found version "1.15.2")
+-- KiranM Found bcrypt library: D:/Windows Kits/10/Lib/10.0.26100.0/um/x86/bcrypt.lib
+-- Could NOT find QT (missing: QT_DIR)
+CMake Warning at tools/vrsplayer/CMakeLists.txt:51 (message):
+  Qt5 or Qt6 were not found, so vrsplayer will not be included.
+
+
+-- Configuring done (9.9s)
+-- Generating done (1.8s)
+-- Build files have been written to: D:/repos/winaria/vrs/build
+
+D:\repos\winaria\vrs\build>vrs.sln
+D:\repos\winaria\vrs\build>dir /s D:\Windows Kits\10\Lib\10.0.26100.0\um\
+The system cannot find the path specified.
+
+D:\repos\winaria\vrs\build>dir /s "d:\Windows Kits\10\Lib\10.0.22621.0"um
+ Volume in drive D is DATADRIVE1
+ Volume Serial Number is F230-2B33
+File Not Found
+
+D:\repos\winaria\vrs\build>dir /s "d:\Windows Kits\10\Lib\10.0.22621.0"
+ Volume in drive D is DATADRIVE1
+ Volume Serial Number is F230-2B33
+
+D:\repos\winaria\vrs\build>notepad ..\CMakeLists.txt
+
+D:\repos\winaria\vrs\build>cmake --build . --target clean
+CMake is re-running because D:/repos/winaria/vrs/build/CMakeFiles/generate.stamp is out-of-date.
+  the file 'D:/repos/winaria/vrs/CMakeLists.txt'
+  is newer than 'D:/repos/winaria/vrs/build/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- External dependencies at D:/repos/winaria/vrs/build/external
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.22631.
+-- CMAKE_CXX_COMPILER: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe
+-- CMAKE_CXX_COMPILER_VERSION: 19.41.34123.0
+-- Found RapidJson: D:/repos/winaria/vrs/build/external/rapidjson
+-- KiranM Found bcrypt library: D:/Windows Kits/10/Lib/10.0.26100.0/um/x86/bcrypt.lib
+-- Could NOT find QT (missing: QT_DIR)
+CMake Warning at tools/vrsplayer/CMakeLists.txt:51 (message):
+  Qt5 or Qt6 were not found, so vrsplayer will not be included.
+
+
+-- Configuring done (2.7s)
+-- Generating done (2.7s)
+-- Build files have been written to: D:/repos/winaria/vrs/build
+MSBuild version 17.11.9+a69bbaaf5 for .NET Framework
+
+
+D:\repos\winaria\vrs\build>
+D:\repos\winaria\vrs\build>cd ..
+
+D:\repos\winaria\vrs>
+D:\repos\winaria\vrs>
+D:\repos\winaria\vrs>dir
+ Volume in drive D is DATADRIVE1
+ Volume Serial Number is F230-2B33
+
+ Directory of D:\repos\winaria\vrs
+
+10/15/2024  04:54 AM    <DIR>          .
+10/15/2024  05:07 AM    <DIR>          ..
+10/15/2024  04:30 AM             3,410 .clang-format
+10/15/2024  04:30 AM                86 .gitattributes
+10/15/2024  04:30 AM    <DIR>          .github
+10/15/2024  04:30 AM                55 .gitignore
+10/15/2024  07:45 AM    <DIR>          build
+10/15/2024  04:30 AM             1,295 CHANGELOG.md
+10/15/2024  04:30 AM    <DIR>          cmake
+10/15/2024  07:44 AM             3,773 CMakeLists.txt
+10/15/2024  04:30 AM             3,621 CODE_OF_CONDUCT.md
+10/15/2024  04:30 AM             1,264 CONTRIBUTING.md
+10/15/2024  04:30 AM             1,283 Dockerfile
+10/15/2024  04:30 AM            11,558 LICENSE
+10/15/2024  04:30 AM           159,991 pixi.lock
+10/15/2024  04:30 AM             2,117 pixi.toml
+10/15/2024  04:30 AM            10,643 README.md
+10/15/2024  04:30 AM             3,247 release_utils.py
+10/15/2024  04:30 AM    <DIR>          sample_apps
+10/15/2024  04:30 AM    <DIR>          sample_code
+10/15/2024  04:30 AM    <DIR>          sample_project
+10/15/2024  04:30 AM    <DIR>          tools
+10/15/2024  04:30 AM                 6 version.txt
+10/15/2024  04:30 AM    <DIR>          vrs
+10/15/2024  04:30 AM    <DIR>          website
+              14 File(s)        202,349 bytes
+              11 Dir(s)  7,959,425,441,792 bytes free
+
+D:\repos\winaria\vrs>notepad CMakeLists.txt
+
+D:\repos\winaria\vrs>cd build
+
+D:\repos\winaria\vrs\build>cmake --build . --target clean
+CMake is re-running because D:/repos/winaria/vrs/build/CMakeFiles/generate.stamp is out-of-date.
+  the file 'D:/repos/winaria/vrs/CMakeLists.txt'
+  is newer than 'D:/repos/winaria/vrs/build/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- External dependencies at D:/repos/winaria/vrs/build/external
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.22631.
+-- CMAKE_CXX_COMPILER: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe
+-- CMAKE_CXX_COMPILER_VERSION: 19.41.34123.0
+-- Found RapidJson: D:/repos/winaria/vrs/build/external/rapidjson
+CMake Error at CMakeLists.txt:104 (target_link_libraries):
+  Syntax error in cmake code at
+
+    D:/repos/winaria/vrs/CMakeLists.txt:104
+
+  when parsing string
+
+    d:\Windows Kits\10\Lib\10.0.22621.0\um\x64\bcrypt.lib
+
+  Invalid character escape '\W'.
+
+
+-- Configuring incomplete, errors occurred!
+CMake Configure step failed.  Build files cannot be regenerated correctly.
+
+D:\repos\winaria\vrs\build>notepad ..\CMakeLists.txt
+
+D:\repos\winaria\vrs\build>cmake --build . --target clean
+CMake is re-running because D:/repos/winaria/vrs/build/CMakeFiles/generate.stamp is out-of-date.
+  the file 'D:/repos/winaria/vrs/CMakeLists.txt'
+  is newer than 'D:/repos/winaria/vrs/build/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- External dependencies at D:/repos/winaria/vrs/build/external
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.22631.
+-- CMAKE_CXX_COMPILER: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe
+-- CMAKE_CXX_COMPILER_VERSION: 19.41.34123.0
+-- Found RapidJson: D:/repos/winaria/vrs/build/external/rapidjson
+CMake Error at CMakeLists.txt:104 (target_link_libraries):
+  Syntax error in cmake code at
+
+    D:/repos/winaria/vrs/CMakeLists.txt:104
+
+  when parsing string
+
+    d:\Windows
+
+  Invalid character escape '\W'.
+
+
+CMake Error at CMakeLists.txt:104 (target_link_libraries):
+  Syntax error in cmake code at
+
+    D:/repos/winaria/vrs/CMakeLists.txt:104
+
+  when parsing string
+
+    Kits\10\Lib\10.0.22621.0\um\x64\bcrypt.lib
+
+  Invalid character escape '\1'.
+
+
+-- Configuring incomplete, errors occurred!
+CMake Configure step failed.  Build files cannot be regenerated correctly.
+
+D:\repos\winaria\vrs\build>cmake --build . --target clean
+CMake is re-running because D:/repos/winaria/vrs/build/CMakeFiles/generate.stamp is out-of-date.
+  the file 'D:/repos/winaria/vrs/CMakeLists.txt'
+  is newer than 'D:/repos/winaria/vrs/build/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- External dependencies at D:/repos/winaria/vrs/build/external
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.22631.
+-- CMAKE_CXX_COMPILER: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe
+-- CMAKE_CXX_COMPILER_VERSION: 19.41.34123.0
+-- Found RapidJson: D:/repos/winaria/vrs/build/external/rapidjson
+-- KiranM Found bcrypt library: D:/Windows Kits/10/Lib/10.0.26100.0/um/x86/bcrypt.lib
+-- Could NOT find QT (missing: QT_DIR)
+CMake Warning at tools/vrsplayer/CMakeLists.txt:51 (message):
+  Qt5 or Qt6 were not found, so vrsplayer will not be included.
+
+
+-- Configuring done (1.0s)
+-- Generating done (2.1s)
+-- Build files have been written to: D:/repos/winaria/vrs/build
+MSBuild version 17.11.9+a69bbaaf5 for .NET Framework
+
+
+D:\repos\winaria\vrs\build>cmake --build . --target clean
+CMake is re-running because D:/repos/winaria/vrs/build/CMakeFiles/generate.stamp is out-of-date.
+  the file 'D:/repos/winaria/vrs/CMakeLists.txt'
+  is newer than 'D:/repos/winaria/vrs/build/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- External dependencies at D:/repos/winaria/vrs/build/external
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.22631.
+-- CMAKE_CXX_COMPILER: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe
+-- CMAKE_CXX_COMPILER_VERSION: 19.41.34123.0
+-- Found RapidJson: D:/repos/winaria/vrs/build/external/rapidjson
+-- KiranM Found bcrypt library: D:/Windows Kits/10/Lib/10.0.26100.0/um/x86/bcrypt.lib
+-- Could NOT find QT (missing: QT_DIR)
+CMake Warning at tools/vrsplayer/CMakeLists.txt:51 (message):
+  Qt5 or Qt6 were not found, so vrsplayer will not be included.
+
+
+-- Configuring done (2.5s)
+-- Generating done (3.0s)
+-- Build files have been written to: D:/repos/winaria/vrs/build
+MSBuild version 17.11.9+a69bbaaf5 for .NET Framework
+
+
+D:\repos\winaria\vrs\build>notepad ..\CMakeLists.txt
+
+D:\repos\winaria\vrs\build>del CMakeCache.txt
+
+D:\repos\winaria\vrs\build>cmake .. -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE="D:\repos\winaria\vcpkg\scripts\buildsystems\vcpkg.cmake"      m
+-- External dependencies at D:/repos/winaria/vrs/build/external
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.22631.
+-- The CXX compiler identification is MSVC 19.41.34123.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- CMAKE_CXX_COMPILER: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe
+-- CMAKE_CXX_COMPILER_VERSION: 19.41.34123.0
+-- Found Boost: D:/repos/winaria/vcpkg/installed/x64-windows/share/boost/BoostConfig.cmake (found version "1.85.0") found components: filesystem date_time system
+-- Found Threads: TRUE
+-- Found RapidJson: D:/repos/winaria/vrs/build/external/rapidjson
+-- Found Lz4: D:/repos/winaria/vcpkg/installed/x64-windows/lib/lz4.lib
+-- Found Zstd: D:/repos/winaria/vcpkg/installed/x64-windows/lib/zstd.lib
+-- Found xxHash: D:/repos/winaria/vcpkg/installed/x64-windows/lib/xxhash.lib
+-- Found ZLIB: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/zlib.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/zlibd.lib (found version "1.3.1")
+-- Found PNG: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/libpng16.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/libpng16d.lib (found version "1.6.43")
+-- Found JPEG: optimized;D:/repos/winaria/vcpkg/installed/x64-windows/lib/jpeg.lib;debug;D:/repos/winaria/vcpkg/installed/x64-windows/debug/lib/jpeg.lib (found version "62")
+-- Found TurboJpeg: D:/repos/winaria/vcpkg/installed/x64-windows/lib/turbojpeg.lib
+-- Found GTest: D:/repos/winaria/vcpkg/installed/x64-windows/share/gtest/GTestConfig.cmake (found version "1.15.2")
+-- KiranM AA Found bcrypt library: D:/Windows Kits/10/Lib/10.0.26100.0/um/x64/bcrypt.lib
+-- Could NOT find QT (missing: QT_DIR)
+CMake Warning at tools/vrsplayer/CMakeLists.txt:51 (message):
+  Qt5 or Qt6 were not found, so vrsplayer will not be included.
+
+
+-- Configuring done (11.9s)
+-- Generating done (1.9s)
+-- Build files have been written to: D:/repos/winaria/vrs/build
+
+D:\repos\winaria\vrs\build>dir /s *.exe
+ Volume in drive D is DATADRIVE1
+ Volume Serial Number is F230-2B33
+
+ Directory of D:\repos\winaria\vrs\build\CMakeFiles\3.29.5-msvc4\CompilerIdCXX
+
+10/15/2024  08:01 AM            15,360 CompilerIdCXX.exe
+               1 File(s)         15,360 bytes
+
+ Directory of D:\repos\winaria\vrs\build\sample_apps\Debug
+
+10/15/2024  08:03 AM         5,570,048 sample_playback_app.exe
+10/15/2024  08:03 AM         5,368,832 sample_recording_app.exe
+               2 File(s)     10,938,880 bytes
+
+ Directory of D:\repos\winaria\vrs\build\tools\vrs\Debug
+
+10/15/2024  08:03 AM         5,718,016 test_vrscli.exe
+10/15/2024  08:03 AM         7,051,264 vrs.exe
+               2 File(s)     12,769,280 bytes
+
+ Directory of D:\repos\winaria\vrs\build\vrs\helpers\Debug
+
+10/15/2024  08:02 AM           658,944 test_vrs_helpers.exe
+               1 File(s)        658,944 bytes
+
+ Directory of D:\repos\winaria\vrs\build\vrs\os\Debug
+
+10/15/2024  08:02 AM           617,984 test_vrs_os.exe
+               1 File(s)        617,984 bytes
+
+ Directory of D:\repos\winaria\vrs\build\vrs\test\Debug
+
+10/15/2024  08:02 AM            52,736 testedtool.exe
+10/15/2024  08:03 AM         7,218,176 test_vrslib.exe
+10/15/2024  08:03 AM         5,341,696 test_vrslib_file_tests.exe
+               3 File(s)     12,612,608 bytes
+
+ Directory of D:\repos\winaria\vrs\build\vrs\utils\converters\Debug
+
+10/15/2024  08:02 AM           164,352 test_vrs_utils_converters.exe
+               1 File(s)        164,352 bytes
+
+ Directory of D:\repos\winaria\vrs\build\vrs\utils\xxhash\Debug
+
+10/15/2024  08:02 AM           176,640 test_vrs_utils_xxhash.exe
+               1 File(s)        176,640 bytes
+
+     Total Files Listed:
+              12 File(s)     37,954,048 bytes
+               0 Dir(s)  7,959,179,943,936 bytes free
+
+D:\repos\winaria\vrs\build>cd D:\repos\winaria\vrs\build\tools\vrs\Debug
+
+D:\repos\winaria\vrs\build\tools\vrs\Debug>dir
+ Volume in drive D is DATADRIVE1
+ Volume Serial Number is F230-2B33
+
+ Directory of D:\repos\winaria\vrs\build\tools\vrs\Debug
+
+10/15/2024  08:03 AM    <DIR>          .
+10/15/2024  08:01 AM    <DIR>          ..
+10/15/2024  05:18 AM           463,360 boost_filesystem-vc143-mt-gd-x64-1_85.dll
+10/15/2024  06:12 AM           510,976 fmtd.dll
+10/15/2024  06:41 AM         1,397,760 gtest.dll
+10/15/2024  06:41 AM           212,480 gtest_main.dll
+10/15/2024  06:38 AM         1,456,128 jpeg62.dll
+10/15/2024  06:35 AM           433,152 libpng16d.dll
+10/15/2024  08:03 AM         5,718,016 test_vrscli.exe
+10/15/2024  08:03 AM        38,580,224 test_vrscli.pdb
+10/15/2024  06:38 AM         1,765,376 turbojpeg.dll
+10/15/2024  08:03 AM         7,051,264 vrs.exe
+10/15/2024  08:03 AM        40,562,688 vrs.pdb
+10/15/2024  06:33 AM           119,296 xxhash.dll
+10/15/2024  05:26 AM           210,432 zlibd1.dll
+10/15/2024  05:27 AM         1,765,888 zstd.dll
+              14 File(s)    100,247,040 bytes
+               2 Dir(s)  7,959,179,943,936 bytes free
+
+D:\repos\winaria\vrs\build\tools\vrs\Debug>vrs.exe
+
+D:\repos\winaria\vrs\build\tools\vrs\Debug>vrs.exe /?
+
+D:\repos\winaria\vrs\build\tools\vrs\Debug>pushd .
+
+D:\repos\winaria\vrs\build\tools\vrs\Debug>cd ..
+
+D:\repos\winaria\vrs\build\tools\vrs>cd ..
+
+D:\repos\winaria\vrs\build\tools>cd ..
+
+D:\repos\winaria\vrs\build>cd ..
+
+D:\repos\winaria\vrs>cd ..
+
+D:\repos\winaria>dir /s *.vrs
+ Volume in drive D is DATADRIVE1
+ Volume Serial Number is F230-2B33
+
+ Directory of D:\repos\winaria\vrs\vrs\oss\test_data\VRS_Files
+
+10/15/2024  04:30 AM            32,768 chunks.vrs
+10/15/2024  04:30 AM            83,038 sample_file.vrs
+10/15/2024  04:30 AM            44,808 sample_raw_pixel_formats.vrs
+10/15/2024  04:30 AM        10,370,166 simulated.vrs
+10/15/2024  04:30 AM         6,132,318 simulated2.vrs
+               5 File(s)     16,663,098 bytes
+
+     Total Files Listed:
+               5 File(s)     16,663,098 bytes
+               0 Dir(s)  7,959,179,747,328 bytes free
+
+D:\repos\winaria>popd
+
+D:\repos\winaria\vrs\build\tools\vrs\Debug>vrs D:\repos\winaria\vrs\vrs\oss\test_data\VRS_Files\sample_file.vrs
+
+D:\repos\winaria\vrs\build\tools\vrs\Debug>vrs D:\repos\winaria\vrs\vrs\oss\test_data\VRS_Files\chunks.vrs
+
+D:\repos\winaria\vrs\build\tools\vrs\Debug>cd ..
+
+D:\repos\winaria\vrs\build\tools\vrs>cd..
+
+D:\repos\winaria\vrs\build\tools>cd ..
+
+D:\repos\winaria\vrs\build>
+D:\repos\winaria\vrs\build>
+D:\repos\winaria\vrs\build>cmake --build . --target clean
+MSBuild version 17.11.9+a69bbaaf5 for .NET Framework
+
+
+D:\repos\winaria\vrs\build>cmake .. -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE="D:\repos\winaria\vcpkg\scripts\buildsystems\vcpkg.cmake"
+-- External dependencies at D:/repos/winaria/vrs/build/external
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.22631.
+-- CMAKE_CXX_COMPILER: D:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64/cl.exe
+-- CMAKE_CXX_COMPILER_VERSION: 19.41.34123.0
+-- Found RapidJson: D:/repos/winaria/vrs/build/external/rapidjson
+-- KiranM AA Found bcrypt library: D:/Windows Kits/10/Lib/10.0.26100.0/um/x64/bcrypt.lib
+-- Could NOT find QT (missing: QT_DIR)
+CMake Warning at tools/vrsplayer/CMakeLists.txt:51 (message):
+  Qt5 or Qt6 were not found, so vrsplayer will not be included.
+
+
+-- Configuring done (2.8s)
+-- Generating done (2.7s)
+-- Build files have been written to: D:/repos/winaria/vrs/build
+
+D:\repos\winaria\vrs\build>
