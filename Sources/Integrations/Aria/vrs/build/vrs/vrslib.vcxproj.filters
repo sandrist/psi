@@ -1,248 +1,248 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\Compressor.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\Compressor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\ContentBlockReader.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\ContentBlockReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\DataLayout.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataLayout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\DataLayoutConventions.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataLayoutConventions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\DataReference.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataReference.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\DataSource.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataSource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\Decompressor.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\Decompressor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\DescriptionRecord.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DescriptionRecord.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\DiskFile.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DiskFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\ErrorCode.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\ErrorCode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\FileCache.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileCache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\FileDetailsCache.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileDetailsCache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\FileFormat.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileFormat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\FileHandler.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\FileHandlerFactory.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileHandlerFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\FileSpec.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileSpec.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\IndexRecord.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\IndexRecord.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\LegacyFormatsProvider.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\LegacyFormatsProvider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\MultiRecordFileReader.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\MultiRecordFileReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\ProgressLogger.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\ProgressLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\Record.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\Record.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\RecordFileReader.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordFileReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\RecordFileWriter.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordFileWriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\RecordFormat.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordFormat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\RecordFormatStreamPlayer.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordFormatStreamPlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\RecordManager.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\RecordReaders.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordReaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\Recordable.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\Recordable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\StreamId.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\StreamId.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\TagConventions.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\TagConventions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\TagsRecord.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\TagsRecord.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\TelemetryLogger.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\TelemetryLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\AsyncDiskFileChunk.hpp">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\AsyncDiskFileChunk.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\Compressor.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\Compressor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\ContentBlockReader.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\ContentBlockReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataLayout.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataLayout.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataLayoutConventions.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataLayoutConventions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataPieceArray.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataPieceArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataPieceString.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataPieceString.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataPieceStringMap.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataPieceStringMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataPieceTypes.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataPieceTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataPieceValue.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataPieceValue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataPieceVector.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataPieceVector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataPieces.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataPieces.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataReference.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataReference.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataSource.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\Decompressor.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\Decompressor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DescriptionRecord.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DescriptionRecord.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DiskFile.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DiskFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DiskFileChunk.hpp">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DiskFileChunk.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\ErrorCode.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\ErrorCode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\FileCache.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileCache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\FileDelegator.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileDelegator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\FileDetailsCache.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileDetailsCache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\FileFormat.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileFormat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\FileHandler.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\FileHandlerFactory.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileHandlerFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\FileSpec.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileSpec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\ForwardDefinitions.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\ForwardDefinitions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\IndexRecord.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\IndexRecord.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\LegacyFormatsProvider.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\LegacyFormatsProvider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\MultiRecordFileReader.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\MultiRecordFileReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\NewChunkHandler.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\NewChunkHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\ProgressLogger.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\ProgressLogger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\Record.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\Record.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\RecordFileReader.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordFileReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\RecordFileWriter.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordFileWriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\RecordFormat.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordFormat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\RecordFormatStreamPlayer.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordFormatStreamPlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\RecordManager.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\RecordReaders.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordReaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\Recordable.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\Recordable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\StreamId.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\StreamId.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\StreamPlayer.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\StreamPlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\TagConventions.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\TagConventions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\TagsRecord.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\TagsRecord.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\TelemetryLogger.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\TelemetryLogger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\WriteFileHandler.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\WriteFileHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\doxygen.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\doxygen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\repos\winaria\vrs\vrs\CMakeLists.txt" />
+    <CustomBuild Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

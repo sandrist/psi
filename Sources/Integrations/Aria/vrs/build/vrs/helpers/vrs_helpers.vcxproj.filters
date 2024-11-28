@@ -1,50 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\helpers\MemBuffer.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\helpers\MemBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\helpers\Strings.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\helpers\Strings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\helpers\Throttler.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\helpers\Throttler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\helpers\Endian.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\helpers\Endian.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\helpers\EnumStringConverter.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\helpers\EnumStringConverter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\helpers\EnumTemplates.hpp">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\helpers\EnumTemplates.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\helpers\FileMacros.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\helpers\FileMacros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\helpers\JobQueue.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\helpers\JobQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\helpers\MemBuffer.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\helpers\MemBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\helpers\Rapidjson.hpp">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\helpers\Rapidjson.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\helpers\Serialization.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\helpers\Serialization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\helpers\Strings.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\helpers\Strings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\helpers\Throttler.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\helpers\Throttler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\repos\winaria\vrs\vrs\helpers\CMakeLists.txt" />
+    <CustomBuild Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\helpers\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

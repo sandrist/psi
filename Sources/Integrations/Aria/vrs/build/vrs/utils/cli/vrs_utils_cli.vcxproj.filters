@@ -1,53 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\cli\CliParsing.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\cli\CliParsing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\cli\CompressionBenchmark.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\cli\CompressionBenchmark.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\cli\DataExtraction.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\cli\DataExtraction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\cli\ListRecords.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\cli\ListRecords.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\cli\MakeZeroFilterCopier.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\cli\MakeZeroFilterCopier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\cli\PrintRecordFormatRecords.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\cli\PrintRecordFormatRecords.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\cli\PrintRecordFormats.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\cli\PrintRecordFormats.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\cli\CliParsing.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\cli\CliParsing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\cli\CompressionBenchmark.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\cli\CompressionBenchmark.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\cli\DataExtraction.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\cli\DataExtraction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\cli\ListRecords.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\cli\ListRecords.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\cli\MakeZeroFilterCopier.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\cli\MakeZeroFilterCopier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\cli\PrintRecordFormatRecords.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\cli\PrintRecordFormatRecords.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\cli\PrintRecordFormats.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\cli\PrintRecordFormats.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\repos\winaria\vrs\vrs\utils\cli\CMakeLists.txt" />
+    <CustomBuild Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\cli\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

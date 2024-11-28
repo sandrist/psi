@@ -1,128 +1,128 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\AudioBlock.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\AudioBlock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\AudioBlockOpus.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\AudioBlockOpus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\AudioExtractor.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\AudioExtractor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\AudioTrackExtractor.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\AudioTrackExtractor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\DataExtractor.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\DataExtractor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\DecoderFactory.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\DecoderFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\FilterCopy.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\FilterCopy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\FilterCopyHelpers.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\FilterCopyHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\FilteredFileReader.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\FilteredFileReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\FrameRateEstimator.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\FrameRateEstimator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\ImageExtractor.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\ImageExtractor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\PixelFrame.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\PixelFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\PixelFrameJpeg.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\PixelFrameJpeg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\PixelFrameJxl.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\PixelFrameJxl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\PixelFramePng.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\PixelFramePng.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\RecordFileInfo.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\RecordFileInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\ThrottleHelpers.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\ThrottleHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\Validation.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\Validation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\VideoFrameHandler.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\VideoFrameHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\VideoRecordFormatStreamPlayer.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\VideoRecordFormatStreamPlayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\AudioBlock.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\AudioBlock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\AudioExtractor.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\AudioExtractor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\AudioTrackExtractor.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\AudioTrackExtractor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\BufferRecordReader.hpp">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\BufferRecordReader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\DataExtractor.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\DataExtractor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\DataExtractorReadMe.hpp">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\DataExtractorReadMe.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\DataLayoutReader.hpp">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\DataLayoutReader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\DecoderFactory.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\DecoderFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\FilterCopy.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\FilterCopy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\FilterCopyHelpers.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\FilterCopyHelpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\FilteredFileReader.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\FilteredFileReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\FrameRateEstimator.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\FrameRateEstimator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\ImageExtractor.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\ImageExtractor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\PixelFrame.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\PixelFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\RecordFileInfo.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\RecordFileInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\ThrottleHelpers.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\ThrottleHelpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\Validation.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\Validation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\VideoFrameHandler.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\VideoFrameHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\utils\VideoRecordFormatStreamPlayer.h">
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\VideoRecordFormatStreamPlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\repos\winaria\vrs\vrs\utils\CMakeLists.txt" />
+    <CustomBuild Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
