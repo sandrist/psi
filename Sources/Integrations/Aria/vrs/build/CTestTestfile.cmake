@@ -1,6 +1,6 @@
 # CMake generated Testfile for 
-# Source directory: D:/repos/winaria/vrs
-# Build directory: D:/repos/winaria/vrs/build
+# Source directory: D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs
+# Build directory: D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build
 # 
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.

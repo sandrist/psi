@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="D:\repos\winaria\vrs\build\CMakeFiles\c7507e7db9589fc7b747e6a447baad3c\RUN_TESTS_force.rule">
+    <CustomBuild Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\CMakeFiles\a2b693615b897bafefb460d330f03209\RUN_TESTS_force.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CMake Rules">
-      <UniqueIdentifier>{E42ADC1E-9EDC-3B1F-A157-EEBDBD438423}</UniqueIdentifier>
+      <UniqueIdentifier>{FAD18642-FFF7-3657-9F5E-A3BA2851142D}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

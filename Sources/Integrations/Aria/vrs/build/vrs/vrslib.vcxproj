@@ -22,7 +22,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{5BF17562-5137-3723-BB11-7E0A98777BB5}</ProjectGuid>
+    <ProjectGuid>{113017D5-571C-3D9C-9C34-4CBB35A56929}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <VcpkgEnabled>false</VcpkgEnabled>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
@@ -60,27 +60,27 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\repos\winaria\vrs\build\vrs\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">vrslib.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">vrslib</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\repos\winaria\vrs\build\vrs\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vrslib.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vrslib</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\repos\winaria\vrs\build\vrs\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\MinSizeRel\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">vrslib.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">vrslib</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\repos\winaria\vrs\build\vrs\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">vrslib.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">vrslib</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /external:I "D:/repos/winaria/vrs/build/external/rapidjson/include" /bigobj /utf-8</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /external:I "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/external/rapidjson/include" /bigobj /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -99,10 +99,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;OSS_BUILD_MODE;FMT_SHARED;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\winaria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\winaria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -115,8 +115,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /external:I "D:/repos/winaria/vrs/build/external/rapidjson/include" /bigobj /utf-8</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /external:I "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/external/rapidjson/include" /bigobj /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
@@ -135,10 +135,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;OSS_BUILD_MODE;FMT_SHARED;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\winaria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\winaria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -151,8 +151,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /external:I "D:/repos/winaria/vrs/build/external/rapidjson/include" /bigobj /utf-8</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /external:I "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/external/rapidjson/include" /bigobj /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
@@ -171,10 +171,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;OSS_BUILD_MODE;FMT_SHARED;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\winaria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\winaria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -187,8 +187,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /external:I "D:/repos/winaria/vrs/build/external/rapidjson/include" /bigobj /utf-8</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /external:I "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/external/rapidjson/include" /bigobj /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -206,10 +206,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;OSS_BUILD_MODE;FMT_SHARED;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\winaria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\winaria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -221,11 +221,11 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\repos\winaria\vrs\vrs\CMakeLists.txt">
+    <CustomBuild Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/repos/winaria/vrs/vrs/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/winaria/vrs -BD:/repos/winaria/vrs/build --check-stamp-file D:/repos/winaria/vrs/build/vrs/CMakeFiles/generate.stamp
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs -BD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build --check-stamp-file D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -233,12 +233,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakePackageConfigHelpers.cmake;D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\WriteBasicConfigVersionFile.cmake;D:\repos\winaria\vrs\vrs\vrslibConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\repos\winaria\vrs\build\vrs\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakePackageConfigHelpers.cmake;D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\WriteBasicConfigVersionFile.cmake;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\vrslibConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/repos/winaria/vrs/vrs/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/winaria/vrs -BD:/repos/winaria/vrs/build --check-stamp-file D:/repos/winaria/vrs/build/vrs/CMakeFiles/generate.stamp
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs -BD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build --check-stamp-file D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -246,12 +246,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakePackageConfigHelpers.cmake;D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\WriteBasicConfigVersionFile.cmake;D:\repos\winaria\vrs\vrs\vrslibConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\repos\winaria\vrs\build\vrs\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakePackageConfigHelpers.cmake;D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\WriteBasicConfigVersionFile.cmake;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\vrslibConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/repos/winaria/vrs/vrs/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/winaria/vrs -BD:/repos/winaria/vrs/build --check-stamp-file D:/repos/winaria/vrs/build/vrs/CMakeFiles/generate.stamp
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs -BD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build --check-stamp-file D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -259,12 +259,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakePackageConfigHelpers.cmake;D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\WriteBasicConfigVersionFile.cmake;D:\repos\winaria\vrs\vrs\vrslibConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\repos\winaria\vrs\build\vrs\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakePackageConfigHelpers.cmake;D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\WriteBasicConfigVersionFile.cmake;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\vrslibConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/repos/winaria/vrs/vrs/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/winaria/vrs -BD:/repos/winaria/vrs/build --check-stamp-file D:/repos/winaria/vrs/build/vrs/CMakeFiles/generate.stamp
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs -BD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build --check-stamp-file D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -272,113 +272,113 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakePackageConfigHelpers.cmake;D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\WriteBasicConfigVersionFile.cmake;D:\repos\winaria\vrs\vrs\vrslibConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\repos\winaria\vrs\build\vrs\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\CMakePackageConfigHelpers.cmake;D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.29\Modules\WriteBasicConfigVersionFile.cmake;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\vrslibConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\AsyncDiskFileChunk.hpp" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\Compressor.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\Compressor.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\ContentBlockReader.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\ContentBlockReader.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\DataLayout.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataLayout.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\DataLayoutConventions.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataLayoutConventions.h" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataPieceArray.h" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataPieceString.h" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataPieceStringMap.h" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataPieceTypes.h" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataPieceValue.h" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataPieceVector.h" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataPieces.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\DataReference.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataReference.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\DataSource.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DataSource.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\Decompressor.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\Decompressor.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\DescriptionRecord.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DescriptionRecord.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\DiskFile.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DiskFile.h" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\DiskFileChunk.hpp" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\ErrorCode.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\ErrorCode.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\FileCache.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\FileCache.h" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\FileDelegator.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\FileDetailsCache.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\FileDetailsCache.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\FileFormat.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\FileFormat.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\FileHandler.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\FileHandler.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\FileHandlerFactory.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\FileHandlerFactory.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\FileSpec.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\FileSpec.h" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\ForwardDefinitions.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\IndexRecord.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\IndexRecord.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\LegacyFormatsProvider.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\LegacyFormatsProvider.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\MultiRecordFileReader.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\MultiRecordFileReader.h" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\NewChunkHandler.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\ProgressLogger.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\ProgressLogger.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\Record.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\Record.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\RecordFileReader.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\RecordFileReader.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\RecordFileWriter.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\RecordFileWriter.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\RecordFormat.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\RecordFormat.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\RecordFormatStreamPlayer.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\RecordFormatStreamPlayer.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\RecordManager.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\RecordManager.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\RecordReaders.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\RecordReaders.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\Recordable.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\Recordable.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\StreamId.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\StreamId.h" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\StreamPlayer.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\TagConventions.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\TagConventions.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\TagsRecord.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\TagsRecord.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\TelemetryLogger.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\TelemetryLogger.h" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\WriteFileHandler.h" />
-    <ClInclude Include="D:\repos\winaria\vrs\vrs\doxygen.h" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\AsyncDiskFileChunk.hpp" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\Compressor.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\Compressor.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\ContentBlockReader.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\ContentBlockReader.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataLayout.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataLayout.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataLayoutConventions.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataLayoutConventions.h" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataPieceArray.h" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataPieceString.h" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataPieceStringMap.h" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataPieceTypes.h" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataPieceValue.h" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataPieceVector.h" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataPieces.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataReference.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataReference.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataSource.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DataSource.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\Decompressor.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\Decompressor.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DescriptionRecord.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DescriptionRecord.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DiskFile.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DiskFile.h" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\DiskFileChunk.hpp" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\ErrorCode.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\ErrorCode.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileCache.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileCache.h" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileDelegator.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileDetailsCache.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileDetailsCache.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileFormat.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileFormat.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileHandler.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileHandler.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileHandlerFactory.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileHandlerFactory.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileSpec.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\FileSpec.h" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\ForwardDefinitions.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\IndexRecord.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\IndexRecord.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\LegacyFormatsProvider.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\LegacyFormatsProvider.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\MultiRecordFileReader.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\MultiRecordFileReader.h" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\NewChunkHandler.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\ProgressLogger.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\ProgressLogger.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\Record.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\Record.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordFileReader.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordFileReader.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordFileWriter.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordFileWriter.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordFormat.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordFormat.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordFormatStreamPlayer.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordFormatStreamPlayer.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordManager.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordManager.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordReaders.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\RecordReaders.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\Recordable.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\Recordable.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\StreamId.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\StreamId.h" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\StreamPlayer.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\TagConventions.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\TagConventions.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\TagsRecord.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\TagsRecord.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\TelemetryLogger.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\TelemetryLogger.h" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\WriteFileHandler.h" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\doxygen.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\ZERO_CHECK.vcxproj">
-      <Project>{3E1BE93D-999C-3435-B0F9-F12A611CDA14}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\ZERO_CHECK.vcxproj">
+      <Project>{4D869504-5F47-3159-8F8E-DACA6E2FAB1F}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\helpers\vrs_helpers.vcxproj">
-      <Project>{1B24BECF-93B7-36C7-BF24-D70A7FDC9494}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\helpers\vrs_helpers.vcxproj">
+      <Project>{0F6367C1-528E-3D30-A3CB-B4AD026CC2A0}</Project>
       <Name>vrs_helpers</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\oss\logging\vrs_logging.vcxproj">
-      <Project>{88CA5C0B-3959-3182-9956-3C96539C9AF2}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\oss\logging\vrs_logging.vcxproj">
+      <Project>{9D179A6D-6636-304E-B1B2-9262B78B5DD0}</Project>
       <Name>vrs_logging</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\os\vrs_os.vcxproj">
-      <Project>{9C69655F-4ADD-3A9B-9B4C-3E30616EC318}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\os\vrs_os.vcxproj">
+      <Project>{5C12A2B2-12DB-39A3-82E5-95E9F9467A11}</Project>
       <Name>vrs_os</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\utils\xxhash\vrs_utils_xxhash.vcxproj">
-      <Project>{3F58EA75-A443-3DDB-87F8-06A6302A4CCC}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\xxhash\vrs_utils_xxhash.vcxproj">
+      <Project>{E181A9AB-6F9F-3081-A80A-9E4E5D7C5EC3}</Project>
       <Name>vrs_utils_xxhash</Name>
     </ProjectReference>
   </ItemGroup>

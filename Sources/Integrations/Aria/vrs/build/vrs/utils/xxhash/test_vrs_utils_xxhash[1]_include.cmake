@@ -1,5 +1,5 @@
-if(EXISTS "D:/repos/winaria/vrs/build/vrs/utils/xxhash/test_vrs_utils_xxhash[1]_tests.cmake")
-  include("D:/repos/winaria/vrs/build/vrs/utils/xxhash/test_vrs_utils_xxhash[1]_tests.cmake")
+if(EXISTS "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/test_vrs_utils_xxhash[1]_tests.cmake")
+  include("D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/test_vrs_utils_xxhash[1]_tests.cmake")
 else()
   add_test(test_vrs_utils_xxhash_NOT_BUILT test_vrs_utils_xxhash_NOT_BUILT)
 endif()

@@ -22,7 +22,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0D520363-A391-36C9-9C43-3127E5D22C99}</ProjectGuid>
+    <ProjectGuid>{9ABA0378-88CA-35A0-A0FC-DDE27FCDEA09}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <VcpkgEnabled>false</VcpkgEnabled>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
@@ -60,25 +60,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\repos\winaria\vrs\build\vrs\test\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\test\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">testedtool.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">testedtool</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\repos\winaria\vrs\build\vrs\test\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\test\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">testedtool.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">testedtool</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\repos\winaria\vrs\build\vrs\test\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\test\MinSizeRel\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">testedtool.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">testedtool</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\repos\winaria\vrs\build\vrs\test\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\test\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">testedtool.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">testedtool</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
@@ -117,7 +117,7 @@
     <PostBuildEvent>
       <Message></Message>
       <Command>setlocal
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/winaria/vrs/build/vrs/test/Debug/testedtool.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/debug/bin -OutVariable out
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/test/Debug/testedtool.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/debug/bin -OutVariable out
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -132,8 +132,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/repos/winaria/vrs/build/vrs/test/Debug/testedtool.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/repos/winaria/vrs/build/vrs/test/Debug/testedtool.pdb</ProgramDataBaseFile>
+      <ImportLibrary>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/test/Debug/testedtool.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/test/Debug/testedtool.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -172,7 +172,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PostBuildEvent>
       <Message></Message>
       <Command>setlocal
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/winaria/vrs/build/vrs/test/Release/testedtool.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/test/Release/testedtool.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -187,8 +187,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/repos/winaria/vrs/build/vrs/test/Release/testedtool.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/repos/winaria/vrs/build/vrs/test/Release/testedtool.pdb</ProgramDataBaseFile>
+      <ImportLibrary>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/test/Release/testedtool.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/test/Release/testedtool.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -227,7 +227,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PostBuildEvent>
       <Message></Message>
       <Command>setlocal
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/winaria/vrs/build/vrs/test/MinSizeRel/testedtool.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/test/MinSizeRel/testedtool.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -242,8 +242,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/repos/winaria/vrs/build/vrs/test/MinSizeRel/testedtool.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/repos/winaria/vrs/build/vrs/test/MinSizeRel/testedtool.pdb</ProgramDataBaseFile>
+      <ImportLibrary>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/test/MinSizeRel/testedtool.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/test/MinSizeRel/testedtool.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -281,7 +281,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PostBuildEvent>
       <Message></Message>
       <Command>setlocal
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/winaria/vrs/build/vrs/test/RelWithDebInfo/testedtool.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/test/RelWithDebInfo/testedtool.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -296,8 +296,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/repos/winaria/vrs/build/vrs/test/RelWithDebInfo/testedtool.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/repos/winaria/vrs/build/vrs/test/RelWithDebInfo/testedtool.pdb</ProgramDataBaseFile>
+      <ImportLibrary>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/test/RelWithDebInfo/testedtool.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/test/RelWithDebInfo/testedtool.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -305,11 +305,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\repos\winaria\vrs\vrs\test\CMakeLists.txt">
+    <CustomBuild Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\test\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/repos/winaria/vrs/vrs/test/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/test/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/winaria/vrs -BD:/repos/winaria/vrs/build --check-stamp-file D:/repos/winaria/vrs/build/vrs/test/CMakeFiles/generate.stamp
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs -BD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build --check-stamp-file D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/test/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -318,11 +318,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\repos\winaria\vrs\build\vrs\test\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\test\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/repos/winaria/vrs/vrs/test/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/test/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/winaria/vrs -BD:/repos/winaria/vrs/build --check-stamp-file D:/repos/winaria/vrs/build/vrs/test/CMakeFiles/generate.stamp
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs -BD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build --check-stamp-file D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/test/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -331,11 +331,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\repos\winaria\vrs\build\vrs\test\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\test\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/repos/winaria/vrs/vrs/test/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/test/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/winaria/vrs -BD:/repos/winaria/vrs/build --check-stamp-file D:/repos/winaria/vrs/build/vrs/test/CMakeFiles/generate.stamp
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs -BD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build --check-stamp-file D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/test/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -344,11 +344,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\repos\winaria\vrs\build\vrs\test\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\test\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/repos/winaria/vrs/vrs/test/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/test/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/winaria/vrs -BD:/repos/winaria/vrs/build --check-stamp-file D:/repos/winaria/vrs/build/vrs/test/CMakeFiles/generate.stamp
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs -BD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build --check-stamp-file D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/test/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -357,16 +357,16 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\repos\winaria\vrs\build\vrs\test\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\test\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\test\testedtool\testedtool.cpp" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\test\testedtool\testedtool.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\ZERO_CHECK.vcxproj">
-      <Project>{3E1BE93D-999C-3435-B0F9-F12A611CDA14}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\ZERO_CHECK.vcxproj">
+      <Project>{4D869504-5F47-3159-8F8E-DACA6E2FAB1F}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>

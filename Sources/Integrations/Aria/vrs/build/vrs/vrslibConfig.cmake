@@ -17,7 +17,7 @@
 ####### Any changes to this file will be overwritten by the next CMake run ####
 ####### The input file was vrslibConfig.cmake.in                            ########
 
-get_filename_component(PACKAGE_PREFIX_DIR "${CMAKE_CURRENT_LIST_DIR}/C:/Program Files/vrs" ABSOLUTE)
+get_filename_component(PACKAGE_PREFIX_DIR "${CMAKE_CURRENT_LIST_DIR}/C:/Program Files (x86)/vrs" ABSOLUTE)
 
 macro(set_and_check _var _file)
   set(${_var} "${_file}")

@@ -22,7 +22,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1812F251-7086-365B-B581-E4B4F16DA58D}</ProjectGuid>
+    <ProjectGuid>{BA446421-09BD-3843-9B40-38EF60D2D7B0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <VcpkgEnabled>false</VcpkgEnabled>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
@@ -60,25 +60,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\repos\winaria\vrs\build\tools\vrs\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\tools\vrs\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">test_vrscli.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">test_vrscli</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\repos\winaria\vrs\build\tools\vrs\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\tools\vrs\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">test_vrscli.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">test_vrscli</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\repos\winaria\vrs\build\tools\vrs\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\tools\vrs\MinSizeRel\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">test_vrscli.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">test_vrscli</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\repos\winaria\vrs\build\tools\vrs\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\tools\vrs\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">test_vrscli.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">test_vrscli</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
@@ -87,8 +87,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs\tools\vrs\..;D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /external:I "D:/repos/winaria/vrs/build/external/rapidjson/include" /bigobj /utf-8</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\tools\vrs\..;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /external:I "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/external/rapidjson/include" /bigobj /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -107,10 +107,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;OSS_BUILD_MODE;GTEST_BUILD;FMT_SHARED;GTEST_LINKED_AS_SHARED_LIBRARY=1;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs\tools\vrs\..;D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\winaria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\tools\vrs\..;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs\tools\vrs\..;D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\winaria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\tools\vrs\..;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -120,7 +120,7 @@
     <PostBuildEvent>
       <Message>	</Message>
       <Command>setlocal
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/winaria/vrs/build/tools/vrs/Debug/test_vrscli.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/debug/bin -OutVariable out
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/Debug/test_vrscli.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/debug/bin -OutVariable out
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -129,7 +129,7 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
 setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=test_vrscli -D TEST_EXECUTABLE=D:/repos/winaria/vrs/build/tools/vrs/Debug/test_vrscli.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=D:/repos/winaria/vrs/build/tools/vrs -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=test_vrscli_TESTS -D CTEST_FILE=D:/repos/winaria/vrs/build/tools/vrs/test_vrscli[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/GoogleTestAddTests.cmake"
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=test_vrscli -D TEST_EXECUTABLE=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/Debug/test_vrscli.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=test_vrscli_TESTS -D CTEST_FILE=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/test_vrscli[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/GoogleTestAddTests.cmake"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -145,8 +145,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ForceFileOutput>MultiplyDefinedSymbolOnly</ForceFileOutput>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/repos/winaria/vrs/build/tools/vrs/Debug/test_vrscli.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/repos/winaria/vrs/build/tools/vrs/Debug/test_vrscli.pdb</ProgramDataBaseFile>
+      <ImportLibrary>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/Debug/test_vrscli.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/Debug/test_vrscli.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -155,8 +155,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs\tools\vrs\..;D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /external:I "D:/repos/winaria/vrs/build/external/rapidjson/include" /bigobj /utf-8</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\tools\vrs\..;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /external:I "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/external/rapidjson/include" /bigobj /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
@@ -175,10 +175,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;OSS_BUILD_MODE;GTEST_BUILD;FMT_SHARED;GTEST_LINKED_AS_SHARED_LIBRARY=1;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs\tools\vrs\..;D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\winaria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\tools\vrs\..;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs\tools\vrs\..;D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\winaria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\tools\vrs\..;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -188,7 +188,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PostBuildEvent>
       <Message>	</Message>
       <Command>setlocal
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/winaria/vrs/build/tools/vrs/Release/test_vrscli.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/Release/test_vrscli.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -197,7 +197,7 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
 setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=test_vrscli -D TEST_EXECUTABLE=D:/repos/winaria/vrs/build/tools/vrs/Release/test_vrscli.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=D:/repos/winaria/vrs/build/tools/vrs -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=test_vrscli_TESTS -D CTEST_FILE=D:/repos/winaria/vrs/build/tools/vrs/test_vrscli[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/GoogleTestAddTests.cmake"
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=test_vrscli -D TEST_EXECUTABLE=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/Release/test_vrscli.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=test_vrscli_TESTS -D CTEST_FILE=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/test_vrscli[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/GoogleTestAddTests.cmake"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -213,8 +213,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ForceFileOutput>MultiplyDefinedSymbolOnly</ForceFileOutput>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/repos/winaria/vrs/build/tools/vrs/Release/test_vrscli.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/repos/winaria/vrs/build/tools/vrs/Release/test_vrscli.pdb</ProgramDataBaseFile>
+      <ImportLibrary>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/Release/test_vrscli.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/Release/test_vrscli.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -223,8 +223,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs\tools\vrs\..;D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /external:I "D:/repos/winaria/vrs/build/external/rapidjson/include" /bigobj /utf-8</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\tools\vrs\..;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /external:I "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/external/rapidjson/include" /bigobj /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
@@ -243,10 +243,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;OSS_BUILD_MODE;GTEST_BUILD;FMT_SHARED;GTEST_LINKED_AS_SHARED_LIBRARY=1;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs\tools\vrs\..;D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\winaria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\tools\vrs\..;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs\tools\vrs\..;D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\winaria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\tools\vrs\..;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -256,7 +256,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PostBuildEvent>
       <Message>	</Message>
       <Command>setlocal
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/winaria/vrs/build/tools/vrs/MinSizeRel/test_vrscli.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/MinSizeRel/test_vrscli.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -265,7 +265,7 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
 setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=test_vrscli -D TEST_EXECUTABLE=D:/repos/winaria/vrs/build/tools/vrs/MinSizeRel/test_vrscli.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=D:/repos/winaria/vrs/build/tools/vrs -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=test_vrscli_TESTS -D CTEST_FILE=D:/repos/winaria/vrs/build/tools/vrs/test_vrscli[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/GoogleTestAddTests.cmake"
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=test_vrscli -D TEST_EXECUTABLE=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/MinSizeRel/test_vrscli.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=test_vrscli_TESTS -D CTEST_FILE=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/test_vrscli[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/GoogleTestAddTests.cmake"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -281,8 +281,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ForceFileOutput>MultiplyDefinedSymbolOnly</ForceFileOutput>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/repos/winaria/vrs/build/tools/vrs/MinSizeRel/test_vrscli.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/repos/winaria/vrs/build/tools/vrs/MinSizeRel/test_vrscli.pdb</ProgramDataBaseFile>
+      <ImportLibrary>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/MinSizeRel/test_vrscli.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/MinSizeRel/test_vrscli.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -291,8 +291,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs\tools\vrs\..;D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /external:I "D:/repos/winaria/vrs/build/external/rapidjson/include" /bigobj /utf-8</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\tools\vrs\..;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /external:I "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/external/rapidjson/include" /bigobj /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -310,10 +310,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;OSS_BUILD_MODE;GTEST_BUILD;FMT_SHARED;GTEST_LINKED_AS_SHARED_LIBRARY=1;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs\tools\vrs\..;D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\winaria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\tools\vrs\..;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs\tools\vrs\..;D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\winaria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\tools\vrs\..;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\external\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -323,7 +323,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PostBuildEvent>
       <Message>	</Message>
       <Command>setlocal
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/winaria/vrs/build/tools/vrs/RelWithDebInfo/test_vrscli.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/RelWithDebInfo/test_vrscli.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -332,7 +332,7 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
 setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=test_vrscli -D TEST_EXECUTABLE=D:/repos/winaria/vrs/build/tools/vrs/RelWithDebInfo/test_vrscli.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=D:/repos/winaria/vrs/build/tools/vrs -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=test_vrscli_TESTS -D CTEST_FILE=D:/repos/winaria/vrs/build/tools/vrs/test_vrscli[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/GoogleTestAddTests.cmake"
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=test_vrscli -D TEST_EXECUTABLE=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/RelWithDebInfo/test_vrscli.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=test_vrscli_TESTS -D CTEST_FILE=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/test_vrscli[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/GoogleTestAddTests.cmake"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -348,8 +348,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ForceFileOutput>MultiplyDefinedSymbolOnly</ForceFileOutput>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/repos/winaria/vrs/build/tools/vrs/RelWithDebInfo/test_vrscli.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/repos/winaria/vrs/build/tools/vrs/RelWithDebInfo/test_vrscli.pdb</ProgramDataBaseFile>
+      <ImportLibrary>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/RelWithDebInfo/test_vrscli.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/RelWithDebInfo/test_vrscli.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -357,11 +357,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\repos\winaria\vrs\tools\vrs\CMakeLists.txt">
+    <CustomBuild Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\tools\vrs\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/repos/winaria/vrs/tools/vrs/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/tools/vrs/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/winaria/vrs -BD:/repos/winaria/vrs/build --check-stamp-file D:/repos/winaria/vrs/build/tools/vrs/CMakeFiles/generate.stamp
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs -BD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build --check-stamp-file D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -370,11 +370,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\repos\winaria\vrs\build\tools\vrs\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\tools\vrs\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/repos/winaria/vrs/tools/vrs/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/tools/vrs/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/winaria/vrs -BD:/repos/winaria/vrs/build --check-stamp-file D:/repos/winaria/vrs/build/tools/vrs/CMakeFiles/generate.stamp
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs -BD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build --check-stamp-file D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -383,11 +383,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\repos\winaria\vrs\build\tools\vrs\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\tools\vrs\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/repos/winaria/vrs/tools/vrs/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/tools/vrs/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/winaria/vrs -BD:/repos/winaria/vrs/build --check-stamp-file D:/repos/winaria/vrs/build/tools/vrs/CMakeFiles/generate.stamp
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs -BD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build --check-stamp-file D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -396,11 +396,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\repos\winaria\vrs\build\tools\vrs\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\tools\vrs\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/repos/winaria/vrs/tools/vrs/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/tools/vrs/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/winaria/vrs -BD:/repos/winaria/vrs/build --check-stamp-file D:/repos/winaria/vrs/build/tools/vrs/CMakeFiles/generate.stamp
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs -BD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build --check-stamp-file D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -409,64 +409,64 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\repos\winaria\vrs\build\tools\vrs\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\tools\vrs\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="D:\repos\winaria\vrs\tools\vrs\VrsCommand.cpp" />
-    <ClInclude Include="D:\repos\winaria\vrs\tools\vrs\test\VrsProcess.h" />
-    <ClCompile Include="D:\repos\winaria\vrs\tools\vrs\test\VrsCommandTest.cpp" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\tools\vrs\VrsCommand.cpp" />
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\tools\vrs\test\VrsProcess.h" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\tools\vrs\test\VrsCommandTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\ZERO_CHECK.vcxproj">
-      <Project>{3E1BE93D-999C-3435-B0F9-F12A611CDA14}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\ZERO_CHECK.vcxproj">
+      <Project>{4D869504-5F47-3159-8F8E-DACA6E2FAB1F}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\tools\vrs\vrs.vcxproj">
-      <Project>{15CC439C-6A37-3657-BFE6-082ECA7C0E59}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\tools\vrs\vrs.vcxproj">
+      <Project>{0A07E1E2-84F3-31B0-98C5-A0C5F323886B}</Project>
       <Name>vrs</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\helpers\vrs_helpers.vcxproj">
-      <Project>{1B24BECF-93B7-36C7-BF24-D70A7FDC9494}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\helpers\vrs_helpers.vcxproj">
+      <Project>{0F6367C1-528E-3D30-A3CB-B4AD026CC2A0}</Project>
       <Name>vrs_helpers</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\oss\logging\vrs_logging.vcxproj">
-      <Project>{88CA5C0B-3959-3182-9956-3C96539C9AF2}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\oss\logging\vrs_logging.vcxproj">
+      <Project>{9D179A6D-6636-304E-B1B2-9262B78B5DD0}</Project>
       <Name>vrs_logging</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\os\vrs_os.vcxproj">
-      <Project>{9C69655F-4ADD-3A9B-9B4C-3E30616EC318}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\os\vrs_os.vcxproj">
+      <Project>{5C12A2B2-12DB-39A3-82E5-95E9F9467A11}</Project>
       <Name>vrs_os</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\oss\TestDataDir\vrs_oss_testdatadir.vcxproj">
-      <Project>{24F74DCB-4CC6-3088-A566-73A6A27D99FB}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\oss\TestDataDir\vrs_oss_testdatadir.vcxproj">
+      <Project>{85BE134B-B442-3FCB-B0FA-293E3A7C4576}</Project>
       <Name>vrs_oss_testdatadir</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\test\vrs_test_helpers.vcxproj">
-      <Project>{6BCEC958-3D3E-30BC-AACD-B65DFBFAF292}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\test\vrs_test_helpers.vcxproj">
+      <Project>{D943629A-61CC-3817-B912-0B0401E62582}</Project>
       <Name>vrs_test_helpers</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\utils\vrs_utils.vcxproj">
-      <Project>{5ED38BFD-3F9C-32FA-8EFE-5DF436E95572}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\vrs_utils.vcxproj">
+      <Project>{C30950DE-124F-3EDE-8CFC-F046D821CD82}</Project>
       <Name>vrs_utils</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\utils\cli\vrs_utils_cli.vcxproj">
-      <Project>{671027E3-4D33-3446-9765-7D24F2FEF55F}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\cli\vrs_utils_cli.vcxproj">
+      <Project>{1D134D5A-EF90-33EE-9A26-AF5A46D15650}</Project>
       <Name>vrs_utils_cli</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\utils\converters\vrs_utils_converters.vcxproj">
-      <Project>{DCCB17BB-5062-3CC3-9E70-F4C585913BDB}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\converters\vrs_utils_converters.vcxproj">
+      <Project>{7185B6B6-CD03-3EC1-9115-88431605704B}</Project>
       <Name>vrs_utils_converters</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\utils\xxhash\vrs_utils_xxhash.vcxproj">
-      <Project>{3F58EA75-A443-3DDB-87F8-06A6302A4CCC}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\xxhash\vrs_utils_xxhash.vcxproj">
+      <Project>{E181A9AB-6F9F-3081-A80A-9E4E5D7C5EC3}</Project>
       <Name>vrs_utils_xxhash</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\vrslib.vcxproj">
-      <Project>{5BF17562-5137-3723-BB11-7E0A98777BB5}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\vrslib.vcxproj">
+      <Project>{113017D5-571C-3D9C-9C34-4CBB35A56929}</Project>
       <Name>vrslib</Name>
     </ProjectReference>
   </ItemGroup>

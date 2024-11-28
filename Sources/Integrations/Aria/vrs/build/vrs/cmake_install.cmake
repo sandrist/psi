@@ -1,8 +1,8 @@
-# Install script for directory: D:/repos/winaria/vrs/vrs
+# Install script for directory: D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files/vrs")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/vrs")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,33 +34,33 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/repos/winaria/vrs/build/vrs/helpers/cmake_install.cmake")
+  include("D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/helpers/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/repos/winaria/vrs/build/vrs/os/cmake_install.cmake")
+  include("D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/os/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/repos/winaria/vrs/build/vrs/oss/cmake_install.cmake")
+  include("D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/oss/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/repos/winaria/vrs/build/vrs/utils/cmake_install.cmake")
+  include("D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   if(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Dd][Ee][Bb][Uu][Gg])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "D:/repos/winaria/vrs/build/vrs/Debug/vrslib.lib")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/Debug/vrslib.lib")
   elseif(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "D:/repos/winaria/vrs/build/vrs/Release/vrslib.lib")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/Release/vrslib.lib")
   elseif(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Mm][Ii][Nn][Ss][Ii][Zz][Ee][Rr][Ee][Ll])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "D:/repos/winaria/vrs/build/vrs/MinSizeRel/vrslib.lib")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/MinSizeRel/vrslib.lib")
   elseif(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Rr][Ee][Ll][Ww][Ii][Tt][Hh][Dd][Ee][Bb][Ii][Nn][Ff][Oo])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "D:/repos/winaria/vrs/build/vrs/RelWithDebInfo/vrslib.lib")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/RelWithDebInfo/vrslib.lib")
   endif()
 endif()
 
@@ -68,7 +68,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/vrslib/vrslibTargets.cmake")
     file(DIFFERENT _cmake_export_file_changed FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/vrslib/vrslibTargets.cmake"
-         "D:/repos/winaria/vrs/build/vrs/CMakeFiles/Export/726798e87db0c08505c59f33ff2b682b/vrslibTargets.cmake")
+         "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/CMakeFiles/Export/726798e87db0c08505c59f33ff2b682b/vrslibTargets.cmake")
     if(_cmake_export_file_changed)
       file(GLOB _cmake_old_config_files "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/cmake/vrslib/vrslibTargets-*.cmake")
       if(_cmake_old_config_files)
@@ -81,38 +81,38 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     endif()
     unset(_cmake_export_file_changed)
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/vrslib" TYPE FILE FILES "D:/repos/winaria/vrs/build/vrs/CMakeFiles/Export/726798e87db0c08505c59f33ff2b682b/vrslibTargets.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/vrslib" TYPE FILE FILES "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/CMakeFiles/Export/726798e87db0c08505c59f33ff2b682b/vrslibTargets.cmake")
   if(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Dd][Ee][Bb][Uu][Gg])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/vrslib" TYPE FILE FILES "D:/repos/winaria/vrs/build/vrs/CMakeFiles/Export/726798e87db0c08505c59f33ff2b682b/vrslibTargets-debug.cmake")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/vrslib" TYPE FILE FILES "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/CMakeFiles/Export/726798e87db0c08505c59f33ff2b682b/vrslibTargets-debug.cmake")
   endif()
   if(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Mm][Ii][Nn][Ss][Ii][Zz][Ee][Rr][Ee][Ll])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/vrslib" TYPE FILE FILES "D:/repos/winaria/vrs/build/vrs/CMakeFiles/Export/726798e87db0c08505c59f33ff2b682b/vrslibTargets-minsizerel.cmake")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/vrslib" TYPE FILE FILES "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/CMakeFiles/Export/726798e87db0c08505c59f33ff2b682b/vrslibTargets-minsizerel.cmake")
   endif()
   if(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Rr][Ee][Ll][Ww][Ii][Tt][Hh][Dd][Ee][Bb][Ii][Nn][Ff][Oo])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/vrslib" TYPE FILE FILES "D:/repos/winaria/vrs/build/vrs/CMakeFiles/Export/726798e87db0c08505c59f33ff2b682b/vrslibTargets-relwithdebinfo.cmake")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/vrslib" TYPE FILE FILES "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/CMakeFiles/Export/726798e87db0c08505c59f33ff2b682b/vrslibTargets-relwithdebinfo.cmake")
   endif()
   if(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/vrslib" TYPE FILE FILES "D:/repos/winaria/vrs/build/vrs/CMakeFiles/Export/726798e87db0c08505c59f33ff2b682b/vrslibTargets-release.cmake")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/vrslib" TYPE FILE FILES "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/CMakeFiles/Export/726798e87db0c08505c59f33ff2b682b/vrslibTargets-release.cmake")
   endif()
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "headers" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/vrs" TYPE DIRECTORY FILES "D:/repos/winaria/vrs/vrs/." FILES_MATCHING REGEX "/[^/]*\\.hpp$" REGEX "/[^/]*\\.h$")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/vrs" TYPE DIRECTORY FILES "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/." FILES_MATCHING REGEX "/[^/]*\\.hpp$" REGEX "/[^/]*\\.h$")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/vrslib" TYPE DIRECTORY FILES "D:/repos/winaria/vrs/vrs/../cmake" FILES_MATCHING REGEX "/[^/]*\\.cmake$")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/vrslib" TYPE DIRECTORY FILES "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/../cmake" FILES_MATCHING REGEX "/[^/]*\\.cmake$")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/vrslib" TYPE FILE FILES
-    "D:/repos/winaria/vrs/build/vrs/vrslibConfig.cmake"
-    "D:/repos/winaria/vrs/build/vrs/vrslibConfigVersion.cmake"
+    "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/vrslibConfig.cmake"
+    "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/vrslibConfigVersion.cmake"
     )
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/repos/winaria/vrs/build/vrs/test/cmake_install.cmake")
+  include("D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/test/cmake_install.cmake")
 endif()
 

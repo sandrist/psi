@@ -1,8 +1,8 @@
-# Install script for directory: D:/repos/winaria/vrs
+# Install script for directory: D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files/vrs")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/vrs")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,27 +34,27 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/repos/winaria/vrs/build/vrs/cmake_install.cmake")
+  include("D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/repos/winaria/vrs/build/tools/vrs/cmake_install.cmake")
+  include("D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrs/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/repos/winaria/vrs/build/tools/vrsplayer/cmake_install.cmake")
+  include("D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/tools/vrsplayer/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/repos/winaria/vrs/build/sample_apps/cmake_install.cmake")
+  include("D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/sample_apps/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/repos/winaria/vrs/build/sample_code/cmake_install.cmake")
+  include("D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/sample_code/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -65,5 +65,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/repos/winaria/vrs/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

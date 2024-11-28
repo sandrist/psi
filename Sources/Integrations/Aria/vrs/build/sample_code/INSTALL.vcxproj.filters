@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CustomBuild Include="D:\repos\winaria\vrs\build\CMakeFiles\420ff2b20c648d84e815e8232c44ada8\INSTALL_force.rule">
+    <CustomBuild Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\CMakeFiles\5d8d11987e4d92924e30053d5268480f\INSTALL_force.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CMake Rules">
-      <UniqueIdentifier>{E42ADC1E-9EDC-3B1F-A157-EEBDBD438423}</UniqueIdentifier>
+      <UniqueIdentifier>{FAD18642-FFF7-3657-9F5E-A3BA2851142D}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

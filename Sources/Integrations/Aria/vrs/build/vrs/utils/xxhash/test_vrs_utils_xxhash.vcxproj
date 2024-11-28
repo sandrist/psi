@@ -22,7 +22,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F039B954-D8A2-3707-B05B-4CB10304EAE0}</ProjectGuid>
+    <ProjectGuid>{E2B76DED-6B59-3CBE-BE49-5FC7C735BB0C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <VcpkgEnabled>false</VcpkgEnabled>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
@@ -60,25 +60,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\repos\winaria\vrs\build\vrs\utils\xxhash\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\xxhash\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">test_vrs_utils_xxhash.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">test_vrs_utils_xxhash</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\repos\winaria\vrs\build\vrs\utils\xxhash\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\xxhash\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">test_vrs_utils_xxhash.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">test_vrs_utils_xxhash</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\repos\winaria\vrs\build\vrs\utils\xxhash\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\xxhash\MinSizeRel\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">test_vrs_utils_xxhash.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">test_vrs_utils_xxhash</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\repos\winaria\vrs\build\vrs\utils\xxhash\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\xxhash\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">test_vrs_utils_xxhash.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">test_vrs_utils_xxhash</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
@@ -87,7 +87,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /bigobj /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -107,10 +107,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;OSS_BUILD_MODE;FMT_SHARED;GTEST_LINKED_AS_SHARED_LIBRARY=1;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -120,7 +120,7 @@
     <PostBuildEvent>
       <Message>	</Message>
       <Command>setlocal
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/winaria/vrs/build/vrs/utils/xxhash/Debug/test_vrs_utils_xxhash.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/debug/bin -OutVariable out
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/Debug/test_vrs_utils_xxhash.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/debug/bin -OutVariable out
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -129,7 +129,7 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
 setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=test_vrs_utils_xxhash -D TEST_EXECUTABLE=D:/repos/winaria/vrs/build/vrs/utils/xxhash/Debug/test_vrs_utils_xxhash.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=D:/repos/winaria/vrs/build/vrs/utils/xxhash -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=test_vrs_utils_xxhash_TESTS -D CTEST_FILE=D:/repos/winaria/vrs/build/vrs/utils/xxhash/test_vrs_utils_xxhash[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/GoogleTestAddTests.cmake"
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=test_vrs_utils_xxhash -D TEST_EXECUTABLE=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/Debug/test_vrs_utils_xxhash.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=test_vrs_utils_xxhash_TESTS -D CTEST_FILE=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/test_vrs_utils_xxhash[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/GoogleTestAddTests.cmake"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -144,8 +144,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/repos/winaria/vrs/build/vrs/utils/xxhash/Debug/test_vrs_utils_xxhash.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/repos/winaria/vrs/build/vrs/utils/xxhash/Debug/test_vrs_utils_xxhash.pdb</ProgramDataBaseFile>
+      <ImportLibrary>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/Debug/test_vrs_utils_xxhash.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/Debug/test_vrs_utils_xxhash.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -154,7 +154,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /bigobj /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -174,10 +174,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;OSS_BUILD_MODE;FMT_SHARED;GTEST_LINKED_AS_SHARED_LIBRARY=1;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -187,7 +187,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PostBuildEvent>
       <Message>	</Message>
       <Command>setlocal
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/winaria/vrs/build/vrs/utils/xxhash/Release/test_vrs_utils_xxhash.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/Release/test_vrs_utils_xxhash.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -196,7 +196,7 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
 setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=test_vrs_utils_xxhash -D TEST_EXECUTABLE=D:/repos/winaria/vrs/build/vrs/utils/xxhash/Release/test_vrs_utils_xxhash.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=D:/repos/winaria/vrs/build/vrs/utils/xxhash -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=test_vrs_utils_xxhash_TESTS -D CTEST_FILE=D:/repos/winaria/vrs/build/vrs/utils/xxhash/test_vrs_utils_xxhash[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/GoogleTestAddTests.cmake"
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=test_vrs_utils_xxhash -D TEST_EXECUTABLE=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/Release/test_vrs_utils_xxhash.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=test_vrs_utils_xxhash_TESTS -D CTEST_FILE=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/test_vrs_utils_xxhash[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/GoogleTestAddTests.cmake"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -211,8 +211,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/repos/winaria/vrs/build/vrs/utils/xxhash/Release/test_vrs_utils_xxhash.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/repos/winaria/vrs/build/vrs/utils/xxhash/Release/test_vrs_utils_xxhash.pdb</ProgramDataBaseFile>
+      <ImportLibrary>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/Release/test_vrs_utils_xxhash.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/Release/test_vrs_utils_xxhash.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -221,7 +221,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /bigobj /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -241,10 +241,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;OSS_BUILD_MODE;FMT_SHARED;GTEST_LINKED_AS_SHARED_LIBRARY=1;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -254,7 +254,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PostBuildEvent>
       <Message>	</Message>
       <Command>setlocal
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/winaria/vrs/build/vrs/utils/xxhash/MinSizeRel/test_vrs_utils_xxhash.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/MinSizeRel/test_vrs_utils_xxhash.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -263,7 +263,7 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
 setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=test_vrs_utils_xxhash -D TEST_EXECUTABLE=D:/repos/winaria/vrs/build/vrs/utils/xxhash/MinSizeRel/test_vrs_utils_xxhash.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=D:/repos/winaria/vrs/build/vrs/utils/xxhash -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=test_vrs_utils_xxhash_TESTS -D CTEST_FILE=D:/repos/winaria/vrs/build/vrs/utils/xxhash/test_vrs_utils_xxhash[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/GoogleTestAddTests.cmake"
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=test_vrs_utils_xxhash -D TEST_EXECUTABLE=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/MinSizeRel/test_vrs_utils_xxhash.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=test_vrs_utils_xxhash_TESTS -D CTEST_FILE=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/test_vrs_utils_xxhash[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/GoogleTestAddTests.cmake"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -278,8 +278,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/repos/winaria/vrs/build/vrs/utils/xxhash/MinSizeRel/test_vrs_utils_xxhash.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/repos/winaria/vrs/build/vrs/utils/xxhash/MinSizeRel/test_vrs_utils_xxhash.pdb</ProgramDataBaseFile>
+      <ImportLibrary>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/MinSizeRel/test_vrs_utils_xxhash.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/MinSizeRel/test_vrs_utils_xxhash.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -288,7 +288,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /external:I "D:/repos/winaria/vcpkg/installed/x64-windows/include" /bigobj /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -307,10 +307,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;OSS_BUILD_MODE;FMT_SHARED;GTEST_LINKED_AS_SHARED_LIBRARY=1;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\repos\winaria\vrs;D:\repos\winaria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs;D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\oss;D:\repos\winaria\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -320,7 +320,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PostBuildEvent>
       <Message>	</Message>
       <Command>setlocal
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/winaria/vrs/build/vrs/utils/xxhash/RelWithDebInfo/test_vrs_utils_xxhash.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file D:/repos/winaria/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/RelWithDebInfo/test_vrs_utils_xxhash.exe -installedDir D:/repos/winaria/vcpkg/installed/x64-windows/bin -OutVariable out
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -329,7 +329,7 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
 setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=test_vrs_utils_xxhash -D TEST_EXECUTABLE=D:/repos/winaria/vrs/build/vrs/utils/xxhash/RelWithDebInfo/test_vrs_utils_xxhash.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=D:/repos/winaria/vrs/build/vrs/utils/xxhash -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=test_vrs_utils_xxhash_TESTS -D CTEST_FILE=D:/repos/winaria/vrs/build/vrs/utils/xxhash/test_vrs_utils_xxhash[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/GoogleTestAddTests.cmake"
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=test_vrs_utils_xxhash -D TEST_EXECUTABLE=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/RelWithDebInfo/test_vrs_utils_xxhash.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=test_vrs_utils_xxhash_TESTS -D CTEST_FILE=D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/test_vrs_utils_xxhash[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P "D:/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.29/Modules/GoogleTestAddTests.cmake"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -344,8 +344,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/repos/winaria/vrs/build/vrs/utils/xxhash/RelWithDebInfo/test_vrs_utils_xxhash.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/repos/winaria/vrs/build/vrs/utils/xxhash/RelWithDebInfo/test_vrs_utils_xxhash.pdb</ProgramDataBaseFile>
+      <ImportLibrary>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/RelWithDebInfo/test_vrs_utils_xxhash.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/RelWithDebInfo/test_vrs_utils_xxhash.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -353,11 +353,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\repos\winaria\vrs\vrs\utils\xxhash\CMakeLists.txt">
+    <CustomBuild Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\xxhash\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/repos/winaria/vrs/vrs/utils/xxhash/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/utils/xxhash/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/winaria/vrs -BD:/repos/winaria/vrs/build --check-stamp-file D:/repos/winaria/vrs/build/vrs/utils/xxhash/CMakeFiles/generate.stamp
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs -BD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build --check-stamp-file D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -366,11 +366,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\repos\winaria\vrs\build\vrs\utils\xxhash\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\xxhash\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/repos/winaria/vrs/vrs/utils/xxhash/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/utils/xxhash/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/winaria/vrs -BD:/repos/winaria/vrs/build --check-stamp-file D:/repos/winaria/vrs/build/vrs/utils/xxhash/CMakeFiles/generate.stamp
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs -BD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build --check-stamp-file D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -379,11 +379,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\repos\winaria\vrs\build\vrs\utils\xxhash\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\xxhash\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/repos/winaria/vrs/vrs/utils/xxhash/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/utils/xxhash/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/winaria/vrs -BD:/repos/winaria/vrs/build --check-stamp-file D:/repos/winaria/vrs/build/vrs/utils/xxhash/CMakeFiles/generate.stamp
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs -BD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build --check-stamp-file D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -392,11 +392,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\repos\winaria\vrs\build\vrs\utils\xxhash\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\xxhash\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/repos/winaria/vrs/vrs/utils/xxhash/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/utils/xxhash/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/winaria/vrs -BD:/repos/winaria/vrs/build --check-stamp-file D:/repos/winaria/vrs/build/vrs/utils/xxhash/CMakeFiles/generate.stamp
+"D:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs -BD:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build --check-stamp-file D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/xxhash/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -405,26 +405,26 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\repos\winaria\vrs\build\vrs\utils\xxhash\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\xxhash\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\utils\xxhash\test\xxhashTest.cpp" />
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\xxhash\test\xxhashTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\ZERO_CHECK.vcxproj">
-      <Project>{3E1BE93D-999C-3435-B0F9-F12A611CDA14}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\ZERO_CHECK.vcxproj">
+      <Project>{4D869504-5F47-3159-8F8E-DACA6E2FAB1F}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\oss\logging\vrs_logging.vcxproj">
-      <Project>{88CA5C0B-3959-3182-9956-3C96539C9AF2}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\oss\logging\vrs_logging.vcxproj">
+      <Project>{9D179A6D-6636-304E-B1B2-9262B78B5DD0}</Project>
       <Name>vrs_logging</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\utils\xxhash\vrs_utils_xxhash.vcxproj">
-      <Project>{3F58EA75-A443-3DDB-87F8-06A6302A4CCC}</Project>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\xxhash\vrs_utils_xxhash.vcxproj">
+      <Project>{E181A9AB-6F9F-3081-A80A-9E4E5D7C5EC3}</Project>
       <Name>vrs_utils_xxhash</Name>
     </ProjectReference>
   </ItemGroup>

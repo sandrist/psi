@@ -1,8 +1,8 @@
-# Install script for directory: D:/repos/winaria/vrs/vrs/oss/portability
+# Install script for directory: D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/oss/portability
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files/vrs")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/vrs")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

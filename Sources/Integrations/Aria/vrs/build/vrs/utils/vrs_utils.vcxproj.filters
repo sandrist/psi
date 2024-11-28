@@ -34,6 +34,12 @@
     <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\ImageExtractor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\ImageIndexer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\ImageLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\PixelFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -102,6 +108,12 @@
     <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\ImageExtractor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\ImageIndexer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\ImageLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\utils\PixelFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -126,10 +138,10 @@
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{71DA8EFE-08BB-3ED5-B0CE-DF0D898A6557}</UniqueIdentifier>
+      <UniqueIdentifier>{FC042068-E5A7-3913-B4F7-BD591DC77241}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{BF7A71D3-844B-3ED4-A968-6E2B1B39A6E9}</UniqueIdentifier>
+      <UniqueIdentifier>{44949E88-E042-353F-975D-2D0F57560A15}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

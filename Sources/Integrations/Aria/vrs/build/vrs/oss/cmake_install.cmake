@@ -1,8 +1,8 @@
-# Install script for directory: D:/repos/winaria/vrs/vrs/oss
+# Install script for directory: D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/oss
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files/vrs")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/vrs")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,21 +34,21 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/repos/winaria/vrs/build/vrs/oss/logging/cmake_install.cmake")
+  include("D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/oss/logging/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/repos/winaria/vrs/build/vrs/oss/portability/cmake_install.cmake")
+  include("D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/oss/portability/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/repos/winaria/vrs/build/vrs/oss/test_helpers/cmake_install.cmake")
+  include("D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/oss/test_helpers/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/repos/winaria/vrs/build/vrs/oss/TestDataDir/cmake_install.cmake")
+  include("D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/oss/TestDataDir/cmake_install.cmake")
 endif()
 

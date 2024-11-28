@@ -1,22 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\os\test\TimeTest.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\os\test\TimeTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\os\test\EventUnitTest.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\os\test\EventUnitTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\repos\winaria\vrs\vrs\os\test\UtilsTest.cpp">
+    <ClCompile Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\os\test\UtilsTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\repos\winaria\vrs\vrs\os\CMakeLists.txt" />
+    <CustomBuild Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\vrs\os\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{BF7A71D3-844B-3ED4-A968-6E2B1B39A6E9}</UniqueIdentifier>
+      <UniqueIdentifier>{44949E88-E042-353F-975D-2D0F57560A15}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

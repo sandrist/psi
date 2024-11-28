@@ -1,8 +1,8 @@
-# Install script for directory: D:/repos/winaria/vrs/vrs/utils/cli
+# Install script for directory: D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/utils/cli
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files/vrs")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/vrs")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,13 +34,13 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   if(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Dd][Ee][Bb][Uu][Gg])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "D:/repos/winaria/vrs/build/vrs/utils/cli/Debug/vrs_utils_cli.lib")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/cli/Debug/vrs_utils_cli.lib")
   elseif(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "D:/repos/winaria/vrs/build/vrs/utils/cli/Release/vrs_utils_cli.lib")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/cli/Release/vrs_utils_cli.lib")
   elseif(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Mm][Ii][Nn][Ss][Ii][Zz][Ee][Rr][Ee][Ll])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "D:/repos/winaria/vrs/build/vrs/utils/cli/MinSizeRel/vrs_utils_cli.lib")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/cli/MinSizeRel/vrs_utils_cli.lib")
   elseif(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Rr][Ee][Ll][Ww][Ii][Tt][Hh][Dd][Ee][Bb][Ii][Nn][Ff][Oo])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "D:/repos/winaria/vrs/build/vrs/utils/cli/RelWithDebInfo/vrs_utils_cli.lib")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/cli/RelWithDebInfo/vrs_utils_cli.lib")
   endif()
 endif()
 
