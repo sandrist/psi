@@ -1,0 +1,5 @@
+if(EXISTS "D:/repos/winaria/vrs/build/tools/vrs/test_vrscli[1]_tests.cmake")
+  include("D:/repos/winaria/vrs/build/tools/vrs/test_vrscli[1]_tests.cmake")
+else()
+  add_test(test_vrscli_NOT_BUILT test_vrscli_NOT_BUILT)
+endif()

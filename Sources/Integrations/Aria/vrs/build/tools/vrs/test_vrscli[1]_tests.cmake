@@ -1,0 +1,7 @@
+add_test([=[VrsCommandTest.miscCommands]=]  D:/repos/winaria/vrs/build/tools/vrs/Debug/test_vrscli.exe [==[--gtest_filter=VrsCommandTest.miscCommands]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[VrsCommandTest.miscCommands]=]  PROPERTIES WORKING_DIRECTORY D:/repos/winaria/vrs/build/tools/vrs SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+add_test([=[VrsCommandTest.ArgTestsGood]=]  D:/repos/winaria/vrs/build/tools/vrs/Debug/test_vrscli.exe [==[--gtest_filter=VrsCommandTest.ArgTestsGood]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[VrsCommandTest.ArgTestsGood]=]  PROPERTIES WORKING_DIRECTORY D:/repos/winaria/vrs/build/tools/vrs SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+add_test([=[VrsCommandTest.ArgTestsBad]=]  D:/repos/winaria/vrs/build/tools/vrs/Debug/test_vrscli.exe [==[--gtest_filter=VrsCommandTest.ArgTestsBad]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[VrsCommandTest.ArgTestsBad]=]  PROPERTIES WORKING_DIRECTORY D:/repos/winaria/vrs/build/tools/vrs SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+set(  test_vrscli_TESTS VrsCommandTest.miscCommands VrsCommandTest.ArgTestsGood VrsCommandTest.ArgTestsBad)
