@@ -185,6 +185,42 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{CA8AE15D-B804-39D0-8F81-5360041CF403}</Project>
       <Name>sample_recording_app</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\helpers\test_vrs_helpers.vcxproj">
+      <Project>{9F736EFA-5F28-3D70-9E57-BA9D71F28973}</Project>
+      <Name>test_vrs_helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\os\test_vrs_os.vcxproj">
+      <Project>{B26ED3BA-EB34-3612-98C0-A563E277447E}</Project>
+      <Name>test_vrs_os</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\test_vrs_utils.vcxproj">
+      <Project>{89BA4183-6FE3-32BC-87AA-9780AAF553AB}</Project>
+      <Name>test_vrs_utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\converters\test_vrs_utils_converters.vcxproj">
+      <Project>{DE7DE315-F50C-3FDB-BFF4-C0D0522471DF}</Project>
+      <Name>test_vrs_utils_converters</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\xxhash\test_vrs_utils_xxhash.vcxproj">
+      <Project>{E2B76DED-6B59-3CBE-BE49-5FC7C735BB0C}</Project>
+      <Name>test_vrs_utils_xxhash</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\tools\vrs\test_vrscli.vcxproj">
+      <Project>{BA446421-09BD-3843-9B40-38EF60D2D7B0}</Project>
+      <Name>test_vrscli</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\test\test_vrslib.vcxproj">
+      <Project>{ECB336E9-EEEA-39E5-8E1B-35AFCFC77B11}</Project>
+      <Name>test_vrslib</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\test\test_vrslib_file_tests.vcxproj">
+      <Project>{C5CA6A41-15BE-386F-8003-4CA04A6B33B4}</Project>
+      <Name>test_vrslib_file_tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\test\testedtool.vcxproj">
+      <Project>{9ABA0378-88CA-35A0-A0FC-DDE27FCDEA09}</Project>
+      <Name>testedtool</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\tools\vrs\vrs.vcxproj">
       <Project>{0A07E1E2-84F3-31B0-98C5-A0C5F323886B}</Project>
       <Name>vrs</Name>
@@ -200,6 +236,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\os\vrs_os.vcxproj">
       <Project>{5C12A2B2-12DB-39A3-82E5-95E9F9467A11}</Project>
       <Name>vrs_os</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\oss\TestDataDir\vrs_oss_testdatadir.vcxproj">
+      <Project>{85BE134B-B442-3FCB-B0FA-293E3A7C4576}</Project>
+      <Name>vrs_oss_testdatadir</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\test\vrs_test_helpers.vcxproj">
+      <Project>{D943629A-61CC-3817-B912-0B0401E62582}</Project>
+      <Name>vrs_test_helpers</Name>
     </ProjectReference>
     <ProjectReference Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\build\vrs\utils\vrs_utils.vcxproj">
       <Project>{C30950DE-124F-3EDE-8CFC-F046D821CD82}</Project>

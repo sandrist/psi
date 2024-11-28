@@ -4,6 +4,5 @@
     <CustomBuild Include="D:\repos\SeanWork\psi\Sources\Integrations\Aria\vrs\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)\LICENSE.txt" />
   </ItemGroup>
 </Project>
