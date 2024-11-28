@@ -185,42 +185,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{2194922C-EBCA-3324-8BBE-FD7D299327D8}</Project>
       <Name>sample_recording_app</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\helpers\test_vrs_helpers.vcxproj">
-      <Project>{DCB0B7BE-72A9-30FD-B79E-E843C7BA7682}</Project>
-      <Name>test_vrs_helpers</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\os\test_vrs_os.vcxproj">
-      <Project>{2FDE8406-7C22-3C34-A30F-031435F86278}</Project>
-      <Name>test_vrs_os</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\utils\test_vrs_utils.vcxproj">
-      <Project>{319ADE42-F204-3D1E-83CE-0A81D90C4DE6}</Project>
-      <Name>test_vrs_utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\utils\converters\test_vrs_utils_converters.vcxproj">
-      <Project>{FB534867-9C8F-3762-AA4E-8394DF481AA5}</Project>
-      <Name>test_vrs_utils_converters</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\utils\xxhash\test_vrs_utils_xxhash.vcxproj">
-      <Project>{F039B954-D8A2-3707-B05B-4CB10304EAE0}</Project>
-      <Name>test_vrs_utils_xxhash</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\tools\vrs\test_vrscli.vcxproj">
-      <Project>{1812F251-7086-365B-B581-E4B4F16DA58D}</Project>
-      <Name>test_vrscli</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\test\test_vrslib.vcxproj">
-      <Project>{B5274AC0-E769-3853-AB72-D3EC8CD86EE8}</Project>
-      <Name>test_vrslib</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\test\test_vrslib_file_tests.vcxproj">
-      <Project>{375519BF-41D0-3E68-BF58-A04D738FDF55}</Project>
-      <Name>test_vrslib_file_tests</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\test\testedtool.vcxproj">
-      <Project>{0D520363-A391-36C9-9C43-3127E5D22C99}</Project>
-      <Name>testedtool</Name>
-    </ProjectReference>
     <ProjectReference Include="D:\repos\winaria\vrs\build\tools\vrs\vrs.vcxproj">
       <Project>{15CC439C-6A37-3657-BFE6-082ECA7C0E59}</Project>
       <Name>vrs</Name>
@@ -236,14 +200,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\os\vrs_os.vcxproj">
       <Project>{9C69655F-4ADD-3A9B-9B4C-3E30616EC318}</Project>
       <Name>vrs_os</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\oss\TestDataDir\vrs_oss_testdatadir.vcxproj">
-      <Project>{24F74DCB-4CC6-3088-A566-73A6A27D99FB}</Project>
-      <Name>vrs_oss_testdatadir</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\test\vrs_test_helpers.vcxproj">
-      <Project>{6BCEC958-3D3E-30BC-AACD-B65DFBFAF292}</Project>
-      <Name>vrs_test_helpers</Name>
     </ProjectReference>
     <ProjectReference Include="D:\repos\winaria\vrs\build\vrs\utils\vrs_utils.vcxproj">
       <Project>{5ED38BFD-3F9C-32FA-8EFE-5DF436E95572}</Project>
