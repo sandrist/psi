@@ -1,7 +1,0 @@
-# CMake generated Testfile for 
-# Source directory: D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/vrs/utils/converters
-# Build directory: D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/converters
-# 
-# This file includes the relevant testing commands required for 
-# testing this directory and lists subdirectories to be tested as well.
-include("D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/utils/converters/test_vrs_utils_converters[1]_include.cmake")

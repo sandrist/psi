@@ -1,5 +1,0 @@
-if(EXISTS "D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/os/test_vrs_os[1]_tests.cmake")
-  include("D:/repos/SeanWork/psi/Sources/Integrations/Aria/vrs/build/vrs/os/test_vrs_os[1]_tests.cmake")
-else()
-  add_test(test_vrs_os_NOT_BUILT test_vrs_os_NOT_BUILT)
-endif()
