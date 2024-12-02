@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <CodeAnalysisRuleSet>../../Build/Sample.Psi.ruleset</CodeAnalysisRuleSet>
+    <ApplicationIcon />
+    <OutputType>WinExe</OutputType>
+    <StartupObject>Microsoft.Psi.Samples.WebcamWithAudioSample.App</StartupObject>
+    <RootNamespace>Microsoft.Psi.Samples.WebcamWithAudioSample</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="App.xaml" />
+    <None Remove="MainWindow.xaml" />
+    <None Remove="stylecop.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Psi.Audio" Version="0.19.100.1-beta" />
+    <PackageReference Include="Microsoft.Psi.Audio.Windows" Version="0.19.100.1-beta" />
+    <PackageReference Include="Microsoft.Psi.Imaging" Version="0.19.100.1-beta" />
+    <PackageReference Include="Microsoft.Psi.Imaging.Windows" Version="0.19.100.1-beta" />
+    <PackageReference Include="Microsoft.Psi.Media.Windows.x64" Version="0.19.100.1-beta" />
+    <PackageReference Include="Microsoft.Psi.Runtime" Version="0.19.100.1-beta" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="MainWindow.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+</Project>
