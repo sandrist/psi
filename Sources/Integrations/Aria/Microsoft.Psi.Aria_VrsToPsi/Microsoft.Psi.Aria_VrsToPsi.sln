@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35431.28
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Psi.MetaCam.Windows.x64", "Microsoft.Psi.MetaCam.Windows.x64.csproj", "{21D3F244-A18B-4139-AD7D-A9C29F905D42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Psi.Aria_VrsToPsi", "Microsoft.Psi.Aria_VrsToPsi.csproj", "{21D3F244-A18B-4139-AD7D-A9C29F905D42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
