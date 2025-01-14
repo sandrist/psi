@@ -37,15 +37,11 @@ class winNetMqStreams
                         Console.WriteLine($"Unexpected image size: {payload.Length} bytes");
                         continue;
                     }
-
-                    // Reconstruct the image using metadata
-                    //  Mat image = new Mat(height, width, MatType.CV_8UC3, payload);
-
+                    
                     Mat image = new Mat(height, width, MatType.CV_8UC3);
 
                     // Copy the raw byte array into the Mat's data buffer
                     Marshal.Copy(payload, 0, image.Data, payload.Length);
-
 
                     // Display the image
                     Cv2.ImShow("KiranM NetMQ Aria Stream", image);
