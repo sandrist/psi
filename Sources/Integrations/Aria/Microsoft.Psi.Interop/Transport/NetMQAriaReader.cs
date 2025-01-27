@@ -5,89 +5,115 @@ namespace Microsoft.Psi.Interop.Transport
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using Microsoft.Psi.Components;
     using Microsoft.Psi.Interop.Serialization;
     using NetMQ;
     using NetMQ.Sockets;
 
     /// <summary>
-    /// NetMQ (ZeroMQ) publisher component.
+    /// NetMQ (ZeroMQ) subscriber component.
     /// </summary>
-    public class NetMQAriaReader : IDisposable
+    /// <typeparam name="T">Message type.</typeparam>
+    public class NetMQAriaReader<T> : IProducer<T>, ISourceComponent, IDisposable
     {
+        private readonly string topic;
+        private readonly string address;
+        private readonly IFormatDeserializer deserializer;
         private readonly Pipeline pipeline;
         private readonly string name;
-        private readonly IFormatSerializer serializer;
-        private readonly Dictionary<string, Type> topics = new ();
+        private readonly bool useSourceOriginatingTimes;
 
-        private PublisherSocket socket;
+        private SubscriberSocket socket;
+        private NetMQPoller poller;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NetMQAriaReader"/> class.
+        /// Initializes a new instance of the <see cref="NetMQAriaReader{T}"/> class.
         /// </summary>
         /// <param name="pipeline">The pipeline to add the component to.</param>
+        /// <param name="topic">Topic name.</param>
         /// <param name="address">Connection string.</param>
-        /// <param name="serializer">Format serializer with which messages are serialized.</param>
+        /// <param name="deserializer">Format deserializer with which messages are deserialized.</param>
+        /// <param name="useSourceOriginatingTimes">Flag indicating whether or not to post with originating times received over the socket. If false, we ignore them and instead use pipeline's current time.</param>
         /// <param name="name">An optional name for the component.</param>
-        public NetMQAriaReader(Pipeline pipeline, string address, IFormatSerializer serializer, string name = nameof(NetMQWriter))
+        public NetMQAriaReader(Pipeline pipeline, string topic, string address, IFormatDeserializer deserializer, bool useSourceOriginatingTimes = true, string name = nameof(NetMQAriaReader<T>))
         {
             this.pipeline = pipeline;
             this.name = name;
-            this.Address = address;
-            this.serializer = serializer;
-            this.socket = new PublisherSocket();
-            pipeline.PipelineRun += (s, e) => this.socket.Bind(address);
+            this.useSourceOriginatingTimes = useSourceOriginatingTimes;
+            this.topic = topic;
+            this.address = address;
+            this.deserializer = deserializer;
+            this.Out = pipeline.CreateEmitter<T>(this, topic);
         }
 
-        /// <summary>
-        /// Gets the connection address string.
-        /// </summary>
-        public string Address { get; private set; }
-
-        /// <summary>
-        /// Gets the topic names and types being published.
-        /// </summary>
-        public IEnumerable<(string Name, Type Type)> Topics
-        {
-            get { return this.topics.Select(x => (x.Key, x.Value)); }
-        }
-
-        /// <summary>
-        /// Add topic receiver.
-        /// </summary>
-        /// <param name="topic">Topic name.</param>
-        /// <typeparam name="T">Message type.</typeparam>
-        /// <returns>Receiver to which to pipe messages.</returns>
-        public Receiver<T> AddTopic<T>(string topic)
-        {
-            this.topics.Add(topic, typeof(T));
-            return this.pipeline.CreateReceiver<T>(this, (m, e) => this.Receive(m, e, topic), topic);
-        }
+        /// <inheritdoc />
+        public Emitter<T> Out { get; }
 
         /// <inheritdoc />
         public void Dispose()
         {
-            if (this.socket != null)
-            {
-                this.socket.Dispose();
-                this.socket = null;
-            }
+            this.Stop();
+        }
+
+        /// <inheritdoc/>
+        public void Start(Action<DateTime> notifyCompletionTime)
+        {
+            // notify that this is an infinite source component
+            notifyCompletionTime(DateTime.MaxValue);
+
+            this.socket = new SubscriberSocket();
+            this.socket.Connect(this.address);
+            this.socket.Subscribe(this.topic);
+            this.socket.ReceiveReady += this.ReceiveReady;
+            this.poller = new NetMQPoller();
+            this.poller.Add(this.socket);
+            this.poller.RunAsync();
+        }
+
+        /// <inheritdoc/>
+        public void Stop(DateTime finalOriginatingTime, Action notifyCompleted)
+        {
+            this.Stop();
+            notifyCompleted();
         }
 
         /// <inheritdoc/>
         public override string ToString() => this.name;
 
-        private void Receive<T>(T message, Envelope envelope, string topic)
+        private void Stop()
         {
-            var (bytes, index, length) = this.serializer.SerializeMessage(message, envelope.OriginatingTime);
-            if (index != 0)
+            if (this.socket != null)
             {
-                var slice = new byte[length];
-                Array.Copy(bytes, index, slice, 0, length);
-                bytes = slice;
+                this.poller.Dispose();
+                this.socket.Dispose();
+                this.socket = null;
             }
+        }
 
-            this.socket.SendMoreFrame(topic).SendFrame(bytes, length);
+        private void ReceiveReady(object sender, NetMQSocketEventArgs e)
+        {
+            var frames = new List<byte[]>();
+            while (this.socket.TryReceiveMultipartBytes(ref frames, 2))
+            {
+                var receivedTopic = System.Text.Encoding.Default.GetString(frames[0]);
+                if (receivedTopic != this.topic)
+                {
+                    throw new Exception($"Unexpected topic name received in NetMQSource. Expected {this.topic} but received {receivedTopic}");
+                }
+
+                if (frames.Count < 2)
+                {
+                    throw new Exception($"No payload message received for topic: {this.topic}");
+                }
+
+                if (frames.Count > 2)
+                {
+                    throw new Exception($"Multiple interleaved messages received on topic: {this.topic}. Is the sender on the other side sending messages on multiple threads? You may need to add a lock over there.");
+                }
+
+                var (message, originatingTime) = this.deserializer.DeserializeMessage(frames[1], 0, frames[1].Length);
+                this.Out.Post(message, this.useSourceOriginatingTimes ? originatingTime : this.pipeline.GetCurrentTime());
+            }
         }
     }
 }
