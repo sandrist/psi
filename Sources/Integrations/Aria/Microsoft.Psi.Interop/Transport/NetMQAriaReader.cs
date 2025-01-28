@@ -1,20 +1,19 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
-
 namespace Microsoft.Psi.Interop.Transport
 {
     using System;
     using System.Collections.Generic;
+    using Microsoft.Psi;
     using Microsoft.Psi.Components;
     using Microsoft.Psi.Interop.Serialization;
     using NetMQ;
     using NetMQ.Sockets;
 
     /// <summary>
-    /// NetMQ (ZeroMQ) subscriber component.
+    /// NetMQ (ZeroMQ) subscriber component for Shared Microsoft.Psi.Imaging.EncodedImage>.
     /// </summary>
-    /// <typeparam name="T">Message type.</typeparam>
-    public class NetMQAriaReader<T> : IProducer<T>, ISourceComponent, IDisposable
+    public class NetMQAriaReader : IProducer<Shared<Imaging.EncodedImage>>, ISourceComponent, IDisposable
     {
         private readonly string topic;
         private readonly string address;
@@ -27,7 +26,7 @@ namespace Microsoft.Psi.Interop.Transport
         private NetMQPoller poller;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NetMQAriaReader{T}"/> class.
+        /// Initializes a new instance of the <see cref="NetMQAriaReader"/> class.
         /// </summary>
         /// <param name="pipeline">The pipeline to add the component to.</param>
         /// <param name="topic">Topic name.</param>
@@ -35,7 +34,7 @@ namespace Microsoft.Psi.Interop.Transport
         /// <param name="deserializer">Format deserializer with which messages are deserialized.</param>
         /// <param name="useSourceOriginatingTimes">Flag indicating whether or not to post with originating times received over the socket. If false, we ignore them and instead use pipeline's current time.</param>
         /// <param name="name">An optional name for the component.</param>
-        public NetMQAriaReader(Pipeline pipeline, string topic, string address, IFormatDeserializer deserializer, bool useSourceOriginatingTimes = true, string name = nameof(NetMQAriaReader<T>))
+        public NetMQAriaReader(Pipeline pipeline, string topic, string address, IFormatDeserializer deserializer, bool useSourceOriginatingTimes = true, string name = nameof(NetMQAriaReader))
         {
             this.pipeline = pipeline;
             this.name = name;
@@ -43,11 +42,11 @@ namespace Microsoft.Psi.Interop.Transport
             this.topic = topic;
             this.address = address;
             this.deserializer = deserializer;
-            this.Out = pipeline.CreateEmitter<T>(this, topic);
+            this.Out = pipeline.CreateEmitter<Shared<Imaging.EncodedImage>>(this, topic);
         }
 
         /// <inheritdoc />
-        public Emitter<T> Out { get; }
+        public Emitter<Shared<Imaging.EncodedImage>> Out { get; }
 
         /// <inheritdoc />
         public void Dispose()
