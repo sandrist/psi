@@ -1,0 +1,10 @@
+usbipd list
+usbipd bind --busid=3-2
+usbipd attach --wsl --busid=3-2
+
+lsusb
+aria auth pair
+python -m device_connect
+python -m device_record
+aria streaming start --interface wifi --device-ip 192.168.50.219 --use-ephemeral-certs
+python -m streaming_subscribe_send
