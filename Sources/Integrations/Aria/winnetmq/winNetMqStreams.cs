@@ -19,8 +19,6 @@ using Microsoft.Psi.Interop.Transport;
 using System.Drawing;
 using static System.Formats.Asn1.AsnWriter;
 
-
-
 class winNetMqStreams
 {
     static void Main(string[] args)

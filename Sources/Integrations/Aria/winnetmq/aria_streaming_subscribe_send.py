@@ -18,6 +18,8 @@ import zmq
 import time
 import json
 
+import struct
+
 import aria.sdk as aria
 
 import cv2
@@ -119,11 +121,25 @@ def main():
             image_bytes = rgb_image.tobytes()
             #print(f"Image bytes size: {len(image_bytes)}")
 
+            # Get the current timestamp in milliseconds
+            timestamp = int(time.time() * 1000)
+
+            # Pack the timestamp into 8 bytes (big-endian)
+            timestamp_bytes = struct.pack('>Q', timestamp)  # 'Q' for unsigned long long (8 bytes), '>' for big-endian
+
+            # Define the string identifier
+            header_string = "AriaZMQ"
+            header_bytes = header_string.encode('utf-8')  # Convert string to bytes
+
+            # Concatenate header, timestamp, and image data
+            data_to_send = header_bytes + timestamp_bytes + image_bytes
+
+
             # Calculate the size in bytes
-            # bytes_size = rgb_image.nbytes  # Total number of bytes in the image
-            # print(f"Total size in bytes: {bytes_size}")
+            bytes_size = rgb_image.nbytes  # Total number of bytes in the image
+            #print(f"Total size in bytes: {bytes_size}")
             
-            socket.send(image_bytes)  # Send only the raw image data
+            socket.send(data_to_send)  # Send only the raw image data
         
             cv2.imshow(rgb_window, rgb_image)
             del observer.images[aria.CameraId.Rgb]
