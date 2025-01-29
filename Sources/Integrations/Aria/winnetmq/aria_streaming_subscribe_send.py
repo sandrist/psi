@@ -117,6 +117,9 @@ def main():
             rgb_image = np.rot90(observer.images[aria.CameraId.Rgb], -1)
             rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
 
+            #[ "HelloMQ" (7 bytes) | Timestamp (8 bytes) | Width (4 bytes) | Height (4 bytes) | Channels (4 bytes) | StreamType (4 bytes) | Image Bytes (... bytes) ]
+            #KiranM: Wire Protocol for the Python Sends on NetMQ end point.
+
             # Serialize the image to raw bytes
             image_bytes = rgb_image.tobytes()
             #print(f"Image bytes size: {len(image_bytes)}")
@@ -131,8 +134,30 @@ def main():
             header_string = "AriaZMQ"
             header_bytes = header_string.encode('utf-8')  # Convert string to bytes
 
+
+            # ✅ Define fixed parameters (must match C# side)
+            width = 1408    # Ensure this is defined BEFORE using it
+            height = 1408   # Ensure this is defined BEFORE using it
+            channels = 3    # RGB has 3 channels
+            StreamType = 6  # Define stream type
+
+            # Pack metadata (timestamp, width, height, channels, StreamType)
+            metadata_bytes = struct.pack('>QIIII', timestamp, width, height, channels, StreamType)
+            # '>QIIII' means:
+            #   >  = Big-endian
+            #   Q  = Unsigned long long (8 bytes) → timestamp
+            #   I  = Unsigned int (4 bytes) → width
+            #   I  = Unsigned int (4 bytes) → height
+            #   I  = Unsigned int (4 bytes) → channels
+            #   I  = Unsigned int (4 bytes) → StreamType
+
+
+
+            #concatenate header, metadata, and image data
+            data_to_send = header_bytes + metadata_bytes + image_bytes
+
             # Concatenate header, timestamp, and image data
-            data_to_send = header_bytes + timestamp_bytes + image_bytes
+            # data_to_send = header_bytes + timestamp_bytes + image_bytes
 
 
             # Calculate the size in bytes
