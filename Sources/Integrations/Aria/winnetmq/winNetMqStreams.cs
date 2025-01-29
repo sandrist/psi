@@ -1,11 +1,24 @@
-﻿using System;
+﻿
+using System;
 using System.Text;
 using System.Linq;
 using NetMQ;
 using NetMQ.Sockets;
-using Newtonsoft.Json; 
+using Newtonsoft.Json;
 using OpenCvSharp;
 using System.Runtime.InteropServices;
+using System.IO;
+using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Threading;
+using Microsoft.Psi;
+using Microsoft.Psi.Interop.Format;
+using Microsoft.Psi.Interop.Serialization;
+using Microsoft.Psi.Interop.Transport;
+using System.Drawing;
+using static System.Formats.Asn1.AsnWriter;
+
 
 
 class winNetMqStreams
@@ -33,12 +46,42 @@ class winNetMqStreams
                     byte[] payload = pullSocket.ReceiveFrameBytes();
                     //Console.WriteLine($"Received payload of size: {payload.Length} bytes");
 
-                    if (payload.Length != imageSize)
+
+                    // Validate payload length
+                    if (payload.Length < 15) // Minimum expected size: 7 bytes (header) + 8 bytes (timestamp)
                     {
-                        Console.WriteLine($"Unexpected image size: {payload.Length} bytes");
+                        Console.WriteLine("Received payload is too small to contain header and timestamp.");
                         continue;
                     }
-                    
+
+                    // if (payload.Length != imageSize)
+                    // {
+                    //     Console.WriteLine($"Unexpected image size: {payload.Length} bytes");
+                    //     continue;
+                    // }
+
+                    // Extract header (first 7 bytes)
+                    string header = Encoding.UTF8.GetString(payload, 0, 7);
+                    //Console.WriteLine($"Received Header: {header}");
+
+
+                    // Extract timestamp (next 8 bytes)
+                    long timestamp = BitConverter.ToInt64(payload, 7);
+
+
+                    // Extract image bytes (remaining data)
+                    int imageDataStartIndex = 15; // 7 bytes header + 8 bytes timestamp
+                    int imageDataLength = payload.Length - imageDataStartIndex;
+                    byte[] imageBytes = new byte[imageDataLength];
+                    Array.Copy(payload, imageDataStartIndex, imageBytes, 0, imageDataLength);
+
+                    // Validate image size (optional check if you have a fixed size)
+                    if (imageBytes.Length != imageSize)
+                    {
+                        Console.WriteLine($"Unexpected image size: {imageBytes.Length} bytes");
+                        continue;
+                    }
+
                     Mat image = new Mat(height, width, MatType.CV_8UC3);
 
                     // Copy the raw byte array into the Mat's data buffer

@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
-namespace Microsoft.Psi.Interop.Transport
+namespace Microsoft.Psi.Interop.Transport.Aria
 {
     using System;
     using System.Collections.Generic;
