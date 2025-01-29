@@ -28,23 +28,27 @@ class winNetMqStreams
             Console.WriteLine("KiranM NETMQC WSL to Windows Interface");
             // int count = 0;
 
-            // Define fixed dimensions (must match the Python sender)
+            // KiranM: Define fixed dimensions (must match the Python sender)
             // int width = 1408;  // Replace with your image width
             // int height = 1408; // Replace with your image height
             // int channels = 3; // RGB has 3 channels
-                        
-            // long imageSize = (long)width * height * channels;
 
             while (true)
             {
                 try
                 {
-
                     // Receive the combined payload
                     byte[] payload = pullSocket.ReceiveFrameBytes();
 
                     // Validate payload length (minimum required: header + metadata)
-                    if (payload.Length < 31) // 7 bytes (header) + 8 bytes (timestamp) + 4 bytes (width) + 4 bytes (height) + 4 bytes (channels) + 4 bytes (StreamType)
+                    // 7 bytes (header)
+                    // + 8 bytes (timestamp)
+                    // + 4 bytes (width)
+                    // + 4 bytes (height)
+                    // + 4 bytes (channels)
+                    // + 4 bytes (StreamType)
+
+                    if (payload.Length < 31) 
                     {
                         Console.WriteLine("Received payload is too small to contain required metadata.");
                         continue;
@@ -84,7 +88,9 @@ class winNetMqStreams
                     Console.WriteLine($"Timestamp: {timestamp}, Width: {width}, Height: {height}, Channels: {channels}, StreamType: {StreamType}");
 
                     // ✅ Extract Image Data
-                    int imageDataStartIndex = 31; // 7 (header) + 8 (timestamp) + 4 (width) + 4 (height) + 4 (channels) + 4 (StreamType)
+                    int imageDataStartIndex = 31;
+                    // 7 (header) + 8 (timestamp) + 4 (width)
+                    // + 4 (height) + 4 (channels) + 4 (StreamType)
                     int imageDataLength = payload.Length - imageDataStartIndex;
                     byte[] imageBytes = new byte[imageDataLength];
                     Array.Copy(payload, imageDataStartIndex, imageBytes, 0, imageDataLength);
@@ -120,5 +126,4 @@ class winNetMqStreams
         public int[] Shape { get; set; } = Array.Empty<int>();
         public string Dtype { get; set; } = string.Empty;
     }
-
 }
