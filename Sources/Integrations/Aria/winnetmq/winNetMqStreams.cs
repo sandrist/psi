@@ -18,6 +18,7 @@ using Microsoft.Psi.Interop.Serialization;
 using Microsoft.Psi.Interop.Transport;
 using System.Drawing;
 using static System.Formats.Asn1.AsnWriter;
+using MessagePack;
 
 class winNetMqStreams
 {
@@ -37,74 +38,30 @@ class winNetMqStreams
             {
                 try
                 {
-                    // Receive the combined payload
-                    byte[] payload = pullSocket.ReceiveFrameBytes();
 
-                    // Validate payload length (minimum required: header + metadata)
-                    // 7 bytes (header)
-                    // + 8 bytes (timestamp)
-                    // + 4 bytes (width)
-                    // + 4 bytes (height)
-                    // + 4 bytes (channels)
-                    // + 4 bytes (StreamType)
+                    // Receive the packed MessagePack data
+                    byte[] receivedData = pullSocket.ReceiveFrameBytes();
 
-                    if (payload.Length < 31) 
+                    // Unpack MessagePack data
+                    var message = MessagePackSerializer.Deserialize<AriaMessage>(receivedData);
+
+                    // Print received metadata
+                    Console.WriteLine($"Received Header: {message.Header}");
+                    Console.WriteLine($"Timestamp: {message.Timestamp}");
+                    Console.WriteLine($"Width: {message.Width}, Height: {message.Height}, Channels: {message.Channels}");
+                    Console.WriteLine($"StreamType: {message.StreamType}");
+
+                    // Ensure data size is valid
+                    int expectedSize = message.Width * message.Height * message.Channels;
+                    if (message.ImageBytes.Length != expectedSize)
                     {
-                        Console.WriteLine("Received payload is too small to contain required metadata.");
+                        Console.WriteLine($"Warning: Received image size {message.ImageBytes.Length}, expected {expectedSize}");
                         continue;
                     }
 
-                    // ✅ Extract Header (7 bytes)
-                    string header = System.Text.Encoding.UTF8.GetString(payload, 0, 7);
-                    Console.WriteLine($"Received Header: {header}");
-
-                    // ✅ Extract metadata ensuring Big Endian conversion
-
-                    // Extract timestamp (8 bytes)
-                    byte[] timestampBytes = payload.Skip(7).Take(8).ToArray();
-                    Array.Reverse(timestampBytes); // Convert from Big Endian
-                    long timestamp = BitConverter.ToInt64(timestampBytes, 0);
-
-                    // Extract width (4 bytes)
-                    byte[] widthBytes = payload.Skip(15).Take(4).ToArray();
-                    Array.Reverse(widthBytes); // Convert from Big Endian
-                    int width = BitConverter.ToInt32(widthBytes, 0);
-
-                    // Extract height (4 bytes)
-                    byte[] heightBytes = payload.Skip(19).Take(4).ToArray();
-                    Array.Reverse(heightBytes); // Convert from Big Endian
-                    int height = BitConverter.ToInt32(heightBytes, 0);
-
-                    // Extract channels (4 bytes)
-                    byte[] channelsBytes = payload.Skip(23).Take(4).ToArray();
-                    Array.Reverse(channelsBytes); // Convert from Big Endian
-                    int channels = BitConverter.ToInt32(channelsBytes, 0);
-
-                    // Extract StreamType (4 bytes)
-                    byte[] streamTypeBytes = payload.Skip(27).Take(4).ToArray();
-                    Array.Reverse(streamTypeBytes); // Convert from Big Endian
-                    int StreamType = BitConverter.ToInt32(streamTypeBytes, 0);
-
-                    Console.WriteLine($"Timestamp: {timestamp}, Width: {width}, Height: {height}, Channels: {channels}, StreamType: {StreamType}");
-
-                    // ✅ Extract Image Data
-                    int imageDataStartIndex = 31;
-                    // 7 (header) + 8 (timestamp) + 4 (width)
-                    // + 4 (height) + 4 (channels) + 4 (StreamType)
-                    int imageDataLength = payload.Length - imageDataStartIndex;
-                    byte[] imageBytes = new byte[imageDataLength];
-                    Array.Copy(payload, imageDataStartIndex, imageBytes, 0, imageDataLength);
-
-                    // Validate image size
-                    if (imageBytes.Length != width * height * channels)
-                    {
-                        Console.WriteLine($"Unexpected image size: {imageBytes.Length} bytes (expected {width * height * channels} bytes)");
-                        continue;
-                    }
-
-                    // ✅ Convert byte array to OpenCV image
-                    Mat image = new Mat(height, width, MatType.CV_8UC3);
-                    Marshal.Copy(imageBytes, 0, image.Data, imageBytes.Length);
+                    // Convert raw bytes to OpenCV Mat
+                    Mat image = new Mat(message.Height, message.Width, MatType.CV_8UC3);
+                    Marshal.Copy(message.ImageBytes, 0, image.Data, message.ImageBytes.Length);
 
                     // ✅ Display the image
                     Cv2.ImShow("KiranM NetMQ Aria Stream", image);
@@ -125,4 +82,29 @@ class winNetMqStreams
         public int[] Shape { get; set; } = Array.Empty<int>();
         public string Dtype { get; set; } = string.Empty;
     }
+}
+// Define C# class matching the MessagePack structure
+[MessagePackObject]
+public class AriaMessage
+{
+    [Key("header")]
+    public string Header { get; set; }
+
+    [Key("timestamp")]
+    public long Timestamp { get; set; }
+
+    [Key("width")]
+    public int Width { get; set; }
+
+    [Key("height")]
+    public int Height { get; set; }
+
+    [Key("channels")]
+    public int Channels { get; set; }
+
+    [Key("StreamType")]
+    public int StreamType { get; set; }
+
+    [Key("image_bytes")]
+    public byte[] ImageBytes { get; set; }
 }
