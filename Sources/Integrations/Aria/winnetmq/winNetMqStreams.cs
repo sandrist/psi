@@ -115,7 +115,6 @@ class winNetMqStreams
                     Console.WriteLine($"Error: {ex.Message}");
                     break;
                 }
-                
             }
         }
     }

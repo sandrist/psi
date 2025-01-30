@@ -17,7 +17,7 @@ import sys
 import zmq
 import time
 import json
-
+import msgpack
 import struct
 
 import aria.sdk as aria
@@ -150,8 +150,6 @@ def main():
             #   I  = Unsigned int (4 bytes) → height
             #   I  = Unsigned int (4 bytes) → channels
             #   I  = Unsigned int (4 bytes) → StreamType
-
-
 
             #concatenate header, metadata, and image data
             data_to_send = header_bytes + metadata_bytes + image_bytes
