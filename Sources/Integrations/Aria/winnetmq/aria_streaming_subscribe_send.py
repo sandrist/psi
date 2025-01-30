@@ -161,8 +161,26 @@ def main():
             # Calculate the size in bytes
             bytes_size = rgb_image.nbytes  # Total number of bytes in the image
             #print(f"Total size in bytes: {bytes_size}")
-            
-            socket.send(data_to_send)  # Send only the raw image data
+
+            #Define the message structure
+            message = {
+                "header": "AriaZMQ",       # 7-byte identifier
+                "timestamp": timestamp,    # Milliseconds
+                "width": 1408,             # Image width
+                "height": 1408,            # Image height
+                "channels": 3,             # RGB (3 channels)
+                "StreamType": 6,           # Stream type identifier
+                "image_bytes": image_bytes # Actual image data
+            }
+
+            # Pack the message using MessagePack
+            packed_data = msgpack.packb(message, use_bin_type=True)
+
+
+            # Send the serialized data
+            socket.send(packed_data)
+
+            #socket.send(data_to_send)  # Send only the raw image data
         
             cv2.imshow(rgb_window, rgb_image)
             del observer.images[aria.CameraId.Rgb]
@@ -189,3 +207,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
