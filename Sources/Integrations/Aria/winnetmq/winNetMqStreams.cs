@@ -20,11 +20,17 @@ using System.Drawing;
 using static System.Formats.Asn1.AsnWriter;
 using MessagePack;
 using System.Net;
+using System.ServiceModel.Channels;
+
 
 class winNetMqStreams
 {
     static void Main(string[] args)
     {
+        // Convert raw bytes to OpenCV Mat
+        Mat image = new Mat(1408, 1408, MatType.CV_8UC3);
+
+
         //using (var pullSocket = new PullSocket(">tcp://127.0.0.1:5560"))
         using (var pipeline = Pipeline.Create())
         {
@@ -37,12 +43,36 @@ class winNetMqStreams
                     "tcp://127.0.0.1:5560",
                     MessagePackFormat.Instance);
 
-            ariaImagesSource.Do(_ => Console.Write('.'));
-                                    
+            // ariaImagesSource.Do(_ => Console.Write('.'));
+
+            ariaImagesSource.Do(frame => 
+                { 
+                   // Console.Write('.');
+
+                    int width = (int)frame.width;
+                    int height = (int)frame.height;
+                    int channels = (int)frame.channels;
+                    byte[] imageBytes = (byte[])frame.image_bytes;
+
+                    // Print received metadata
+                    
+                    Console.WriteLine($"Width: {width}, Height: {height}, Channels: {channels}");
+
+                    // 
+                    // Display the frame
+                    // 
+                    Marshal.Copy(imageBytes, 0, image.Data, width * height * channels);
+
+                    // ✅ Display the image
+                    Cv2.ImShow("KiranM NetMQ Aria Stream", image);
+                    Cv2.WaitKey(1); // Allow OpenCV to refresh the display
+
+                }
+            );
             pipeline.Run();
         }
-    }    
- }
+    }
+}
 
 // Define C# class matching the MessagePack structure
 [MessagePackObject]
