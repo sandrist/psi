@@ -29,13 +29,9 @@ class winNetMqStreams
     {
         // Convert raw bytes to OpenCV Mat
         Mat image = new Mat(1408, 1408, MatType.CV_8UC3);
-
-
-        //using (var pullSocket = new PullSocket(">tcp://127.0.0.1:5560"))
         using (var pipeline = Pipeline.Create())
         {
             Console.WriteLine("KiranM NETMQC WSL to Windows Interface");
-
             // receive Aria Streams using the NetMQ Source
             var ariaImagesSource = new NetMQSource<dynamic>(
                     pipeline,
@@ -43,14 +39,14 @@ class winNetMqStreams
                     "tcp://127.0.0.1:5560",
                     MessagePackFormat.Instance);
             
-            ariaImagesSource.Do(frame => 
+                ariaImagesSource.Do(frame => 
                 { 
                     int width = (int)frame.width;
                     int height = (int)frame.height;
                     int channels = (int)frame.channels;
                     byte[] imageBytes = (byte[])frame.image_bytes;
                     
-                    Console.WriteLine($"Width: {width}, Height: {height}, Channels: {channels}");
+                    // Console.WriteLine($"Width: {width}, Height: {height}, Channels: {channels}");
 
                     Marshal.Copy(imageBytes, 0, image.Data, width * height * channels);
 
