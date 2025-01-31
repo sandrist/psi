@@ -55,7 +55,7 @@ class winNetMqStreams
                     Marshal.Copy(imageBytes, 0, image.Data, width * height * channels);
 
                     Cv2.ImShow("KiranM NetMQ Aria Stream", image);
-                    Cv2.WaitKey(1); // Allow OpenCV to refresh the display
+                    Cv2.WaitKey(1); 
                 }
             );
             pipeline.Run();
