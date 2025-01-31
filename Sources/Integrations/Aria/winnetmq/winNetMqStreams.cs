@@ -27,18 +27,11 @@ class winNetMqStreams
         using (var pullSocket = new PullSocket(">tcp://127.0.0.1:5560"))
         {
             Console.WriteLine("KiranM NETMQC WSL to Windows Interface");
-            // int count = 0;
-
-            // KiranM: Define fixed dimensions (must match the Python sender)
-            // int width = 1408;  // Replace with your image width
-            // int height = 1408; // Replace with your image height
-            // int channels = 3; // RGB has 3 channels
-
+                        
             while (true)
             {
                 try
                 {
-
                     // Receive the packed MessagePack data
                     byte[] receivedData = pullSocket.ReceiveFrameBytes();
 
@@ -75,13 +68,7 @@ class winNetMqStreams
             }
         }
     }
-
-    // Metadata class to deserialize JSON
-    public class Metadata
-    {
-        public int[] Shape { get; set; } = Array.Empty<int>();
-        public string Dtype { get; set; } = string.Empty;
-    }
+       
 }
 // Define C# class matching the MessagePack structure
 [MessagePackObject]

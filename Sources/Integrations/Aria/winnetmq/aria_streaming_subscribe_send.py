@@ -19,15 +19,12 @@ import time
 import json
 import msgpack
 import struct
-
 import aria.sdk as aria
-
 import cv2
 import numpy as np
 from common import quit_keypress, update_iptables
 
 from projectaria_tools.core.sensor_data import ImageDataRecord
-
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
@@ -116,48 +113,24 @@ def main():
         if aria.CameraId.Rgb in observer.images:
             rgb_image = np.rot90(observer.images[aria.CameraId.Rgb], -1)
             rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
-
-            #[ "HelloMQ" (7 bytes) | Timestamp (8 bytes) | Width (4 bytes) | Height (4 bytes) | Channels (4 bytes) | StreamType (4 bytes) | Image Bytes (... bytes) ]
-            #KiranM: Wire Protocol for the Python Sends on NetMQ end point.
-
+                
             # Serialize the image to raw bytes
             image_bytes = rgb_image.tobytes()
             #print(f"Image bytes size: {len(image_bytes)}")
-
+            
             # Get the current timestamp in milliseconds
             timestamp = int(time.time() * 1000)
-
-            # Pack the timestamp into 8 bytes (big-endian)
-            timestamp_bytes = struct.pack('>Q', timestamp)  # 'Q' for unsigned long long (8 bytes), '>' for big-endian
-
+                        
             # Define the string identifier
             header_string = "AriaZMQ"
             header_bytes = header_string.encode('utf-8')  # Convert string to bytes
-
 
             # ✅ Define fixed parameters (must match C# side)
             width = 1408    # Ensure this is defined BEFORE using it
             height = 1408   # Ensure this is defined BEFORE using it
             channels = 3    # RGB has 3 channels
             StreamType = 6  # Define stream type
-
-            # Pack metadata (timestamp, width, height, channels, StreamType)
-            metadata_bytes = struct.pack('>QIIII', timestamp, width, height, channels, StreamType)
-            # '>QIIII' means:
-            #   >  = Big-endian
-            #   Q  = Unsigned long long (8 bytes) → timestamp
-            #   I  = Unsigned int (4 bytes) → width
-            #   I  = Unsigned int (4 bytes) → height
-            #   I  = Unsigned int (4 bytes) → channels
-            #   I  = Unsigned int (4 bytes) → StreamType
-
-            #concatenate header, metadata, and image data
-            data_to_send = header_bytes + metadata_bytes + image_bytes
-
-            # Concatenate header, timestamp, and image data
-            # data_to_send = header_bytes + timestamp_bytes + image_bytes
-
-
+                        
             # Calculate the size in bytes
             bytes_size = rgb_image.nbytes  # Total number of bytes in the image
             #print(f"Total size in bytes: {bytes_size}")
@@ -172,16 +145,12 @@ def main():
                 "StreamType": 6,           # Stream type identifier
                 "image_bytes": image_bytes # Actual image data
             }
-
             # Pack the message using MessagePack
             packed_data = msgpack.packb(message, use_bin_type=True)
 
-
             # Send the serialized data
             socket.send(packed_data)
-
-            #socket.send(data_to_send)  # Send only the raw image data
-        
+            
             cv2.imshow(rgb_window, rgb_image)
             del observer.images[aria.CameraId.Rgb]
 
