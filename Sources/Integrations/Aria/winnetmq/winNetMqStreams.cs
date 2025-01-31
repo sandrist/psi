@@ -77,6 +77,7 @@ public class AriaMessage
     [Key("header")]
     public string Header { get; set; }
 
+
     [Key("timestamp")]
     public long Timestamp { get; set; }
 
