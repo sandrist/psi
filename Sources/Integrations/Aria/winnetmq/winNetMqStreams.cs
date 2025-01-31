@@ -42,9 +42,7 @@ class winNetMqStreams
                     "images",
                     "tcp://127.0.0.1:5560",
                     MessagePackFormat.Instance);
-
-            // ariaImagesSource.Do(_ => Console.Write('.'));
-
+            
             ariaImagesSource.Do(frame => 
                 { 
                     int width = (int)frame.width;
@@ -58,7 +56,6 @@ class winNetMqStreams
 
                     Cv2.ImShow("KiranM NetMQ Aria Stream", image);
                     Cv2.WaitKey(1); // Allow OpenCV to refresh the display
-
                 }
             );
             pipeline.Run();
