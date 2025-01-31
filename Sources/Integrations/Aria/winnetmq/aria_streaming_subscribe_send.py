@@ -87,7 +87,7 @@ def main():
     print("Start hooking up the NetMQ Interface ")
 
     context = zmq.Context()
-    socket = context.socket(zmq.PUSH)
+    socket = context.socket(zmq.PUB)
     socket.bind("tcp://127.0.0.1:5560")  # Bind to a port
 
     print("Python sender to Windows pipe is running...")
@@ -146,10 +146,16 @@ def main():
                 "originatingTime": timestamp      # Milliseconds
             }
             # Pack the message using MessagePack
-            packed_data = msgpack.packb(message, use_bin_type=True)
+            # packed_data = msgpack.packb(message, use_bin_type=True)
+
+            payload = {}
+            payload[u"message"] = message; 
+            payload[u"originatingTime"] = timestamp ; 
+
+            socket.send_multipart(["images".encode(), msgpack.dumps(payload)])
 
             # Send the serialized data
-            socket.send(packed_data)
+            # socket.send(packed_data)
             
             cv2.imshow(rgb_window, rgb_image)
             del observer.images[aria.CameraId.Rgb]

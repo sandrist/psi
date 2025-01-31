@@ -19,55 +19,31 @@ using Microsoft.Psi.Interop.Transport;
 using System.Drawing;
 using static System.Formats.Asn1.AsnWriter;
 using MessagePack;
+using System.Net;
 
 class winNetMqStreams
 {
     static void Main(string[] args)
     {
-        using (var pullSocket = new PullSocket(">tcp://127.0.0.1:5560"))
+        //using (var pullSocket = new PullSocket(">tcp://127.0.0.1:5560"))
+        using (var pipeline = Pipeline.Create())
         {
             Console.WriteLine("KiranM NETMQC WSL to Windows Interface");
-                        
-            while (true)
-            {
-                try
-                {
-                    // Receive the packed MessagePack data
-                    byte[] receivedData = pullSocket.ReceiveFrameBytes();
 
-                    // Unpack MessagePack data
-                    var message = MessagePackSerializer.Deserialize<AriaMessage>(receivedData);
+            // receive Aria Streams using the NetMQ Source
+            var ariaImagesSource = new NetMQSource<dynamic>(
+                    pipeline,
+                    "images",
+                    "tcp://127.0.0.1:5560",
+                    MessagePackFormat.Instance);
 
-                    // Print received metadata
-                    Console.WriteLine($"Received Header: {message.Header}");
-                    Console.WriteLine($"originatingTime: {message.Timestamp}");
-                    Console.WriteLine($"Width: {message.Width}, Height: {message.Height}, Channels: {message.Channels}");
-                    Console.WriteLine($"StreamType: {message.StreamType}");
-
-                    // Ensure data size is valid
-                    int expectedSize = message.Width * message.Height * message.Channels;
-                    if (message.ImageBytes.Length != expectedSize)
-                    {
-                        Console.WriteLine($"Warning: Received image size {message.ImageBytes.Length}, expected {expectedSize}");
-                        continue;
-                    }
-                    // Convert raw bytes to OpenCV Mat
-                    Mat image = new Mat(message.Height, message.Width, MatType.CV_8UC3);
-                    Marshal.Copy(message.ImageBytes, 0, image.Data, message.ImageBytes.Length);
-
-                    // ✅ Display the image
-                    Cv2.ImShow("KiranM NetMQ Aria Stream", image);
-                    Cv2.WaitKey(1); // Allow OpenCV to refresh the display
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                    break;
-                }
-            }
+            ariaImagesSource.Do(_ => Console.Write('.'));
+                                    
+            pipeline.Run();
         }
-    }       
-}
+    }    
+ }
+
 // Define C# class matching the MessagePack structure
 [MessagePackObject]
 public class AriaMessage
