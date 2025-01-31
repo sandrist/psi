@@ -47,23 +47,15 @@ class winNetMqStreams
 
             ariaImagesSource.Do(frame => 
                 { 
-                   // Console.Write('.');
-
                     int width = (int)frame.width;
                     int height = (int)frame.height;
                     int channels = (int)frame.channels;
                     byte[] imageBytes = (byte[])frame.image_bytes;
-
-                    // Print received metadata
                     
                     Console.WriteLine($"Width: {width}, Height: {height}, Channels: {channels}");
 
-                    // 
-                    // Display the frame
-                    // 
                     Marshal.Copy(imageBytes, 0, image.Data, width * height * channels);
 
-                    // ✅ Display the image
                     Cv2.ImShow("KiranM NetMQ Aria Stream", image);
                     Cv2.WaitKey(1); // Allow OpenCV to refresh the display
 
