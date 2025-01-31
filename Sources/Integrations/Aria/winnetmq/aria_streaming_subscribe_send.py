@@ -36,7 +36,6 @@ def parse_args() -> argparse.Namespace:
     )
     return parser.parse_args()
 
-
 def main():
     args = parse_args()
     if args.update_iptables and sys.platform.startswith("linux"):
@@ -133,18 +132,18 @@ def main():
             StreamType = 6  # Define stream type
                         
             # Calculate the size in bytes
-            bytes_size = rgb_image.nbytes  # Total number of bytes in the image
+            #bytes_size = rgb_image.nbytes  # Total number of bytes in the image
             #print(f"Total size in bytes: {bytes_size}")
 
             #Define the message structure
             message = {
                 "header": "AriaZMQ",       # 7-byte identifier                
-                "width": 1408,             # Image width
-                "height": 1408,            # Image height
-                "channels": 3,             # RGB (3 channels)
-                "StreamType": 6,           # Stream type identifier
+                "width": width,             # Image width
+                "height": height,            # Image height
+                "channels": channels,             # RGB (3 channels)
+                "StreamType": StreamType,           # Stream type identifier
                 "image_bytes": image_bytes, # Actual image data
-                "timestamp": timestamp      # Milliseconds
+                "originatingTime": timestamp      # Milliseconds
             }
             # Pack the message using MessagePack
             packed_data = msgpack.packb(message, use_bin_type=True)

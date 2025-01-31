@@ -40,7 +40,7 @@ class winNetMqStreams
 
                     // Print received metadata
                     Console.WriteLine($"Received Header: {message.Header}");
-                    Console.WriteLine($"Timestamp: {message.Timestamp}");
+                    Console.WriteLine($"originatingTime: {message.Timestamp}");
                     Console.WriteLine($"Width: {message.Width}, Height: {message.Height}, Channels: {message.Channels}");
                     Console.WriteLine($"StreamType: {message.StreamType}");
 
@@ -51,7 +51,6 @@ class winNetMqStreams
                         Console.WriteLine($"Warning: Received image size {message.ImageBytes.Length}, expected {expectedSize}");
                         continue;
                     }
-
                     // Convert raw bytes to OpenCV Mat
                     Mat image = new Mat(message.Height, message.Width, MatType.CV_8UC3);
                     Marshal.Copy(message.ImageBytes, 0, image.Data, message.ImageBytes.Length);
@@ -67,8 +66,7 @@ class winNetMqStreams
                 }
             }
         }
-    }
-       
+    }       
 }
 // Define C# class matching the MessagePack structure
 [MessagePackObject]
@@ -92,7 +90,7 @@ public class AriaMessage
     [Key("image_bytes")]
     public byte[] ImageBytes { get; set; }
 
-    [Key("timestamp")]
+    [Key("originatingTime")]
     public long Timestamp { get; set; }
 
 }
