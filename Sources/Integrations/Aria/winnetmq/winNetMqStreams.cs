@@ -76,11 +76,7 @@ public class AriaMessage
 {
     [Key("header")]
     public string Header { get; set; }
-
-
-    [Key("timestamp")]
-    public long Timestamp { get; set; }
-
+            
     [Key("width")]
     public int Width { get; set; }
 
@@ -95,4 +91,8 @@ public class AriaMessage
 
     [Key("image_bytes")]
     public byte[] ImageBytes { get; set; }
+
+    [Key("timestamp")]
+    public long Timestamp { get; set; }
+
 }

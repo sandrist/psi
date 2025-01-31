@@ -138,13 +138,13 @@ def main():
 
             #Define the message structure
             message = {
-                "header": "AriaZMQ",       # 7-byte identifier
-                "timestamp": timestamp,    # Milliseconds
+                "header": "AriaZMQ",       # 7-byte identifier                
                 "width": 1408,             # Image width
                 "height": 1408,            # Image height
                 "channels": 3,             # RGB (3 channels)
                 "StreamType": 6,           # Stream type identifier
-                "image_bytes": image_bytes # Actual image data
+                "image_bytes": image_bytes, # Actual image data
+                "timestamp": timestamp      # Milliseconds
             }
             # Pack the message using MessagePack
             packed_data = msgpack.packb(message, use_bin_type=True)
