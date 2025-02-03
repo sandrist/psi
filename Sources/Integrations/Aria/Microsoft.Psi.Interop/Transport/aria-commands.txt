@@ -8,3 +8,7 @@ python -m device_connect
 python -m device_record
 aria streaming start --interface wifi --device-ip 192.168.50.219 --use-ephemeral-certs
 python -m streaming_subscribe_send
+
+(liveenv) kiranm@KIN-SUPER-MAC:~/usblive/projectaria_client_sdk_samples$ cp  /mnt/d/repos/SeanWork/psi/Sources/Integrati
+ons/Aria/winnetmq/aria_streaming_subscribe_send.py  .
+

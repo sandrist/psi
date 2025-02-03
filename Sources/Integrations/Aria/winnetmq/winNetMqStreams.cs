@@ -38,22 +38,31 @@ class winNetMqStreams
                     "images",
                     "tcp://127.0.0.1:5560",
                     MessagePackFormat.Instance);
-            
-                ariaImagesSource.Do(frame => 
-                { 
-                    int width = (int)frame.width;
-                    int height = (int)frame.height;
-                    int channels = (int)frame.channels;
-                    byte[] imageBytes = (byte[])frame.image_bytes;
-                    
-                    // Console.WriteLine($"Width: {width}, Height: {height}, Channels: {channels}");
 
-                    Marshal.Copy(imageBytes, 0, image.Data, width * height * channels);
+                // ✅ Use `.Select` to transform the received dynamic object into an `AriaMessage`
+            var parsedStream = ariaImagesSource.Select(frame =>
+                new AriaMessage
+                {
+                    Header = frame.header,
+                    Width = (int)frame.width,
+                    Height = (int)frame.height,
+                    Channels = (int)frame.channels,
+                    StreamType = (int)frame.StreamType,
+                    ImageBytes = (byte[])frame.image_bytes,
+                    Timestamp = (long)frame.originatingTime
+                });
 
-                    Cv2.ImShow("KiranM Aria Stream", image);
-                    Cv2.WaitKey(1); 
-                }
-            );
+            // ✅ Subscribe to the processed stream and display the image
+            parsedStream.Do(ariaMessage =>
+            {
+                Console.WriteLine($"Received Image - Timestamp: {ariaMessage.Timestamp}, Size: {ariaMessage.ImageBytes.Length} bytes");
+
+                // Convert raw bytes to OpenCV Mat and display it
+                Marshal.Copy(ariaMessage.ImageBytes, 0, image.Data, ariaMessage.Width * ariaMessage.Height * ariaMessage.Channels);
+                Cv2.ImShow("KiranM Aria Stream", image);
+                Cv2.WaitKey(1);
+            });
+
             pipeline.Run();
         }
     }
