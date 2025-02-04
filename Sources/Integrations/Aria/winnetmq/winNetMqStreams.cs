@@ -28,7 +28,7 @@ class winNetMqStreams
     static void Main(string[] args)
     {
         // Convert raw bytes to OpenCV Mat
-        Mat image = new Mat(1408, 1408, MatType.CV_8UC3);
+        Mat matImage = new Mat(1408, 1408, MatType.CV_8UC3);
         using (var pipeline = Pipeline.Create())
         {
             var ariaImagesSource = new NetMQSource<dynamic>(
@@ -46,13 +46,19 @@ class winNetMqStreams
 
                 var psiImage = ImagePool.GetOrCreate(width, height, PixelFormat.BGR_24bpp);
                 psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
-                            
-                return psiImage;
+               
+                // Convert raw bytes to OpenCV Mat and display it
+                Marshal.Copy(imageBytes, 0, matImage.Data, width * height * channels);
+                Cv2.ImShow("KiranM Aria Stream", matImage);
+                Cv2.WaitKey(1);
 
+                return psiImage;
             });
 
+            //
             // create a store and persist streams
-            var store = PsiStore.Create(pipeline, "ImagesFromAria", @"d:/temp/kin");
+            // 
+            var store = PsiStore.Create(pipeline, "AriaImages", @"d:/temp/kin");
             processedStream.Write("WebcamFrames", store);
 
             // run the pipeline
