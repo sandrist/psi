@@ -27,10 +27,19 @@ class winNetMqStreams
 {
     static void Main(string[] args)
     {
+
+        int fwidth = 1408;  // Replace with your image width
+        int fheight = 1408; // Replace with your image height
+        int fchannels = 3; // RGB has 3 channels
+
         // Convert raw bytes to OpenCV Mat
-        Mat matImage = new Mat(1408, 1408, MatType.CV_8UC3);
+        Mat matImage = new Mat(fwidth, fheight, MatType.CV_8UC3);
+        var psiImage = ImagePool.GetOrCreate(fwidth, fheight, PixelFormat.BGR_24bpp);
+
         using (var pipeline = Pipeline.Create())
         {
+            var store = PsiStore.Create(pipeline, "AriaImages", @"d:/temp/kin");
+
             var ariaImagesSource = new NetMQSource<dynamic>(
                 pipeline,
                 "images",
@@ -43,8 +52,8 @@ class winNetMqStreams
                 int height = (int)frame.height;
                 int channels = (int)frame.channels;
                 byte[] imageBytes = (byte[])frame.image_bytes;
-
-                var psiImage = ImagePool.GetOrCreate(width, height, PixelFormat.BGR_24bpp);
+                
+                // This is for the PsiStore
                 psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
                
                 // Convert raw bytes to OpenCV Mat and display it
@@ -58,7 +67,7 @@ class winNetMqStreams
             //
             // create a store and persist streams
             // 
-            var store = PsiStore.Create(pipeline, "AriaImages", @"d:/temp/kin");
+            
             processedStream.Write("WebcamFrames", store);
 
             // run the pipeline

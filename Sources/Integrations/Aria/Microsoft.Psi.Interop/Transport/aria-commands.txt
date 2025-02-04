@@ -12,3 +12,5 @@ python -m streaming_subscribe_send
 (liveenv) kiranm@KIN-SUPER-MAC:~/usblive/projectaria_client_sdk_samples$ cp  /mnt/d/repos/SeanWork/psi/Sources/Integrati
 ons/Aria/winnetmq/aria_streaming_subscribe_send.py  .
 
+
+D:\repos\SeanWork\psi\Sources\Tools\PsiStudio\Test.Psi.PsiStudio\bin\Debug\net472>Microsoft.Psi.PsiStudio.exe
