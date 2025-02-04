@@ -15,13 +15,13 @@ using System.Threading;
 using Microsoft.Psi;
 using Microsoft.Psi.Interop.Format;
 using Microsoft.Psi.Interop.Serialization;
+using Microsoft.Psi.Imaging;
 using Microsoft.Psi.Interop.Transport;
 using System.Drawing;
 using static System.Formats.Asn1.AsnWriter;
 using MessagePack;
 using System.Net;
 using System.ServiceModel.Channels;
-
 
 class winNetMqStreams
 {
@@ -31,39 +31,36 @@ class winNetMqStreams
         Mat image = new Mat(1408, 1408, MatType.CV_8UC3);
         using (var pipeline = Pipeline.Create())
         {
-            Console.WriteLine("KiranM NETMQC WSL to Windows Interface");
-            // receive Aria Streams using the NetMQ Source
             var ariaImagesSource = new NetMQSource<dynamic>(
-                    pipeline,
-                    "images",
-                    "tcp://127.0.0.1:5560",
-                    MessagePackFormat.Instance);
-
-                // ✅ Use `.Select` to transform the received dynamic object into an `AriaMessage`
-            var parsedStream = ariaImagesSource.Select(frame =>
-                new AriaMessage
-                {
-                    Header = frame.header,
-                    Width = (int)frame.width,
-                    Height = (int)frame.height,
-                    Channels = (int)frame.channels,
-                    StreamType = (int)frame.StreamType,
-                    ImageBytes = (byte[])frame.image_bytes,
-                    Timestamp = (long)frame.originatingTime
-                });
-
-            // ✅ Subscribe to the processed stream and display the image
-            parsedStream.Do(ariaMessage =>
+                pipeline,
+                "images",
+                "tcp://127.0.0.1:5560",
+                MessagePackFormat.Instance);
+                   
+            var processedStream = ariaImagesSource.Select(frame =>
             {
-                Console.WriteLine($"Received Image - Timestamp: {ariaMessage.Timestamp}, Size: {ariaMessage.ImageBytes.Length} bytes");
+                int width = (int)frame.width;
+                int height = (int)frame.height;
+                int channels = (int)frame.channels;
+                byte[] imageBytes = (byte[])frame.image_bytes;
 
-                // Convert raw bytes to OpenCV Mat and display it
-                Marshal.Copy(ariaMessage.ImageBytes, 0, image.Data, ariaMessage.Width * ariaMessage.Height * ariaMessage.Channels);
-                Cv2.ImShow("KiranM Aria Stream", image);
-                Cv2.WaitKey(1);
+                var psiImage = ImagePool.GetOrCreate(width, height, PixelFormat.BGR_24bpp);
+                psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
+                            
+                return psiImage;
+
             });
 
-            pipeline.Run();
+            // create a store and persist streams
+            var store = PsiStore.Create(pipeline, "ImagesFromAria", @"d:/temp/kin");
+            processedStream.Write("WebcamFrames", store);
+
+            // run the pipeline
+            pipeline.RunAsync();
+
+            Console.WriteLine("KiranM: Press any key to fall off the from recording...");
+            Console.ReadLine();
+
         }
     }
 }
@@ -73,8 +70,8 @@ class winNetMqStreams
 public class AriaMessage
 {
     [Key("header")]
-    public string Header { get; set; }
-            
+    public string Header { get; set; } = string.Empty;
+
     [Key("width")]
     public int Width { get; set; }
 
@@ -88,9 +85,8 @@ public class AriaMessage
     public int StreamType { get; set; }
 
     [Key("image_bytes")]
-    public byte[] ImageBytes { get; set; }
+    public byte[] ImageBytes { get; set; } = Array.Empty<byte>(); 
 
     [Key("originatingTime")]
     public long Timestamp { get; set; }
-
 }
