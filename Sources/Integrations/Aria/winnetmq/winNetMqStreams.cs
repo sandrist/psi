@@ -68,7 +68,7 @@ class winNetMqStreams
             // create a store and persist streams
             // 
             
-            processedStream.Write("WebcamFrames", store);
+            processedStream.Write("AriaFrames", store);
 
             // run the pipeline
             pipeline.RunAsync();
