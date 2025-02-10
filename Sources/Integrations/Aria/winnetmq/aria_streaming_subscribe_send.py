@@ -98,34 +98,35 @@ def main():
     # 4. Open A NetMQ Socket to Push the data to the Windows side
     print("Start hooking up the NetMQ Interface ")
 
-
-   # Print all possible PSI stream types using separate if statements
     if args.psi_stream_type == "psi_audio":
         print("Available PSI Stream Type: psi_audio")
     if args.psi_stream_type == "psi_video":
         print("Available PSI Stream Type: psi_video")
         context = zmq.Context()
         socket = context.socket(zmq.PUB)
-        socket.bind("tcp://127.0.0.1:5560")  # Bind to a port
+        socket.bind("tcp://127.0.0.1:5560")  # Bind to a VIDEO port
     if args.psi_stream_type == "psi_slam":
         print("Available PSI Stream Type: psi_slam")
-
+        slam_context = zmq.Context()
+        slam_socket = slam_context.socket(zmq.PUB)
+        slam_socket.bind("tcp://127.0.0.1:5565")  # Bind to a SLAM port
     
     print("Python sender to Windows pipe is running...")
 
     # 5. Visualize the streaming data until we close the window
     rgb_window = "Aria RGB"
     slam_window = "Aria SLAM"
+    if args.psi_stream_type == "psi_video":
+        cv2.namedWindow(rgb_window, cv2.WINDOW_NORMAL)
+        cv2.resizeWindow(rgb_window, 1024, 1024)
+        cv2.setWindowProperty(rgb_window, cv2.WND_PROP_TOPMOST, 1)
+        cv2.moveWindow(rgb_window, 50, 50)
 
-    cv2.namedWindow(rgb_window, cv2.WINDOW_NORMAL)
-    cv2.resizeWindow(rgb_window, 1024, 1024)
-    cv2.setWindowProperty(rgb_window, cv2.WND_PROP_TOPMOST, 1)
-    cv2.moveWindow(rgb_window, 50, 50)
-
-    cv2.namedWindow(slam_window, cv2.WINDOW_NORMAL)
-    cv2.resizeWindow(slam_window, 480 * 2, 640)
-    cv2.setWindowProperty(slam_window, cv2.WND_PROP_TOPMOST, 1)
-    cv2.moveWindow(slam_window, 1100, 50)
+    if args.psi_stream_type == "psi_slam":
+        cv2.namedWindow(slam_window, cv2.WINDOW_NORMAL)
+        cv2.resizeWindow(slam_window, 480 * 2, 640)
+        cv2.setWindowProperty(slam_window, cv2.WND_PROP_TOPMOST, 1)
+        cv2.moveWindow(slam_window, 1100, 50)
 
     while not quit_keypress():
         # Render the RGB image
@@ -138,8 +139,7 @@ def main():
             #print(f"Image bytes size: {len(image_bytes)}")
             
             # Get the current timestamp in milliseconds
-            timestamp = int(time.time() * 1000)
-                        
+            timestamp = int(time.time() * 1000)                        
 
             # Define the string identifier
             header_string = "AriaZMQ"
@@ -154,8 +154,7 @@ def main():
             # Calculate the size in bytes
             #bytes_size = rgb_image.nbytes  # Total number of bytes in the image
             #print(f"Total size in bytes: {bytes_size}")
-
-            
+                        
             #Define the message structure
             video_message = {
                 "header": "AriaVMQ",       # 7-byte identifier                
@@ -174,8 +173,7 @@ def main():
             # Send the serialized data using msgpack
             if args.psi_stream_type == "psi_video":
                 socket.send_multipart(["images".encode(), msgpack.dumps(video_payload)])
-                        
-            cv2.imshow(rgb_window, rgb_image)
+                cv2.imshow(rgb_window, rgb_image)
             del observer.images[aria.CameraId.Rgb]
 
         # Stack and display the SLAM images
@@ -202,9 +200,8 @@ def main():
 
             # Send the serialized data using msgpack
             if args.psi_stream_type == "psi_slam":
-                socket.send_multipart(["slam".encode(), msgpack.dumps(slam_payload)])
-
-            cv2.imshow(slam_window, np.hstack((slam1_image, slam2_image)))
+                slam_socket.send_multipart(["slam".encode(), msgpack.dumps(slam_payload)])
+                cv2.imshow(slam_window, np.hstack((slam1_image, slam2_image)))
 
             del observer.images[aria.CameraId.Slam1]
             del observer.images[aria.CameraId.Slam2]
@@ -213,9 +210,12 @@ def main():
     print("Stop listening to image data")
     streaming_client.unsubscribe()
 
-    # 7. Stop the NetMQ Socket
+    # 7. Stop the NetMQ Sockets
     socket.close()
+    slam_socket.close()
+    
     context.term()
+
     print("KiranM: End of all the processing ")
 
 if __name__ == "__main__":

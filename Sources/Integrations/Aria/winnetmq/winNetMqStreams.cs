@@ -35,6 +35,7 @@ class winNetMqStreams
         // Convert raw bytes to OpenCV Mat
         Mat matImage = new Mat(fwidth, fheight, MatType.CV_8UC3);
         var psiImage = ImagePool.GetOrCreate(fwidth, fheight, PixelFormat.BGR_24bpp);
+        var psiSlam =  ImagePool.GetOrCreate(fwidth, fheight, PixelFormat.BGR_24bpp);
 
         using (var pipeline = Pipeline.Create())
         {
@@ -78,14 +79,14 @@ class winNetMqStreams
                 byte[] imageBytes = (byte[])frame.image_bytes;
 
                 // This is for the PsiStore
-                psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
+                psiSlam.Resource.CopyFrom(imageBytes, 0, width * height * channels);
 
                 // Convert raw bytes to OpenCV Mat and display it
                 Marshal.Copy(imageBytes, 0, matImage.Data, width * height * channels);
                 Cv2.ImShow("KiranM Slam Stream", matImage);
                 Cv2.WaitKey(1);
 
-                return psiImage;
+                return psiSlam;
             });
 
             //
