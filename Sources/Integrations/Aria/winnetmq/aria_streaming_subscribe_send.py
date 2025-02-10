@@ -157,8 +157,8 @@ def main():
 
             
             #Define the message structure
-            message = {
-                "header": "AriaZMQ",       # 7-byte identifier                
+            video_message = {
+                "header": "AriaVMQ",       # 7-byte identifier                
                 "width": width,             # Image width
                 "height": height,            # Image height
                 "channels": channels,             # RGB (3 channels)
@@ -167,13 +167,13 @@ def main():
                 "originatingTime": timestamp      # Milliseconds
             }            
             # Pack the message using MessagePack            
-            payload = {}
-            payload[u"message"] = message; 
-            payload[u"originatingTime"] = timestamp ; 
+            video_payload = {}
+            video_payload[u"message"] = video_message; 
+            video_payload[u"originatingTime"] = int(time.time() * 1000) ; 
 
             # Send the serialized data using msgpack
             if args.psi_stream_type == "psi_video":
-                socket.send_multipart(["images".encode(), msgpack.dumps(payload)])
+                socket.send_multipart(["images".encode(), msgpack.dumps(video_payload)])
                         
             cv2.imshow(rgb_window, rgb_image)
             del observer.images[aria.CameraId.Rgb]
@@ -185,7 +185,27 @@ def main():
         ):
             slam1_image = np.rot90(observer.images[aria.CameraId.Slam1], -1)
             slam2_image = np.rot90(observer.images[aria.CameraId.Slam2], -1)
+            
+            slam_message = {
+                "header": "AriaSMQ",       # 7-byte identifier                
+                "width": width,             # Image width
+                "height": height,            # Image height
+                "channels": channels,             # RGB (3 channels)
+                "StreamType": StreamType,           # Stream type identifier
+                "image_bytes": image_bytes, # Actual image data
+                "originatingTime": timestamp      # Milliseconds
+            }            
+            # Pack the message using MessagePack            
+            slam_payload = {}
+            slam_payload[u"message"] = slam_message; 
+            slam_payload[u"originatingTime"] = int(time.time() * 1000) ; 
+
+            # Send the serialized data using msgpack
+            if args.psi_stream_type == "psi_slam":
+                socket.send_multipart(["slam".encode(), msgpack.dumps(slam_payload)])
+
             cv2.imshow(slam_window, np.hstack((slam1_image, slam2_image)))
+
             del observer.images[aria.CameraId.Slam1]
             del observer.images[aria.CameraId.Slam2]
 

@@ -45,7 +45,13 @@ class winNetMqStreams
                 "images",
                 "tcp://127.0.0.1:5560",
                 MessagePackFormat.Instance);
-                               
+
+            var ariaSlamSource = new NetMQSource<dynamic>(
+                pipeline,
+                "slam",
+                "tcp://127.0.0.1:5565",
+                MessagePackFormat.Instance);
+
             var processedStream = ariaImagesSource.Select(frame =>
             {
                 int width = (int)frame.width;
@@ -64,11 +70,30 @@ class winNetMqStreams
                 return psiImage;
             });
 
+            var processedSlam = ariaSlamSource.Select(frame =>
+            {
+                int width = (int)frame.width;
+                int height = (int)frame.height;
+                int channels = (int)frame.channels;
+                byte[] imageBytes = (byte[])frame.image_bytes;
+
+                // This is for the PsiStore
+                psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
+
+                // Convert raw bytes to OpenCV Mat and display it
+                Marshal.Copy(imageBytes, 0, matImage.Data, width * height * channels);
+                Cv2.ImShow("KiranM Slam Stream", matImage);
+                Cv2.WaitKey(1);
+
+                return psiImage;
+            });
+
             //
             // create a store and persist streams
             // 
-            
-            processedStream.Write("AriaFrames", store);
+
+            processedStream.Write("AriaVideo", store);
+            processedSlam.Write("AriaSlam", store);
 
             // run the pipeline
             pipeline.RunAsync();
