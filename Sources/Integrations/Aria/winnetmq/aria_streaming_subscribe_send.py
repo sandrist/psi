@@ -34,10 +34,22 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Update iptables to enable receiving the data stream, only for Linux.",
     )
+    parser.add_argument(
+        "--psi_stream_type",
+        type=str,
+        choices=["psi_audio", "psi_video", "psi_slam"],
+        required=True,
+        help="Specify the PSI reciever stream: audio, video, or slam.",
+    )
+
     return parser.parse_args()
 
 def main():
     args = parse_args()
+    
+     # Print the selected PSI stream type
+    print(f"Selected PSI Stream Type: {args.psi_stream_type}")
+
     if args.update_iptables and sys.platform.startswith("linux"):
         update_iptables()
 
@@ -86,12 +98,20 @@ def main():
     # 4. Open A NetMQ Socket to Push the data to the Windows side
     print("Start hooking up the NetMQ Interface ")
 
-    context = zmq.Context()
-    socket = context.socket(zmq.PUB)
-    socket.bind("tcp://127.0.0.1:5560")  # Bind to a port
 
+   # Print all possible PSI stream types using separate if statements
+    if args.psi_stream_type == "psi_audio":
+        print("Available PSI Stream Type: psi_audio")
+    if args.psi_stream_type == "psi_video":
+        print("Available PSI Stream Type: psi_video")
+        context = zmq.Context()
+        socket = context.socket(zmq.PUB)
+        socket.bind("tcp://127.0.0.1:5560")  # Bind to a port
+    if args.psi_stream_type == "psi_slam":
+        print("Available PSI Stream Type: psi_slam")
+
+    
     print("Python sender to Windows pipe is running...")
-
 
     # 5. Visualize the streaming data until we close the window
     rgb_window = "Aria RGB"
@@ -135,6 +155,7 @@ def main():
             #bytes_size = rgb_image.nbytes  # Total number of bytes in the image
             #print(f"Total size in bytes: {bytes_size}")
 
+            
             #Define the message structure
             message = {
                 "header": "AriaZMQ",       # 7-byte identifier                
@@ -144,19 +165,16 @@ def main():
                 "StreamType": StreamType,           # Stream type identifier
                 "image_bytes": image_bytes, # Actual image data
                 "originatingTime": timestamp      # Milliseconds
-            }
-            # Pack the message using MessagePack
-            # packed_data = msgpack.packb(message, use_bin_type=True)
-
+            }            
+            # Pack the message using MessagePack            
             payload = {}
             payload[u"message"] = message; 
             payload[u"originatingTime"] = timestamp ; 
 
-            socket.send_multipart(["images".encode(), msgpack.dumps(payload)])
-
-            # Send the serialized data
-            # socket.send(packed_data)
-            
+            # Send the serialized data using msgpack
+            if args.psi_stream_type == "psi_video":
+                socket.send_multipart(["images".encode(), msgpack.dumps(payload)])
+                        
             cv2.imshow(rgb_window, rgb_image)
             del observer.images[aria.CameraId.Rgb]
 

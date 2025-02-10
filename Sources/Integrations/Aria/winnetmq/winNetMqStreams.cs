@@ -45,7 +45,7 @@ class winNetMqStreams
                 "images",
                 "tcp://127.0.0.1:5560",
                 MessagePackFormat.Instance);
-                   
+                               
             var processedStream = ariaImagesSource.Select(frame =>
             {
                 int width = (int)frame.width;
