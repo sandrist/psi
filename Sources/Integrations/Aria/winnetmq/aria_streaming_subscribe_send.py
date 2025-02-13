@@ -183,8 +183,7 @@ def main():
         ):
             slam1_image = np.rot90(observer.images[aria.CameraId.Slam1], -1)
             slam2_image = np.rot90(observer.images[aria.CameraId.Slam2], -1)
-
-            
+           
             # Allocate a buffer for the stacked grayscale images
             buffer = np.zeros((640, 960), dtype=np.uint8)  # (height, width) - single channel
 
@@ -215,26 +214,13 @@ def main():
             slam_payload = {}
             slam_payload[u"message"] = slam_message; 
             slam_payload[u"originatingTime"] = int(time.time() * 1000) ; 
-
-            
+                        
             # Send the serialized data using msgpack
             if args.psi_stream_type == "psi_slam":
                slam_socket.send_multipart(["slam".encode(), msgpack.dumps(slam_payload)])
-            
-            #cv2.imshow(slam_window, np.hstack((slam1_image, slam2_image)))
-            
-            
-            
+                                    
             cv2.imshow(slam_window, buffer)
-            # slam_bytes_size = buffer.nbytes  # Total number of bytes in the image
-            # print(f"Total size in bytes: {slam_bytes_size}")
-
-
-            # Calculate the size in bytes
-            # bytes_size = np.hstack((slam1_image, slam2_image)).nbytes  # Total number of bytes in the image
-            # print(f"Total size in bytes: {bytes_size}")
             
-
             del observer.images[aria.CameraId.Slam1]
             del observer.images[aria.CameraId.Slam2]
 
