@@ -183,14 +183,37 @@ def main():
         ):
             slam1_image = np.rot90(observer.images[aria.CameraId.Slam1], -1)
             slam2_image = np.rot90(observer.images[aria.CameraId.Slam2], -1)
-            
+
+
+            # Convert grayscale images to 3-channel (BGR) format
+            if len(slam1_image.shape) == 2:  # If grayscale
+                slam1_image = cv2.cvtColor(slam1_image, cv2.COLOR_GRAY2BGR)
+
+            if len(slam2_image.shape) == 2:  # If grayscale
+                slam2_image = cv2.cvtColor(slam2_image, cv2.COLOR_GRAY2BGR)
+
+            # Validate image dimensions
+            assert slam1_image.shape == (640, 480, 3), f"Unexpected shape for slam1_image: {slam1_image.shape}"
+            assert slam2_image.shape == (640, 480, 3), f"Unexpected shape for slam2_image: {slam2_image.shape}"
+
+            # Allocate a buffer for the stacked images
+            buffer = np.zeros((640, 960, 3), dtype=np.uint8)  # (height, width, channels)
+
+            # Copy images into the buffer
+            buffer[:, :480, :] = slam1_image  # Left side
+            buffer[:, 480:, :] = slam2_image  # Right side
+
+              # Get the current timestamp in milliseconds
+            timestamp = int(time.time() * 1000)    
+
+
             slam_message = {
                 "header": "AriaSMQ",       # 7-byte identifier                
-                "width": width,             # Image width
-                "height": height,            # Image height
-                "channels": channels,             # RGB (3 channels)
-                "StreamType": StreamType,           # Stream type identifier
-                "image_bytes": image_bytes, # Actual image data
+                "width": 480,             # Image width
+                "height": 640,            # Image height
+                "channels": 3,             # RGB (3 channels)
+                "StreamType": 0,           # Stream type identifier
+                "image_bytes": buffer, # Actual image data
                 "originatingTime": timestamp      # Milliseconds
             }            
             # Pack the message using MessagePack            
@@ -199,9 +222,18 @@ def main():
             slam_payload[u"originatingTime"] = int(time.time() * 1000) ; 
 
             # Send the serialized data using msgpack
-            if args.psi_stream_type == "psi_slam":
-                slam_socket.send_multipart(["slam".encode(), msgpack.dumps(slam_payload)])
-                cv2.imshow(slam_window, np.hstack((slam1_image, slam2_image)))
+            #if args.psi_stream_type == "psi_slam":
+            #    slam_socket.send_multipart(["slam".encode(), msgpack.dumps(slam_payload)])
+            #cv2.imshow(slam_window, np.hstack((slam1_image, slam2_image)))
+            cv2.imshow(slam_window, buffer)
+            slam_bytes_size = buffer.nbytes  # Total number of bytes in the image
+            print(f"Total size in bytes: {slam_bytes_size}")
+
+
+            # Calculate the size in bytes
+            # bytes_size = np.hstack((slam1_image, slam2_image)).nbytes  # Total number of bytes in the image
+            # print(f"Total size in bytes: {bytes_size}")
+            
 
             del observer.images[aria.CameraId.Slam1]
             del observer.images[aria.CameraId.Slam2]

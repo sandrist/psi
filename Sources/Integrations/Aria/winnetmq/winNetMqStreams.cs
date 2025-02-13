@@ -79,7 +79,7 @@ class winNetMqStreams
                 byte[] imageBytes = (byte[])frame.image_bytes;
 
                 // This is for the PsiStore
-                psiSlam.Resource.CopyFrom(imageBytes, 0, width * height * channels);
+                psiSlam.Resource.CopyFrom(imageBytes, 0, 480 * 640 * 2);
 
                 // Convert raw bytes to OpenCV Mat and display it
                 Marshal.Copy(imageBytes, 0, matImage.Data, width * height * channels);
