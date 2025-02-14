@@ -180,8 +180,13 @@ def main():
             slam1_image = np.rot90(observer.images[aria.CameraId.Slam1], -1)
             slam2_image = np.rot90(observer.images[aria.CameraId.Slam2], -1)
            
+            swidth = 480    # Ensure this is defined BEFORE using it
+            sheight = 640   # Ensure this is defined BEFORE using it
+            schannels = 1    # RGB has 3 channels
+            slamstreamType = 4  # Define stream type                       
+
             # Allocate a buffer for the stacked grayscale images
-            slam_buffer = np.zeros((640, 960), dtype=np.uint8)  # (height, width) - single channel
+            slam_buffer = np.zeros((sheight, swidth*2), dtype=np.uint8)  # (height, width) - single channel
 
             # Copy slam images into the buffer
             slam_buffer[:, :480] = slam1_image  # Left side
@@ -195,10 +200,10 @@ def main():
 
             slam_message = {
                 "header": "AriaSMQ",       # 7-byte identifier                
-                "width": 960,             # Image width
-                "height": 640,            # Image height
-                "channels": 1,             # RGB (3 channels)
-                "StreamType": 4,           # Stream type identifier
+                "width": swidth*2,             # Image width
+                "height": sheight,            # Image height
+                "channels": schannels,             # Grayscale (1 channel)
+                "StreamType": slamstreamType,          # Stream type identifier
                 "image_bytes": slam_buffer_bytes, # Actual image data
                 "originatingTime": stimestamp      # Milliseconds
             }            

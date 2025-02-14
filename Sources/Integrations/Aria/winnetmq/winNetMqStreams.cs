@@ -22,18 +22,12 @@ using static System.Formats.Asn1.AsnWriter;
 using MessagePack;
 using System.Net;
 using System.ServiceModel.Channels;
+using System.Diagnostics;
 
 class winNetMqStreams
 {
     static void Main(string[] args)
     {
-
-        int fwidth = 1408;  // Replace with your image width
-        int fheight = 1408; // Replace with your image height
-        int fchannels = 3; // RGB has 3 channels
-
-
-
         using (var pipeline = Pipeline.Create())
         {
             var store = PsiStore.Create(pipeline, "AriaImages", @"d:/temp/kin");
@@ -50,17 +44,20 @@ class winNetMqStreams
                 "tcp://127.0.0.1:5561",
                 MessagePackFormat.Instance);
 
-            var processedStream = ariaImagesSource.Select(frame =>
-            {
-                // Convert raw bytes to OpenCV Mat
-                Mat matImage = new Mat(fwidth, fheight, MatType.CV_8UC3);
-                var psiImage = ImagePool.GetOrCreate(fwidth, fheight, PixelFormat.BGR_24bpp);
+            Mat matImage = new Mat(1408, 1408, MatType.CV_8UC3);
+            Mat slamImage = new Mat(640, 480*2, MatType.CV_8UC1);
 
-                int width = (int)frame.width;
-                int height = (int)frame.height;
-                int channels = (int)frame.channels;
-                byte[] imageBytes = (byte[])frame.image_bytes;
+            var processedStream = ariaImagesSource.Select(iframe =>
+            {
+                int width = (int)iframe.width;
+                int height = (int)iframe.height;
+                int channels = (int)iframe.channels;
+                byte[] imageBytes = (byte[])iframe.image_bytes;
+
+                // Convert raw bytes to OpenCV Mat
                 
+                var psiImage = ImagePool.GetOrCreate(width, height, PixelFormat.BGR_24bpp);
+                                
                 // This is for the PsiStore
                 psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
                
@@ -71,46 +68,36 @@ class winNetMqStreams
 
                 return psiImage;
             });
-
-            var processedSlam = ariaSlamSource.Select(frame =>
+            
+            processedStream.Write("VideoImages", store);
+                        
+            var processedSlam = ariaSlamSource.Select(sframe =>
             {
-                // Convert raw bytes to OpenCV Mat (Grayscale 640x960)
-                Mat slamImage = new Mat(640, 960, MatType.CV_8UC1);
-
-                var psiSlam = ImagePool.GetOrCreate(fwidth, fheight, PixelFormat.BGR_24bpp);
-                int width = (int)frame.width;
-                int height = (int)frame.height;
-                int channels = (int)frame.channels;
-                byte[] imageBytes = (byte[])frame.image_bytes;
+                int swidth = (int)sframe.width;
+                int sheight = (int)sframe.height;
+                int schannels = (int)sframe.channels;
+                byte[] slamimageBytes = (byte[])sframe.image_bytes;
+                            
+                var psiSlam = ImagePool.GetOrCreate(sheight, swidth, PixelFormat.Gray_8bpp);
 
                 // This is for the PsiStore
-                psiSlam.Resource.CopyFrom(imageBytes, 0, 960 * 640 * 1);
-
-
-                // Copy byte[] to Mat
-                Marshal.Copy(imageBytes, 0, slamImage.Data, imageBytes.Length);
-
-                // Display the image
+                psiSlam.Resource.CopyFrom(slamimageBytes, 0, sheight * swidth * schannels);
+                                
+                Marshal.Copy(slamimageBytes, 0, slamImage.Data, slamimageBytes.Length);
+                                
                 Cv2.ImShow("KiranM Slam Stream", slamImage);
                 Cv2.WaitKey(1);  // Refresh continuously
 
-
                 return psiSlam;
             });
-
-            //
-            // create a store and persist streams
-            // 
-
-            processedStream.Write("VideoImages", store);
+                                    
             processedSlam.Write("SlamImages", store);
-
+            
             // run the pipeline
             pipeline.RunAsync();
 
             Console.WriteLine("KiranM: Press any key to fall off the from recording...");
             Console.ReadLine();
-
         }
     }
 }
