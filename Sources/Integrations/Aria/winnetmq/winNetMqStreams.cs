@@ -70,7 +70,7 @@ class winNetMqStreams
             });
             
             processedStream.Write("VideoImages", store);
-                        
+
             var processedSlam = ariaSlamSource.Select(sframe =>
             {
                 int swidth = (int)sframe.width;
@@ -78,10 +78,10 @@ class winNetMqStreams
                 int schannels = (int)sframe.channels;
                 byte[] slamimageBytes = (byte[])sframe.image_bytes;
                             
-                var psiSlam = ImagePool.GetOrCreate(sheight, swidth, PixelFormat.Gray_8bpp);
+                var psiSlam = ImagePool.GetOrCreate( swidth, sheight, PixelFormat.Gray_8bpp);
 
                 // This is for the PsiStore
-                psiSlam.Resource.CopyFrom(slamimageBytes, 0, sheight * swidth * schannels);
+                psiSlam.Resource.CopyFrom(slamimageBytes, 0, swidth * sheight * schannels);
                                 
                 Marshal.Copy(slamimageBytes, 0, slamImage.Data, slamimageBytes.Length);
                                 
@@ -92,7 +92,8 @@ class winNetMqStreams
             });
                                     
             processedSlam.Write("SlamImages", store);
-            
+          
+
             // run the pipeline
             pipeline.RunAsync();
 
@@ -100,30 +101,4 @@ class winNetMqStreams
             Console.ReadLine();
         }
     }
-}
-
-// Define C# class matching the MessagePack structure
-[MessagePackObject]
-public class AriaMessage
-{
-    [Key("header")]
-    public string Header { get; set; } = string.Empty;
-
-    [Key("width")]
-    public int Width { get; set; }
-
-    [Key("height")]
-    public int Height { get; set; }
-
-    [Key("channels")]
-    public int Channels { get; set; }
-
-    [Key("StreamType")]
-    public int StreamType { get; set; }
-
-    [Key("image_bytes")]
-    public byte[] ImageBytes { get; set; } = Array.Empty<byte>(); 
-
-    [Key("originatingTime")]
-    public long Timestamp { get; set; }
 }
