@@ -109,7 +109,7 @@ def main():
         print("Available PSI Stream Type: psi_slam")
         slam_context = zmq.Context()
         slam_socket = slam_context.socket(zmq.PUB)
-        slam_socket.bind("tcp://127.0.0.1:5565")  # Bind to a SLAM port
+        slam_socket.bind("tcp://127.0.0.1:5561")  # Bind to a SLAM port
     
     print("Python sender to Windows pipe is running...")
 
@@ -151,10 +151,6 @@ def main():
             channels = 3    # RGB has 3 channels
             StreamType = 6  # Define stream type
                         
-            # Calculate the size in bytes
-            #bytes_size = rgb_image.nbytes  # Total number of bytes in the image
-            #print(f"Total size in bytes: {bytes_size}")
-                        
             #Define the message structure
             video_message = {
                 "header": "AriaVMQ",       # 7-byte identifier                
@@ -168,7 +164,7 @@ def main():
             # Pack the message using MessagePack            
             video_payload = {}
             video_payload[u"message"] = video_message; 
-            video_payload[u"originatingTime"] = int(time.time() * 1000) ; 
+            video_payload[u"originatingTime"] = timestamp ; 
 
             # Send the serialized data using msgpack
             if args.psi_stream_type == "psi_video":
@@ -185,18 +181,14 @@ def main():
             slam2_image = np.rot90(observer.images[aria.CameraId.Slam2], -1)
            
             # Allocate a buffer for the stacked grayscale images
-            buffer = np.zeros((640, 960), dtype=np.uint8)  # (height, width) - single channel
+            slam_buffer = np.zeros((640, 960), dtype=np.uint8)  # (height, width) - single channel
 
-            # Copy images into the buffer
-            buffer[:, :480] = slam1_image  # Left side
-            buffer[:, 480:] = slam2_image  # Right side
-
-            # Calculate total size in bytes (since it's grayscale, 1 byte per pixel)
-            # slam_bytes_size = buffer.size  # buffer.shape[0] * buffer.shape[1] * 1
-            # print(f"Total size in bytes: {slam_bytes_size}")
-
-            # Convert buffer to bytes (Fix for MessagePack serialization)
-            buffer_bytes = buffer.tobytes()
+            # Copy slam images into the buffer
+            slam_buffer[:, :480] = slam1_image  # Left side
+            slam_buffer[:, 480:] = slam2_image  # Right side                       
+            
+            # Serialize the image to raw bytes
+            slam_buffer_bytes = slam_buffer.tobytes()
 
             # Get the current timestamp in milliseconds
             stimestamp = int(time.time() * 1000)    
@@ -207,19 +199,18 @@ def main():
                 "height": 640,            # Image height
                 "channels": 1,             # RGB (3 channels)
                 "StreamType": 4,           # Stream type identifier
-                "image_bytes": buffer_bytes, # Actual image data
+                "image_bytes": slam_buffer_bytes, # Actual image data
                 "originatingTime": stimestamp      # Milliseconds
             }            
             # Pack the message using MessagePack            
             slam_payload = {}
-            slam_payload[u"message"] = slam_message; 
-            slam_payload[u"originatingTime"] = int(time.time() * 1000) ; 
+            slam_payload[u"message"] = slam_message 
+            slam_payload[u"originatingTime"] = stimestamp  
                         
             # Send the serialized data using msgpack
             if args.psi_stream_type == "psi_slam":
                slam_socket.send_multipart(["slam".encode(), msgpack.dumps(slam_payload)])
-                                    
-            cv2.imshow(slam_window, buffer)
+               cv2.imshow(slam_window, slam_buffer)
             
             del observer.images[aria.CameraId.Slam1]
             del observer.images[aria.CameraId.Slam2]

@@ -32,10 +32,7 @@ class winNetMqStreams
         int fheight = 1408; // Replace with your image height
         int fchannels = 3; // RGB has 3 channels
 
-        // Convert raw bytes to OpenCV Mat
-        Mat matImage = new Mat(fwidth, fheight, MatType.CV_8UC3);
-        var psiImage = ImagePool.GetOrCreate(fwidth, fheight, PixelFormat.BGR_24bpp);
-        var psiSlam =  ImagePool.GetOrCreate(fwidth, fheight, PixelFormat.BGR_24bpp);
+
 
         using (var pipeline = Pipeline.Create())
         {
@@ -50,11 +47,15 @@ class winNetMqStreams
             var ariaSlamSource = new NetMQSource<dynamic>(
                 pipeline,
                 "slam",
-                "tcp://127.0.0.1:5565",
+                "tcp://127.0.0.1:5561",
                 MessagePackFormat.Instance);
 
             var processedStream = ariaImagesSource.Select(frame =>
             {
+                // Convert raw bytes to OpenCV Mat
+                Mat matImage = new Mat(fwidth, fheight, MatType.CV_8UC3);
+                var psiImage = ImagePool.GetOrCreate(fwidth, fheight, PixelFormat.BGR_24bpp);
+
                 int width = (int)frame.width;
                 int height = (int)frame.height;
                 int channels = (int)frame.channels;
@@ -73,6 +74,10 @@ class winNetMqStreams
 
             var processedSlam = ariaSlamSource.Select(frame =>
             {
+                // Convert raw bytes to OpenCV Mat (Grayscale 640x960)
+                Mat slamImage = new Mat(640, 960, MatType.CV_8UC1);
+
+                var psiSlam = ImagePool.GetOrCreate(fwidth, fheight, PixelFormat.BGR_24bpp);
                 int width = (int)frame.width;
                 int height = (int)frame.height;
                 int channels = (int)frame.channels;
@@ -81,14 +86,12 @@ class winNetMqStreams
                 // This is for the PsiStore
                 psiSlam.Resource.CopyFrom(imageBytes, 0, 960 * 640 * 1);
 
-                // Convert raw bytes to OpenCV Mat (Grayscale 640x960)
-                Mat sMatImage = new Mat(640, 960, MatType.CV_8UC1);
 
                 // Copy byte[] to Mat
-                Marshal.Copy(imageBytes, 0, sMatImage.Data, imageBytes.Length);
+                Marshal.Copy(imageBytes, 0, slamImage.Data, imageBytes.Length);
 
                 // Display the image
-                Cv2.ImShow("KiranM Slam Stream", sMatImage);
+                Cv2.ImShow("KiranM Slam Stream", slamImage);
                 Cv2.WaitKey(1);  // Refresh continuously
 
 
@@ -99,8 +102,8 @@ class winNetMqStreams
             // create a store and persist streams
             // 
 
-            processedStream.Write("AriaVideo", store);
-            processedSlam.Write("AriaSlam", store);
+            processedStream.Write("VideoImages", store);
+            processedSlam.Write("SlamImages", store);
 
             // run the pipeline
             pipeline.RunAsync();
