@@ -81,10 +81,16 @@ class winNetMqStreams
                 // This is for the PsiStore
                 psiSlam.Resource.CopyFrom(imageBytes, 0, 960 * 640 * 1);
 
-                // Convert raw bytes to OpenCV Mat and display it
-                Marshal.Copy(imageBytes, 0, matImage.Data, 960 * 640 * 1);
-                Cv2.ImShow("KiranM Slam Stream", matImage);
-                Cv2.WaitKey(1);
+                // Convert raw bytes to OpenCV Mat (Grayscale 640x960)
+                Mat sMatImage = new Mat(640, 960, MatType.CV_8UC1);
+
+                // Copy byte[] to Mat
+                Marshal.Copy(imageBytes, 0, sMatImage.Data, imageBytes.Length);
+
+                // Display the image
+                Cv2.ImShow("KiranM Slam Stream", sMatImage);
+                Cv2.WaitKey(1);  // Refresh continuously
+
 
                 return psiSlam;
             });

@@ -192,14 +192,14 @@ def main():
             buffer[:, 480:] = slam2_image  # Right side
 
             # Calculate total size in bytes (since it's grayscale, 1 byte per pixel)
-            slam_bytes_size = buffer.size  # buffer.shape[0] * buffer.shape[1] * 1
-            print(f"Total size in bytes: {slam_bytes_size}")
+            # slam_bytes_size = buffer.size  # buffer.shape[0] * buffer.shape[1] * 1
+            # print(f"Total size in bytes: {slam_bytes_size}")
 
             # Convert buffer to bytes (Fix for MessagePack serialization)
             buffer_bytes = buffer.tobytes()
 
             # Get the current timestamp in milliseconds
-            timestamp = int(time.time() * 1000)    
+            stimestamp = int(time.time() * 1000)    
 
             slam_message = {
                 "header": "AriaSMQ",       # 7-byte identifier                
@@ -208,7 +208,7 @@ def main():
                 "channels": 1,             # RGB (3 channels)
                 "StreamType": 4,           # Stream type identifier
                 "image_bytes": buffer_bytes, # Actual image data
-                "originatingTime": timestamp      # Milliseconds
+                "originatingTime": stimestamp      # Milliseconds
             }            
             # Pack the message using MessagePack            
             slam_payload = {}
