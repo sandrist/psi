@@ -44,6 +44,21 @@ def parse_args() -> argparse.Namespace:
 
     return parser.parse_args()
 
+
+last_timestamp = 0  # Global variable to track the last timestamp
+
+def get_unique_timestamp():
+    global last_timestamp
+    timestamp = int(time.time() * 1000)  # Current timestamp in milliseconds
+    
+    # Ensure strictly increasing timestamps
+    if timestamp <= last_timestamp:
+        timestamp = last_timestamp + 1  # Add 1 millisecond if duplicate
+
+    last_timestamp = timestamp
+    return timestamp
+
+
 def main():
     args = parse_args()
     
@@ -139,7 +154,10 @@ def main():
             #print(f"Image bytes size: {len(image_bytes)}")
             
             # Get the current timestamp in milliseconds
-            timestamp = int(time.time() * 1000)                        
+            # timestamp = int(time.time() * 1000)           
+            
+            # Get the current timestamp with additional ticks
+            timestamp = get_unique_timestamp()
 
             # Define the string identifier
             header_string = "AriaZMQ"
@@ -196,7 +214,9 @@ def main():
             slam_buffer_bytes = slam_buffer.tobytes()
 
             # Get the current timestamp in milliseconds
-            stimestamp = int(time.time() * 1000)    
+            # stimestamp = int(time.time() * 1000)    
+            # Get the current timestamp with additional ticks
+            stimestamp = get_unique_timestamp()
 
             slam_message = {
                 "header": "AriaSMQ",       # 7-byte identifier                
