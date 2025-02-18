@@ -44,19 +44,16 @@ def parse_args() -> argparse.Namespace:
 
     return parser.parse_args()
 
+from datetime import datetime
 
-last_timestamp = 0  # Global variable to track the last timestamp
+def get_utc_timestamp():
+    return int((datetime.utcnow() - datetime(1, 1, 1)).total_seconds() * 10**7)
 
-def get_unique_timestamp():
-    global last_timestamp
-    timestamp = int(time.time() * 1000)  # Current timestamp in milliseconds
-    
-    # Ensure strictly increasing timestamps
-    if timestamp <= last_timestamp:
-        timestamp = last_timestamp + 1  # Add 1 millisecond if duplicate
+# Example usage
+#timestamp = get_utc_timestamp()
+#print(timestamp)
 
-    last_timestamp = timestamp
-    return timestamp
+
 
 def main():
     args = parse_args()
@@ -153,11 +150,9 @@ def main():
             #print(f"Image bytes size: {len(image_bytes)}")
             
             # Get the current timestamp in milliseconds
-            timestamp = int(time.time() * 1000)           
+            #timestamp = int(time.time() * 1000)           
             
-            # Get the current timestamp with additional ticks
-            #timestamp = get_unique_timestamp()
-
+            timestamp = get_utc_timestamp()
             # Define the string identifier
             header_string = "AriaZMQ"
             header_bytes = header_string.encode('utf-8')  # Convert string to bytes
@@ -213,9 +208,9 @@ def main():
             slam_buffer_bytes = slam_buffer.tobytes()
 
             # Get the current timestamp in milliseconds
-            stimestamp = int(time.time() * 1000)    
-            # Get the current timestamp with additional ticks
-            #stimestamp = get_unique_timestamp()
+            #stimestamp = int(time.time() * 1000)    
+            
+            stimestamp = get_utc_timestamp()
 
             slam_message = {
                 "header": "AriaSMQ",       # 7-byte identifier                
