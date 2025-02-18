@@ -37,8 +37,7 @@ class WinNetMqStreams
             Mat matImage = new Mat(1408, 1408, MatType.CV_8UC3);
             Mat slamImage = new Mat(640, 480 * 2, MatType.CV_8UC1);
 
-            // Start Image Processing in a Separate Thread
-            Task.Run(() =>
+            // Start Image Processing 
             {
                 var processedStream = ariaImagesSource.Select(iframe =>
                 {
@@ -62,11 +61,10 @@ class WinNetMqStreams
                 });
 
                 processedStream.Write("VideoImages", store);
-            });
+            }
 
-            // Start SLAM Processing in a Separate Thread
+            // Start SLAM Processing 
             
-            Task.Run(() =>
             {
                 var processedSlam = ariaSlamSource.Select(sframe =>
                 {
@@ -90,8 +88,7 @@ class WinNetMqStreams
                 });
 
                 processedSlam.Write("SlamImages", store);
-            });
-            
+            }
 
             // Run pipeline asynchronously
             pipeline.RunAsync();
