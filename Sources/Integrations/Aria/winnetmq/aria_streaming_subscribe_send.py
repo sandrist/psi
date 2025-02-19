@@ -49,11 +49,6 @@ from datetime import datetime
 def get_utc_timestamp():
     return int((datetime.utcnow() - datetime(1, 1, 1)).total_seconds() * 10**7)
 
-# Example usage
-#timestamp = get_utc_timestamp()
-#print(timestamp)
-
-
 
 def main():
     args = parse_args()
@@ -118,15 +113,21 @@ def main():
         socket.bind("tcp://127.0.0.1:5560")  # Bind to a VIDEO port
     if args.psi_stream_type == "psi_slam":
         print("Available PSI Stream Type: psi_slam")
-        slam_context = zmq.Context()
-        slam_socket = slam_context.socket(zmq.PUB)
-        slam_socket.bind("tcp://127.0.0.1:5561")  # Bind to a SLAM port
+        slam_context1 = zmq.Context()
+        slam_socket1 = slam_context1.socket(zmq.PUB)
+        slam_socket1.bind("tcp://127.0.0.1:5561")  # Bind to a SLAM port
+
+        slam_context2 = zmq.Context()
+        slam_socket2 = slam_context2.socket(zmq.PUB)
+        slam_socket2.bind("tcp://127.0.0.1:5562")  # Bind to a SLAM port
+
     
     print("Python sender to Windows pipe is running...")
 
     # 5. Visualize the streaming data until we close the window
     rgb_window = "Aria RGB"
-    slam_window = "Aria SLAM"
+    slam1_window = "Aria SLAM 1"
+    slam2_window = "Aria SLAM 2"
     if args.psi_stream_type == "psi_video":
         cv2.namedWindow(rgb_window, cv2.WINDOW_NORMAL)
         cv2.resizeWindow(rgb_window, 1024, 1024)
@@ -134,10 +135,17 @@ def main():
         cv2.moveWindow(rgb_window, 50, 50)
 
     if args.psi_stream_type == "psi_slam":
-        cv2.namedWindow(slam_window, cv2.WINDOW_NORMAL)
-        cv2.resizeWindow(slam_window, 480 * 2, 640)
-        cv2.setWindowProperty(slam_window, cv2.WND_PROP_TOPMOST, 1)
-        cv2.moveWindow(slam_window, 1100, 50)
+        cv2.namedWindow(slam1_window, cv2.WINDOW_NORMAL)
+        cv2.resizeWindow(slam1_window, 480 , 640)
+        cv2.setWindowProperty(slam1_window, cv2.WND_PROP_TOPMOST, 1)
+        cv2.moveWindow(slam1_window, 1100, 50)
+
+        cv2.namedWindow(slam2_window, cv2.WINDOW_NORMAL)
+        cv2.resizeWindow(slam2_window, 480 , 640)
+        cv2.setWindowProperty(slam2_window, cv2.WND_PROP_TOPMOST, 1)
+        cv2.moveWindow(slam2_window, 1100, 50)
+
+
 
     while not quit_keypress():
         # Render the RGB image
@@ -198,38 +206,56 @@ def main():
             slamstreamType = 4  # Define stream type                       
 
             # Allocate a buffer for the stacked grayscale images
-            slam_buffer = np.zeros((sheight, swidth*2), dtype=np.uint8)  # (height, width) - single channel
+            slam1_buffer = np.zeros((sheight, swidth), dtype=np.uint8)  # (height, width) - single channel
+            slam2_buffer = np.zeros((sheight, swidth), dtype=np.uint8)  # (height, width) - single channel
 
             # Copy slam images into the buffer
-            slam_buffer[:, :480] = slam1_image  # Left side
-            slam_buffer[:, 480:] = slam2_image  # Right side                       
+            slam1_buffer[:, :480] = slam1_image  # Left side
+            slam2_buffer[:, :480] = slam2_image  # Right side
+            #slam2_buffer[:, 480:] = slam2_image  # Right side                       
             
             # Serialize the image to raw bytes
-            slam_buffer_bytes = slam_buffer.tobytes()
-
-            # Get the current timestamp in milliseconds
-            #stimestamp = int(time.time() * 1000)    
-            
+            slam1_buffer_bytes = slam1_buffer.tobytes()
+            slam2_buffer_bytes = slam2_buffer.tobytes()
+                        
             stimestamp = get_utc_timestamp()
 
-            slam_message = {
+            slam1_message = {
                 "header": "AriaSMQ",       # 7-byte identifier                
-                "width": swidth*2,             # Image width
+                "width": swidth,             # Image width
                 "height": sheight,            # Image height
                 "channels": schannels,             # Grayscale (1 channel)
                 "StreamType": slamstreamType,          # Stream type identifier
-                "image_bytes": slam_buffer_bytes, # Actual image data
+                "image_bytes": slam1_buffer_bytes, # Actual image data
                 "originatingTime": stimestamp      # Milliseconds
             }            
-            # Pack the message using MessagePack            
-            slam_payload = {}
-            slam_payload[u"message"] = slam_message 
-            slam_payload[u"originatingTime"] = stimestamp  
-                        
+
+            slam2_message = {
+                "header": "AriaSMQ",       # 7-byte identifier                
+                "width": swidth,             # Image width
+                "height": sheight,            # Image height
+                "channels": schannels,             # Grayscale (1 channel)
+                "StreamType": slamstreamType,          # Stream type identifier
+                "image_bytes": slam2_buffer_bytes, # Actual image data
+                "originatingTime": stimestamp      # Milliseconds
+            }            
+
+            # Pack the message 1 using MessagePack            
+            slam1_payload = {}
+            slam1_payload[u"message"] = slam1_message 
+            slam1_payload[u"originatingTime"] = stimestamp  
+
+            # Pack the message 2 using MessagePack            
+            slam2_payload = {}
+            slam2_payload[u"message"] = slam2_message 
+            slam2_payload[u"originatingTime"] = stimestamp  
+                                    
             # Send the serialized data using msgpack
             if args.psi_stream_type == "psi_slam":
-               slam_socket.send_multipart(["slam".encode(), msgpack.dumps(slam_payload)])
-               cv2.imshow(slam_window, slam_buffer)
+               slam_socket1.send_multipart(["slam1".encode(), msgpack.dumps(slam1_payload)])
+               cv2.imshow(slam1_window, slam1_buffer)
+               slam_socket2.send_multipart(["slam2".encode(), msgpack.dumps(slam2_payload)])
+               cv2.imshow(slam2_window, slam2_buffer)
             
             del observer.images[aria.CameraId.Slam1]
             del observer.images[aria.CameraId.Slam2]
@@ -240,8 +266,8 @@ def main():
 
     # 7. Stop the NetMQ Sockets
     socket.close()
-    slam_socket.close()
-    
+    slam_socket1.close()
+    slam_socket2.close()
     context.term()
 
     print("KiranM: End of all the processing ")
