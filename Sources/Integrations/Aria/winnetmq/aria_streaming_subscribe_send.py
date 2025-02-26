@@ -145,8 +145,6 @@ def main():
         cv2.setWindowProperty(slam2_window, cv2.WND_PROP_TOPMOST, 1)
         cv2.moveWindow(slam2_window, 1100, 50)
 
-
-
     while not quit_keypress():
         # Render the RGB image
         if aria.CameraId.Rgb in observer.images:
