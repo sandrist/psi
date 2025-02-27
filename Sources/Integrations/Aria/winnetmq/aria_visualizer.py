@@ -14,6 +14,7 @@
 from collections import deque
 from typing import Sequence
 
+import time
 import aria.sdk as aria
 import numpy as np
 from common import ctrl_c_handler
@@ -87,10 +88,12 @@ class KinAriaVisualizer:
 
     def render_loop(self):
         print("Starting stream... Press Ctrl+C to stop.")
-        with ctrl_c_handler(self.stop):
+        try:
             while True:
-                pass
-
+                time.sleep(0.1)  # Allow other processes to run and catch interrupts
+        except KeyboardInterrupt:
+            self.stop()
+    
     def stop(self):
         print("Stopping stream...")
 
