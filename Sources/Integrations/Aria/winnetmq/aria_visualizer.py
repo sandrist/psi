@@ -63,12 +63,8 @@ class KinTemporalWindowPlot:
         self.timestamps.append(timestamp)
         for i, sample in enumerate(samples):
             self.samples[i].append(sample)
-
-        # Print the new data
-        # print(f"[{self.title}] Timestamp: {timestamp:.6f}s, Samples: {samples}")
-        # kiranm .. removed .. line next
-
-        # print(f"[{self.title}] Timestamp: {timestamp:.6f}s, Samples: {samples}")
+                    
+        print(f"[{self.title}] Timestamp: {timestamp:.6f}s, Samples: {samples}")
 
 
 class KinAriaVisualizer:
