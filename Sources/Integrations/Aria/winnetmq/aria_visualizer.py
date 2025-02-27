@@ -18,6 +18,8 @@ import time
 import aria.sdk as aria
 import numpy as np
 from common import ctrl_c_handler
+import cv2
+
 
 from projectaria_tools.core.sensor_data import (
     BarometerData,
@@ -64,7 +66,9 @@ class KinTemporalWindowPlot:
 
         # Print the new data
         # print(f"[{self.title}] Timestamp: {timestamp:.6f}s, Samples: {samples}")
-        print(f"[{self.title}] Timestamp: {timestamp:.6f}s, Samples: {samples}")
+        # kiranm .. removed .. line next
+
+        # print(f"[{self.title}] Timestamp: {timestamp:.6f}s, Samples: {samples}")
 
 
 class KinAriaVisualizer:
@@ -129,9 +133,28 @@ class KinAriaVisualizerStreamingClientObserver(KinBaseStreamingClientObserver):
 
     def __init__(self, visualizer: KinAriaVisualizer):
         self.visualizer = visualizer
+        self.latest_image = None  # Store the latest image
 
     def on_image_received(self, image: np.array, record: ImageDataRecord) -> None:
         print(f"[Image] Camera: {record.camera_id}, Shape: {image.shape}")
+        
+        camera_id = record.camera_id
+        height, width, channels = image.shape if len(image.shape) == 3 else (image.shape[0], image.shape[1], 1)
+
+        # Check if it's Camera 2 and has the required shape
+        if camera_id == 2 and (height, width, channels) == (1408, 1408, 3):
+            print(f"[Image] Camera: {camera_id}, Shape: {image.shape}, Size: {width}x{height}")
+
+            rgb_image = np.rot90(image, -1)
+            rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
+            # Display the image
+            cv2.imshow(f"Camera {camera_id}", rgb_image)
+            cv2.waitKey(1)  # Small delay to refresh window
+
+
+    def stop(self):
+        print("Stopping stream...")
+        cv2.destroyAllWindows()  # Close all OpenCV windows when stopping
 
     def on_imu_received(self, samples: Sequence[MotionData], imu_idx: int) -> None:
         sample = samples[0]
