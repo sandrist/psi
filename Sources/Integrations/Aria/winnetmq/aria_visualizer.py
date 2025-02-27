@@ -26,8 +26,7 @@ from projectaria_tools.core.sensor_data import (
 
 NANOSECOND = 1e-9
 
-
-class TemporalWindowPlot:
+class KinTemporalWindowPlot:
     """
     Manage streaming data, showing the most recent values.
     """
@@ -67,7 +66,7 @@ class TemporalWindowPlot:
         print(f"[{self.title}] Timestamp: {timestamp:.6f}s, Samples: {samples}")
 
 
-class AriaVisualizer:
+class KinAriaVisualizer:
     """
     Example KiranM Aria Streams Reader class
     """
@@ -75,15 +74,15 @@ class AriaVisualizer:
     def __init__(self):
         self.sensor_plot = {
             "accel": [
-                TemporalWindowPlot(None, f"IMU{idx} accel", 3)
+                KinTemporalWindowPlot(None, f"IMU{idx} accel", 3)
                 for idx in range(2)
             ],
             "gyro": [
-                TemporalWindowPlot(None, f"IMU{idx} gyro", 3)
+                KinTemporalWindowPlot(None, f"IMU{idx} gyro", 3)
                 for idx in range(2)
             ],
-            "magneto": TemporalWindowPlot(None, "Magnetometer", 3),
-            "baro": TemporalWindowPlot(None, "Barometer", 1),
+            "magneto": KinTemporalWindowPlot(None, "Magnetometer", 3),
+            "baro": KinTemporalWindowPlot(None, "Barometer", 1),
         }
 
     def render_loop(self):
@@ -96,7 +95,7 @@ class AriaVisualizer:
         print("Stopping stream...")
 
 
-class BaseStreamingClientObserver:
+class KinBaseStreamingClientObserver:
     """
     Streaming client observer class. Describes all available callbacks that are invoked by the
     streaming client.
@@ -118,14 +117,14 @@ class BaseStreamingClientObserver:
         pass
 
 
-class AriaVisualizerStreamingClientObserver(BaseStreamingClientObserver):
+class KinAriaVisualizerStreamingClientObserver(KinBaseStreamingClientObserver):
     """
     Example implementation of the streaming client observer class.
     Set an instance of this class as the observer of the streaming client using
     set_streaming_client_observer().
     """
 
-    def __init__(self, visualizer: AriaVisualizer):
+    def __init__(self, visualizer: KinAriaVisualizer):
         self.visualizer = visualizer
 
     def on_image_received(self, image: np.array, record: ImageDataRecord) -> None:
