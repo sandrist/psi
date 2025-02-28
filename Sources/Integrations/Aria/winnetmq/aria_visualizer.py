@@ -28,33 +28,36 @@ from projectaria_tools.core.sensor_data import (
 )
 
 NANOSECOND = 1e-9
+import cv2
+import numpy as np
+from collections import deque
+from typing import Sequence
 
-class KinTemporalWindowPlot:
+NANOSECOND = 1e-9
+
+class CVTemporalPlot:
     """
-    Manage streaming data, showing the most recent values.
+    Manages an OpenCV window displaying streaming data as a scrolling plot.
     """
 
-    def __init__(
-        self,
-        axes,
-        title: str,
-        dim: int,
-        window_duration_sec: float = 4,
-    ):
+    def __init__(self, title: str, dim: int, window_duration_sec: float = 4, width=500, height=300):
         self.title = title
         self.window_duration = window_duration_sec
         self.timestamps = deque()
         self.samples = [deque() for _ in range(dim)]
-        self.count = 0
+        self.width = width
+        self.height = height
+        self.bg_color = (0, 0, 0)  # Black background
+        self.line_colors = [(0, 255, 0), (0, 0, 255), (255, 0, 0)]  # Green, Blue, Red
 
     def add_samples(self, timestamp_ns: float, samples: Sequence[float]):
-        # Convert timestamp to seconds
+        """
+        Adds new samples to the plot and removes old data outside the time window.
+        """
         timestamp = timestamp_ns * NANOSECOND
 
-        # Remove old data outside of the window
-        while (
-            self.timestamps and (timestamp - self.timestamps[0]) > self.window_duration
-        ):
+        # Remove old data outside the window
+        while self.timestamps and (timestamp - self.timestamps[0]) > self.window_duration:
             self.timestamps.popleft()
             for sample in self.samples:
                 sample.popleft()
@@ -63,44 +66,80 @@ class KinTemporalWindowPlot:
         self.timestamps.append(timestamp)
         for i, sample in enumerate(samples):
             self.samples[i].append(sample)
-                    
-        print(f"[{self.title}] Timestamp: {timestamp:.6f}s, Samples: {samples}")
+
+    def draw(self):
+        """
+        Renders the sensor data onto an OpenCV window.
+        """
+        if not self.timestamps:
+            return
+        
+        img = np.zeros((self.height, self.width, 3), dtype=np.uint8)
+        img[:] = self.bg_color  # Fill with background color
+
+        # Normalize timestamps to fit within the plot window
+        min_time = self.timestamps[0]
+        max_time = self.timestamps[-1]
+        time_range = max_time - min_time if max_time > min_time else 1
+
+        for i, sample_series in enumerate(self.samples):
+            if len(sample_series) < 2:
+                continue
+
+            normalized_x = [
+                int((t - min_time) / time_range * (self.width - 20)) + 10
+                for t in self.timestamps
+            ]
+            min_val, max_val = min(sample_series), max(sample_series)
+            value_range = max_val - min_val if max_val > min_val else 1
+
+            normalized_y = [
+                self.height - int((s - min_val) / value_range * (self.height - 20)) - 10
+                for s in sample_series
+            ]
+
+            for j in range(1, len(normalized_x)):
+                cv2.line(img, (normalized_x[j - 1], normalized_y[j - 1]),
+                         (normalized_x[j], normalized_y[j]), self.line_colors[i % len(self.line_colors)], 2)
+
+        cv2.imshow(self.title, img)
 
 
 class KinAriaVisualizer:
     """
-    Example KiranM Aria Streams Reader class
+    Example KiranM Aria Streams Reader class with OpenCV plotting.
     """
 
     def __init__(self):
         self.sensor_plot = {
-            "accel": [
-                KinTemporalWindowPlot(None, f"IMU{idx} accel", 3)
-                for idx in range(2)
-            ],
-            "gyro": [
-                KinTemporalWindowPlot(None, f"IMU{idx} gyro", 3)
-                for idx in range(2)
-            ],
-            "magneto": KinTemporalWindowPlot(None, "Magnetometer", 3),
-            "baro": KinTemporalWindowPlot(None, "Barometer", 1),
+            "accel": [CVTemporalPlot(f"IMU{idx} Accel", 3) for idx in range(2)],
+            "gyro": [CVTemporalPlot(f"IMU{idx} Gyro", 3) for idx in range(2)],
+            "magneto": CVTemporalPlot("Magnetometer", 3),
+            "baro": CVTemporalPlot("Barometer", 1),
         }
-        self.latest_images = {}  # Store the latest images per camera ID
+        self.latest_images = {}  # Store latest images per camera ID
 
     def render_loop(self):
         """
-        Kiran: Continuously refreshes OpenCV windows for all active cameras 
-        without modifying the dictionary while iterating.
+        Continuously refreshes OpenCV windows for images and sensor plots.
         """
         print("Starting stream... Press 'q' to exit.")
         try:
             while True:
-                # Iterate over a copy of latest_images to avoid dictionary size errors
+                # Render images
                 for camera_id, image in list(self.latest_images.items()):
                     if image is not None:
-                        cv2.imshow(f"Camera {camera_id}", image)  # No conversion applied
+                        cv2.imshow(f"Camera {camera_id}", image)
 
-                # Wait for a small delay and allow for keypress 'q' to exit
+                # Render sensor plots
+                for plots in self.sensor_plot.values():
+                    if isinstance(plots, list):  # Multiple IMU sensors
+                        for plot in plots:
+                            plot.draw()
+                    else:
+                        plots.draw()
+
+                # Allow user to quit with 'q'
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
 
@@ -108,7 +147,6 @@ class KinAriaVisualizer:
             pass
         finally:
             self.stop()
-  
 
     def stop(self):
         """
@@ -117,68 +155,42 @@ class KinAriaVisualizer:
         print("Stopping stream...")
         cv2.destroyAllWindows()
 
-class KinBaseStreamingClientObserver:
+
+class KinAriaVisualizerStreamingClientObserver:
     """
-    Streaming client observer class. Describes all available callbacks that are invoked by the
-    streaming client.
-    """
-
-    def on_image_received(self, image: np.array, record: ImageDataRecord) -> None:
-        pass
-
-    def on_imu_received(self, samples: Sequence[MotionData], imu_idx: int) -> None:
-        pass
-
-    def on_magneto_received(self, sample: MotionData) -> None:
-        pass
-
-    def on_baro_received(self, sample: BarometerData) -> None:
-        pass
-
-    def on_streaming_client_failure(self, reason: aria.ErrorCode, message: str) -> None:
-        pass
-
-
-class KinAriaVisualizerStreamingClientObserver(KinBaseStreamingClientObserver):
-    """
-    Example implementation of the streaming client observer class.
-    Set an instance of this class as the observer of the streaming client using
-    set_streaming_client_observer().
+    Handles incoming sensor data and updates the OpenCV visualizer.
     """
 
     def __init__(self, visualizer: KinAriaVisualizer):
         self.visualizer = visualizer
-        self.latest_image = None  # Store the latest image
 
-    def on_image_received(self, image: np.array, record: ImageDataRecord) -> None:
+    def on_image_received(self, image: np.array, record) -> None:
+        """
+        Handles image frames from cameras.
+        """
         camera_id = record.camera_id
-        print(f"[Image] Camera: {camera_id}, Shape: {image.shape}")
-                
-        # Store latest image for the respective camera
         self.visualizer.latest_images[camera_id] = image
+
+    def on_imu_received(self, samples: Sequence, imu_idx: int) -> None:
+        """
+        Handles accelerometer and gyroscope data.
+        """
+        sample = samples[0]
+        self.visualizer.sensor_plot["accel"][imu_idx].add_samples(sample.capture_timestamp_ns, sample.accel_msec2)
+        self.visualizer.sensor_plot["gyro"][imu_idx].add_samples(sample.capture_timestamp_ns, sample.gyro_radsec)
+
+    def on_magneto_received(self, sample) -> None:
+        """
+        Handles magnetometer data.
+        """
+        self.visualizer.sensor_plot["magneto"].add_samples(sample.capture_timestamp_ns, sample.mag_tesla)
+
+    def on_baro_received(self, sample) -> None:
+        """
+        Handles barometer data.
+        """
+        self.visualizer.sensor_plot["baro"].add_samples(sample.capture_timestamp_ns, [sample.pressure])
 
     def stop(self):
         print("Stopping stream...")
-        cv2.destroyAllWindows()  # Close all OpenCV windows when stopping
-
-    def on_imu_received(self, samples: Sequence[MotionData], imu_idx: int) -> None:
-        sample = samples[0]
-        self.visualizer.sensor_plot["accel"][imu_idx].add_samples(
-            sample.capture_timestamp_ns, sample.accel_msec2
-        )
-        self.visualizer.sensor_plot["gyro"][imu_idx].add_samples(
-            sample.capture_timestamp_ns, sample.gyro_radsec
-        )
-
-    def on_magneto_received(self, sample: MotionData) -> None:
-        self.visualizer.sensor_plot["magneto"].add_samples(
-            sample.capture_timestamp_ns, sample.mag_tesla
-        )
-
-    def on_baro_received(self, sample: BarometerData) -> None:
-        self.visualizer.sensor_plot["baro"].add_samples(
-            sample.capture_timestamp_ns, [sample.pressure]
-        )
-
-    def on_streaming_client_failure(self, reason: aria.ErrorCode, message: str) -> None:
-        print(f"Streaming Client Failure: {reason}: {message}")
+        cv2.destroyAllWindows()
