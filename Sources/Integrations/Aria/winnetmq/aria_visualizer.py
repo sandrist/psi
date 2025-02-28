@@ -85,18 +85,36 @@ class KinAriaVisualizer:
             "magneto": KinTemporalWindowPlot(None, "Magnetometer", 3),
             "baro": KinTemporalWindowPlot(None, "Barometer", 1),
         }
+        self.latest_images = {}  # Store the latest images per camera ID
 
     def render_loop(self):
-        print("Starting stream... Press Ctrl+C to stop.")
+        """
+        Continuously refreshes OpenCV windows for all active cameras without modifying the dictionary while iterating.
+        """
+        print("Starting stream... Press 'q' to exit.")
         try:
             while True:
-                time.sleep(0.1)  # Allow other processes to run and catch interrupts
-        except KeyboardInterrupt:
-            self.stop()
-    
-    def stop(self):
-        print("Stopping stream...")
+                # Iterate over a copy of latest_images to avoid dictionary size errors
+                for camera_id, image in list(self.latest_images.items()):
+                    if image is not None:
+                        cv2.imshow(f"Camera {camera_id}", image)  # No conversion applied
 
+                # Wait for a small delay and allow for keypress 'q' to exit
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+
+        except KeyboardInterrupt:
+            pass
+        finally:
+            self.stop()
+  
+
+    def stop(self):
+        """
+        Closes all OpenCV windows properly.
+        """
+        print("Stopping stream...")
+        cv2.destroyAllWindows()
 
 class KinBaseStreamingClientObserver:
     """
@@ -132,21 +150,11 @@ class KinAriaVisualizerStreamingClientObserver(KinBaseStreamingClientObserver):
         self.latest_image = None  # Store the latest image
 
     def on_image_received(self, image: np.array, record: ImageDataRecord) -> None:
-        print(f"[Image] Camera: {record.camera_id}, Shape: {image.shape}")
-        
         camera_id = record.camera_id
-        height, width, channels = image.shape if len(image.shape) == 3 else (image.shape[0], image.shape[1], 1)
-
-        # Check if it's Camera 2 and has the required shape
-        if camera_id == 2 and (height, width, channels) == (1408, 1408, 3):
-            print(f"[Image] Camera: {camera_id}, Shape: {image.shape}, Size: {width}x{height}")
-
-            rgb_image = np.rot90(image, -1)
-            rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
-            # Display the image
-            cv2.imshow(f"Camera {camera_id}", rgb_image)
-            cv2.waitKey(1)  # Small delay to refresh window
-
+        print(f"[Image] Camera: {camera_id}, Shape: {image.shape}")
+                
+        # Store latest image for the respective camera
+        self.visualizer.latest_images[camera_id] = image
 
     def stop(self):
         print("Stopping stream...")

@@ -97,14 +97,11 @@ def main():
     aria_visualizer = KinAriaVisualizer()
     aria_visualizer_streaming_client_observer = KinAriaVisualizerStreamingClientObserver(
         aria_visualizer
-    )
-       
+    )     
     
-
     streaming_client.set_streaming_client_observer(
         aria_visualizer_streaming_client_observer
     )
-
 
     streaming_client.subscribe()
 

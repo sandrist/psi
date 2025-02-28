@@ -62,7 +62,7 @@ class WinNetMqStreams
                     lock (matImage) // Ensure thread safety
                     {
                         Marshal.Copy(imageBytes, 0, matImage.Data, width * height * channels);
-                        Cv2.ImShow("KiranM Aria Stream", matImage);
+                        Cv2.ImShow("NetMQ Aria Stream", matImage);
                         Cv2.WaitKey(1);
                     }
 
