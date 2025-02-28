@@ -89,7 +89,8 @@ class KinAriaVisualizer:
 
     def render_loop(self):
         """
-        Continuously refreshes OpenCV windows for all active cameras without modifying the dictionary while iterating.
+        Kiran: Continuously refreshes OpenCV windows for all active cameras 
+        without modifying the dictionary while iterating.
         """
         print("Starting stream... Press 'q' to exit.")
         try:
