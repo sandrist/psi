@@ -19,9 +19,8 @@ import aria.sdk as aria
 import numpy as np
 from common import ctrl_c_handler
 import cv2
-#import sounddevice as sd
 import queue
-
+import threading
 
 from projectaria_tools.core.sensor_data import (
     BarometerData,
@@ -37,11 +36,10 @@ from typing import Sequence
 
 NANOSECOND = 1e-9
 
-class CVTemporalPlot:
-    """
-    Manages an OpenCV window displaying streaming data as a scrolling plot.
-    """
 
+import threading
+
+class CVTemporalPlot:
     def __init__(self, title: str, dim: int, window_duration_sec: float = 4, width=500, height=300):
         self.title = title
         self.window_duration = window_duration_sec
@@ -51,60 +49,60 @@ class CVTemporalPlot:
         self.height = height
         self.bg_color = (0, 0, 0)  # Black background
         self.line_colors = [(0, 255, 0), (0, 0, 255), (255, 0, 0)]  # Green, Blue, Red
+        self.lock = threading.Lock()  # Add a lock
 
     def add_samples(self, timestamp_ns: float, samples: Sequence[float]):
-        """
-        Adds new samples to the plot and removes old data outside the time window.
-        """
-        timestamp = timestamp_ns * NANOSECOND
+        """Safely add new samples to the plot while removing old data outside the time window."""
+        with self.lock:  # Protect the deque with a lock
+            timestamp = timestamp_ns * NANOSECOND
 
-        # Remove old data outside the window
-        while self.timestamps and (timestamp - self.timestamps[0]) > self.window_duration:
-            self.timestamps.popleft()
-            for sample in self.samples:
-                sample.popleft()
+            # Remove old data outside the window
+            while self.timestamps and (timestamp - self.timestamps[0]) > self.window_duration:
+                self.timestamps.popleft()
+                for sample in self.samples:
+                    sample.popleft()
 
-        # Add new data
-        self.timestamps.append(timestamp)
-        for i, sample in enumerate(samples):
-            self.samples[i].append(sample)
+            # Add new data
+            self.timestamps.append(timestamp)
+            for i, sample in enumerate(samples):
+                self.samples[i].append(sample)
 
     def draw(self):
-        """
-        Renders the sensor data onto an OpenCV window.
-        """
-        if not self.timestamps:
-            return
-        
-        img = np.zeros((self.height, self.width, 3), dtype=np.uint8)
-        img[:] = self.bg_color  # Fill with background color
+        """Safely render the sensor data onto an OpenCV window."""
+        with self.lock:  # Prevent modification while iterating
+            if not self.timestamps:
+                return
 
-        # Normalize timestamps to fit within the plot window
-        min_time = self.timestamps[0]
-        max_time = self.timestamps[-1]
-        time_range = max_time - min_time if max_time > min_time else 1
+            img = np.zeros((self.height, self.width, 3), dtype=np.uint8)
+            img[:] = self.bg_color  # Fill with background color
 
-        for i, sample_series in enumerate(self.samples):
-            if len(sample_series) < 2:
-                continue
+            # Normalize timestamps to fit within the plot window
+            min_time = self.timestamps[0]
+            max_time = self.timestamps[-1]
+            time_range = max_time - min_time if max_time > min_time else 1
 
-            normalized_x = [
-                int((t - min_time) / time_range * (self.width - 20)) + 10
-                for t in self.timestamps
-            ]
-            min_val, max_val = min(sample_series), max(sample_series)
-            value_range = max_val - min_val if max_val > min_val else 1
+            for i, sample_series in enumerate(self.samples):
+                if len(sample_series) < 2:
+                    continue
 
-            normalized_y = [
-                self.height - int((s - min_val) / value_range * (self.height - 20)) - 10
-                for s in sample_series
-            ]
+                normalized_x = [
+                    int((t - min_time) / time_range * (self.width - 20)) + 10
+                    for t in self.timestamps
+                ]
+                min_val, max_val = min(sample_series), max(sample_series)
+                value_range = max_val - min_val if max_val > min_val else 1
 
-            for j in range(1, len(normalized_x)):
-                cv2.line(img, (normalized_x[j - 1], normalized_y[j - 1]),
-                         (normalized_x[j], normalized_y[j]), self.line_colors[i % len(self.line_colors)], 2)
+                normalized_y = [
+                    self.height - int((s - min_val) / value_range * (self.height - 20)) - 10
+                    for s in sample_series
+                ]
 
-        cv2.imshow(self.title, img)
+                for j in range(1, len(normalized_x)):
+                    cv2.line(img, (normalized_x[j - 1], normalized_y[j - 1]),
+                             (normalized_x[j], normalized_y[j]), self.line_colors[i % len(self.line_colors)], 2)
+
+            cv2.imshow(self.title, img)
+
 
 
 class KinAriaVisualizer:
@@ -118,12 +116,10 @@ class KinAriaVisualizer:
             "gyro": [CVTemporalPlot(f"IMU{idx} Gyro", 3) for idx in range(2)],
             "magneto": CVTemporalPlot("Magnetometer", 3),
             "baro": CVTemporalPlot("Barometer", 1),
+            "audio": CVTemporalPlot("Audio Waveform", 1, window_duration_sec=2)  # New audio plot
         }
         self.latest_images = {}  # Store latest images per camera ID
-
-        # self.audio_queue = queue.Queue()  # Buffer for audio streaming
-        # self.audio_stream = sd.OutputStream(callback=self.audio_callback, channels=1, samplerate=16000, dtype='int16')
-        # self.audio_stream.start()
+        self.audio_queue = queue.Queue()  # Buffer for audio streaming
 
     def render_loop(self):
         """
@@ -145,11 +141,6 @@ class KinAriaVisualizer:
                     else:
                         plots.draw()
 
-                # Play audio if available
-                # while not self.audio_queue.empty():
-                #    audio_frame = self.audio_queue.get_nowait()
-                #    self.audio_stream.write(audio_frame)
-
                 # Allow user to quit with 'q'
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
@@ -160,23 +151,11 @@ class KinAriaVisualizer:
             self.stop()
 
     def stop(self):
-        """Closes all OpenCV windows and stops audio."""
+        """Closes all OpenCV windows."""
         print("Stopping stream...")
-        #self.audio_stream.stop()
-        #self.audio_stream.close()
         cv2.destroyAllWindows()
 
-    """
-    def audio_callback(self, outdata, frames, time, status):
-        
-        if status:
-            print(f"Audio callback error: {status}")
-        try:
-            audio_frame = self.audio_queue.get_nowait()
-            outdata[:] = np.reshape(audio_frame, (frames, 1))
-        except queue.Empty:
-            outdata.fill(0)
-    """
+
 class KinAriaVisualizerStreamingClientObserver:
     """
     Handles incoming sensor data and updates the OpenCV visualizer.
@@ -214,16 +193,31 @@ class KinAriaVisualizerStreamingClientObserver:
 
     def on_audio_received(self, audio_and_record, *args) -> None:
         """
-        Handle audio data streamed from microphone sensors.
+        Handles real-time audio streaming from the Aria microphone and plots it.
         """
-        print(f"[Audio] Received audio data: {audio_and_record}")
+        if not hasattr(audio_and_record, "data"):
+            print("AudioData does not contain 'data' attribute!")
+            return
 
+        # Extract raw audio samples
+        audio_data = np.array(audio_and_record.data, dtype=np.float32)
 
-    #def on_audio_received(self, audio_and_record) -> None:
-    #    """Handles real-time audio streaming from the Aria microphone."""
-    #    audio_data = audio_and_record.audio_samples  # Extract raw audio samples
-    #    #self.visualizer.audio_queue.put(audio_data)  # Add to queue for playback
+        if len(audio_data) == 0:
+            print("No audio data received.")
+            return
 
+        # Normalize audio data to the range [-1, 1]
+        audio_data /= np.max(np.abs(audio_data)) if np.max(np.abs(audio_data)) > 0 else 1
+
+        # Generate timestamps manually for plotting
+        timestamp_ns = time.time() * 1e9
+        timestamps = np.linspace(timestamp_ns, timestamp_ns + len(audio_data) * 1000, len(audio_data))
+
+        # Add waveform samples
+        for t, sample in zip(timestamps, audio_data):
+            self.visualizer.sensor_plot["audio"].add_samples(t, [sample])
+   
+        
     def stop(self):
         print("Stopping stream...")
         self.visualizer.stop()
