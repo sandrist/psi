@@ -19,6 +19,8 @@ import aria.sdk as aria
 import numpy as np
 from common import ctrl_c_handler
 import cv2
+#import sounddevice as sd
+import queue
 
 
 from projectaria_tools.core.sensor_data import (
@@ -119,6 +121,10 @@ class KinAriaVisualizer:
         }
         self.latest_images = {}  # Store latest images per camera ID
 
+        # self.audio_queue = queue.Queue()  # Buffer for audio streaming
+        # self.audio_stream = sd.OutputStream(callback=self.audio_callback, channels=1, samplerate=16000, dtype='int16')
+        # self.audio_stream.start()
+
     def render_loop(self):
         """
         Continuously refreshes OpenCV windows for images and sensor plots.
@@ -139,6 +145,11 @@ class KinAriaVisualizer:
                     else:
                         plots.draw()
 
+                # Play audio if available
+                # while not self.audio_queue.empty():
+                #    audio_frame = self.audio_queue.get_nowait()
+                #    self.audio_stream.write(audio_frame)
+
                 # Allow user to quit with 'q'
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
@@ -149,13 +160,23 @@ class KinAriaVisualizer:
             self.stop()
 
     def stop(self):
-        """
-        Closes all OpenCV windows properly.
-        """
+        """Closes all OpenCV windows and stops audio."""
         print("Stopping stream...")
+        #self.audio_stream.stop()
+        #self.audio_stream.close()
         cv2.destroyAllWindows()
 
-
+    """
+    def audio_callback(self, outdata, frames, time, status):
+        
+        if status:
+            print(f"Audio callback error: {status}")
+        try:
+            audio_frame = self.audio_queue.get_nowait()
+            outdata[:] = np.reshape(audio_frame, (frames, 1))
+        except queue.Empty:
+            outdata.fill(0)
+    """
 class KinAriaVisualizerStreamingClientObserver:
     """
     Handles incoming sensor data and updates the OpenCV visualizer.
@@ -191,6 +212,19 @@ class KinAriaVisualizerStreamingClientObserver:
         """
         self.visualizer.sensor_plot["baro"].add_samples(sample.capture_timestamp_ns, [sample.pressure])
 
+    def on_audio_received(self, audio_and_record, *args) -> None:
+        """
+        Handle audio data streamed from microphone sensors.
+        """
+        print(f"[Audio] Received audio data: {audio_and_record}")
+
+
+    #def on_audio_received(self, audio_and_record) -> None:
+    #    """Handles real-time audio streaming from the Aria microphone."""
+    #    audio_data = audio_and_record.audio_samples  # Extract raw audio samples
+    #    #self.visualizer.audio_queue.put(audio_data)  # Add to queue for playback
+
     def stop(self):
         print("Stopping stream...")
-        cv2.destroyAllWindows()
+        self.visualizer.stop()
+        cv2.destroyAllWindows()        
