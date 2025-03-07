@@ -21,18 +21,10 @@ import json
 import zmq
 from collections import deque
 from typing import Sequence
-
-# Import Aria SDK
 import aria.sdk as aria
-from projectaria_tools.core.sensor_data import (
-    BarometerData,
-    ImageDataRecord,
-    MotionData,
-)
+from projectaria_tools.core.sensor_data import BarometerData, ImageDataRecord, MotionData
 
 NANOSECOND = 1e-9
-
-# NetMQ Configuration: Assigning unique ports for each sensor data type
 PORTS = {
     "camera_0": "tcp://*:5550",
     "camera_1": "tcp://*:5551",
@@ -43,16 +35,12 @@ PORTS = {
     "baro": "tcp://*:5562",
     "audio": "tcp://*:5563",
 }
-
-# Set up ZeroMQ context and publishers
 context = zmq.Context()
 publishers = {key: context.socket(zmq.PUB) for key in PORTS}
 for key, socket in publishers.items():
     socket.bind(PORTS[key])
 
 class CVTemporalPlot:
-    """Handles OpenCV real-time plotting for sensor data."""
-    
     def __init__(self, title: str, dim: int, window_duration_sec: float = 4, width=500, height=300):
         self.title = title
         self.window_duration = window_duration_sec
@@ -60,24 +48,22 @@ class CVTemporalPlot:
         self.samples = [deque() for _ in range(dim)]
         self.width = width
         self.height = height
-        self.bg_color = (0, 0, 0)  # Black background
-        self.line_colors = [(0, 255, 0), (0, 0, 255), (255, 0, 0)]  # Green, Blue, Red
+        self.bg_color = (0, 0, 0)
+        self.line_colors = [(0, 255, 0), (0, 0, 255), (255, 0, 0)]
         self.lock = threading.Lock()
-
+    
     def add_samples(self, timestamp_ns: float, samples: Sequence[float]):
-        """Safely add new samples to the plot while removing old data outside the time window."""
         with self.lock:
             timestamp = timestamp_ns * NANOSECOND
+            self.timestamps.append(timestamp)
+            for i, sample in enumerate(samples):
+                self.samples[i].append(sample)
             while self.timestamps and (timestamp - self.timestamps[0]) > self.window_duration:
                 self.timestamps.popleft()
                 for sample in self.samples:
                     sample.popleft()
-            self.timestamps.append(timestamp)
-            for i, sample in enumerate(samples):
-                self.samples[i].append(sample)
-
+    
     def draw(self):
-        """Safely render the sensor data onto an OpenCV window."""
         with self.lock:
             if not self.timestamps:
                 return
@@ -105,8 +91,6 @@ class CVTemporalPlot:
             cv2.imshow(self.title, img)
 
 class KinAriaVisualizer:
-    """Handles Aria data visualization."""
-
     def __init__(self):
         self.sensor_plot = {
             "accel": [CVTemporalPlot(f"IMU{idx} Accel", 3) for idx in range(2)],
@@ -116,9 +100,8 @@ class KinAriaVisualizer:
             "audio": CVTemporalPlot("Audio Waveform", 1, window_duration_sec=2)
         }
         self.latest_images = {}
-
+    
     def render_loop(self):
-        """Continuously updates OpenCV visualizations."""
         print("Starting stream... Press 'q' to exit.")
         try:
             while True:
@@ -137,62 +120,47 @@ class KinAriaVisualizer:
             pass
         finally:
             self.stop()
-
+    
     def stop(self):
         print("Stopping stream...")
         cv2.destroyAllWindows()
 
 class KinAriaStreamingClientObserver:
-    """Handles streaming data from Aria sensors and sends it via NetMQ."""
-
     def __init__(self, visualizer: KinAriaVisualizer):
         self.visualizer = visualizer
-
+    
     def send_data(self, topic: str, data: dict):
-        """Sends data via NetMQ as JSON."""
         try:
             publishers[topic].send_json(data)
         except Exception as e:
             print(f"Error sending {topic} data: {e}")
-
-    def on_image_received(self, image: np.array, record) -> None:
-        """Handles camera images and sends over NetMQ."""
-        camera_id = record.camera_id
-        self.visualizer.latest_images[camera_id] = image
-        _, encoded_image = cv2.imencode(".jpg", image)
-        self.send_data(f"camera_{camera_id}", {"timestamp": record.capture_timestamp_ns, "image": encoded_image.tobytes().hex()})
-
-    def on_imu_received(self, samples: Sequence, imu_idx: int) -> None:
-        """Handles accelerometer and gyroscope data."""
+    
+    def on_imu_received(self, samples: Sequence, imu_idx: int):
         sample = samples[0]
-        imu_data = {
-            "timestamp": sample.capture_timestamp_ns,
-            "accel": sample.accel_msec2,
-            "gyro": sample.gyro_radsec
-        }
+        imu_data = {"timestamp": sample.capture_timestamp_ns, "accel": sample.accel_msec2, "gyro": sample.gyro_radsec}
+        self.visualizer.sensor_plot["accel"][imu_idx].add_samples(sample.capture_timestamp_ns, sample.accel_msec2)
+        self.visualizer.sensor_plot["gyro"][imu_idx].add_samples(sample.capture_timestamp_ns, sample.gyro_radsec)
         self.send_data("imu", imu_data)
-
-    def on_magneto_received(self, sample) -> None:
-        """Handles magnetometer data."""
+    
+    def on_magneto_received(self, sample):
         magneto_data = {"timestamp": sample.capture_timestamp_ns, "magnetometer": sample.mag_tesla}
+        self.visualizer.sensor_plot["magneto"].add_samples(sample.capture_timestamp_ns, sample.mag_tesla)
         self.send_data("magneto", magneto_data)
-
-    def on_baro_received(self, sample) -> None:
-        """Handles barometer data."""
+    
+    def on_baro_received(self, sample):
         baro_data = {"timestamp": sample.capture_timestamp_ns, "pressure": sample.pressure}
+        self.visualizer.sensor_plot["baro"].add_samples(sample.capture_timestamp_ns, [sample.pressure])
         self.send_data("baro", baro_data)
-
-    def on_audio_received(self, audio_and_record, *args) -> None:
-        """Handles real-time audio streaming."""
+    
+    def on_audio_received(self, audio_and_record, *args):
         audio_data = np.array(audio_and_record.data, dtype=np.float32)
         if len(audio_data) == 0:
             return
         audio_data /= np.max(np.abs(audio_data)) if np.max(np.abs(audio_data)) > 0 else 1
         timestamp_ns = time.time() * 1e9
-        audio_packet = {"timestamp": timestamp_ns, "audio": audio_data.tolist()}
-        self.send_data("audio", audio_packet)
-
+        self.visualizer.sensor_plot["audio"].add_samples(timestamp_ns, [audio_data[0]])
+        self.send_data("audio", {"timestamp": timestamp_ns, "audio": audio_data.tolist()})
+    
     def stop(self):
         print("Stopping stream...")
         self.visualizer.stop()
-
