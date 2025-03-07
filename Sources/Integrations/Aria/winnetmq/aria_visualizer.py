@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 import time
 import cv2
 import numpy as np
@@ -108,6 +107,8 @@ class KinAriaVisualizer:
                 for camera_id, image in list(self.latest_images.items()):
                     if image is not None:
                         cv2.imshow(f"Camera {camera_id}", image)
+                    else:
+                        print(f"No image received for Camera {camera_id}")
                 for plots in self.sensor_plot.values():
                     if isinstance(plots, list):
                         for plot in plots:
@@ -135,6 +136,13 @@ class KinAriaStreamingClientObserver:
         except Exception as e:
             print(f"Error sending {topic} data: {e}")
     
+    def on_image_received(self, image: np.array, record) -> None:
+        """
+        Handles image frames from cameras.
+        """
+        camera_id = record.camera_id
+        self.visualizer.latest_images[camera_id] = image
+   
     def on_imu_received(self, samples: Sequence, imu_idx: int):
         sample = samples[0]
         imu_data = {"timestamp": sample.capture_timestamp_ns, "accel": sample.accel_msec2, "gyro": sample.gyro_radsec}
@@ -161,6 +169,7 @@ class KinAriaStreamingClientObserver:
         self.visualizer.sensor_plot["audio"].add_samples(timestamp_ns, [audio_data[0]])
         self.send_data("audio", {"timestamp": timestamp_ns, "audio": audio_data.tolist()})
     
+
     def stop(self):
         print("Stopping stream...")
         self.visualizer.stop()
