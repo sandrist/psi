@@ -16,6 +16,7 @@ import cv2
 import numpy as np
 import threading
 import queue
+import base64
 import json
 import zmq
 from collections import deque
@@ -142,7 +143,29 @@ class KinAriaStreamingClientObserver:
         """
         camera_id = record.camera_id
         self.visualizer.latest_images[camera_id] = image
-   
+
+        # Try using capture_timestamp_ns or any other time-related field you find
+        timestamp_ns = getattr(record, 'capture_timestamp_ns', None)
+        if timestamp_ns is None:
+            # Handle the case where no timestamp is found (you can use time.time() as a fallback)
+            timestamp_ns = time.time() * 1e9
+
+        # Convert the image to a byte array
+        _, img_bytes = cv2.imencode('.jpg', image)
+        img_byte_array = img_bytes.tobytes()
+
+        # Optionally encode it to base64 if required
+        img_base64 = base64.b64encode(img_byte_array).decode('utf-8')
+
+        # Create a dictionary to hold the data and send it using send_data
+        image_data = {
+            "timestamp": timestamp_ns,
+            "camera_id": camera_id,
+            "image": img_base64
+        }
+
+        self.send_data(f"camera_{camera_id}", image_data)
+    
     def on_imu_received(self, samples: Sequence, imu_idx: int):
         sample = samples[0]
         imu_data = {"timestamp": sample.capture_timestamp_ns, "accel": sample.accel_msec2, "gyro": sample.gyro_radsec}
