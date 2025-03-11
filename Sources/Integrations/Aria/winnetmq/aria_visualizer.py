@@ -165,10 +165,9 @@ class KinAriaStreamingClientObserver:
         elif camera_id == 3:
             # Do stuff for camera 3
             print(f"This is Camera 3 ")
-        elif camera_id in {2, 0}:
+        elif camera_id in {0, 1}:
         # Do stuff for camera 0
-            print(f"This is Camera 2 or 0 ")
-
+            print(f"This is Camera 0 or 1")
                 
     def on_image_received_processed(self, image: np.array, record) -> None:
         """
