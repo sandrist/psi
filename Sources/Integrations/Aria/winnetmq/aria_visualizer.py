@@ -128,16 +128,28 @@ class KinAriaVisualizer:
         cv2.destroyAllWindows()
 
 class KinAriaStreamingClientObserver:
-    def __init__(self, visualizer: KinAriaVisualizer):
-        self.visualizer = visualizer
     
+    def __init__(self, visualizer, mode: str):
+        """
+        :param visualizer: Instance of KinAriaVisualizer
+        :param mode: Either "raw" or "processed" to determine image processing mode
+        """
+        self.visualizer = visualizer
+        self.mode = mode  # Determines which processing method to use
+
     def send_data(self, topic: str, data: dict):
         try:
             publishers[topic].send_json(data)
         except Exception as e:
             print(f"Error sending {topic} data: {e}")
     
-    def on_image_received(self, image: np.array, record) -> None:
+    def send_on_netmq(self, topic: str, data: dict):
+        try:
+            publishers[topic].send_json(data)
+        except Exception as e:
+            print(f"Error sending {topic} data: {e}")
+ 
+    def on_image_received_raw(self, image: np.array, record) -> None:
         """
         Handles image frames from cameras.
         """
@@ -165,6 +177,45 @@ class KinAriaStreamingClientObserver:
         }
 
         self.send_data(f"camera_{camera_id}", image_data)
+   
+    def on_image_received_processed(self, image: np.array, record) -> None:
+        """
+        Handles image frames from cameras.
+        """
+        camera_id = record.camera_id
+        self.visualizer.latest_images[camera_id] = image
+
+        # Try using capture_timestamp_ns or any other time-related field you find
+        timestamp_ns = getattr(record, 'capture_timestamp_ns', None)
+        if timestamp_ns is None:
+            # Handle the case where no timestamp is found (you can use time.time() as a fallback)
+            timestamp_ns = time.time() * 1e9
+
+        # Convert the image to a byte array
+        _, img_bytes = cv2.imencode('.jpg', image)
+        img_byte_array = img_bytes.tobytes()
+
+        # Optionally encode it to base64 if required
+        img_base64 = base64.b64encode(img_byte_array).decode('utf-8')
+
+        # Create a dictionary to hold the data and send it using send_data
+        image_data = {
+            "timestamp": timestamp_ns,
+            "camera_id": camera_id,
+            "image": img_base64
+        }
+
+        self.send_data(f"camera_{camera_id}", image_data)
+       
+
+    def on_image_received(self, image: np.array, record) -> None:
+        """Determines which function to call based on mode."""
+        if self.mode == "raw":
+            self.on_image_received_raw(image, record)
+        elif self.mode == "processed":
+            self.on_image_received_processed(image, record)
+        else:
+            raise ValueError(f"Unknown mode: {self.mode}")
     
     def on_imu_received(self, samples: Sequence, imu_idx: int):
         sample = samples[0]

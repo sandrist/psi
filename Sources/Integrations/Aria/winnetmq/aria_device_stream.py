@@ -48,6 +48,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--device-ip", help="IP address to connect to the device over wifi"
     )
+    
+    parser.add_argument(
+        "--mode", 
+        choices=["raw", "processed"], 
+        required=True, 
+        help="Choose 'raw' or 'processed' mode."
+    )
+
     return parser.parse_args()
 
 
@@ -96,7 +104,7 @@ def main():
     # 7. Create the visualizer observer and attach the streaming client
     aria_visualizer = KinAriaVisualizer()
     aria_visualizer_streaming_client_observer = KinAriaStreamingClientObserver(
-        aria_visualizer
+        aria_visualizer, mode=args.mode
     )     
     
     streaming_client.set_streaming_client_observer(
