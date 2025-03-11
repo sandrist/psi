@@ -15,6 +15,7 @@ import time
 import cv2
 import numpy as np
 import threading
+import msgpack
 import queue
 import base64
 import json
@@ -39,6 +40,11 @@ context = zmq.Context()
 publishers = {key: context.socket(zmq.PUB) for key in PORTS}
 for key, socket in publishers.items():
     socket.bind(PORTS[key])
+
+from datetime import datetime
+def get_utc_timestamp():
+    return int((datetime.utcnow() - datetime(1, 1, 1)).total_seconds() * 10**7)
+
 
 class CVTemporalPlot:
     def __init__(self, title: str, dim: int, window_duration_sec: float = 4, width=500, height=300):
@@ -160,14 +166,47 @@ class KinAriaStreamingClientObserver:
         print(f"Processed image size: {len(img_byte_array)} for camera {camera_id}")
 
         if camera_id == 2:
-            # stuff for camera 2
+            # stuff for RBG Camera 
             print(f"This is Camera 2 ")
-        elif camera_id == 3:
+
+            rgb_image = np.rot90(image, -1)
+            rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
+            
+            # Serialize the image to raw bytes
+            image_bytes = rgb_image.tobytes()
+            timestamp = get_utc_timestamp()
+            # Define the string identifier
+            header_string = "AriaZMQ"
+            header_bytes = header_string.encode('utf-8')  # Convert string to bytes
+
+            # ✅ Define fixed parameters (must match C# side)
+            width = 1408    # Ensure this is defined BEFORE using it
+            height = 1408   # Ensure this is defined BEFORE using it
+            channels = 3    # RGB has 3 channels
+            StreamType = 6  # Define stream type
+
+            #Define the message structure
+            video_message = {
+                "header": "AriaVMQ",       # 7-byte identifier                
+                "width": width,             # Image width
+                "height": height,            # Image height
+                "channels": channels,             # RGB (3 channels)
+                "StreamType": StreamType,           # Stream type identifier
+                "image_bytes": image_bytes, # Actual image data
+                "originatingTime": timestamp      # Milliseconds
+            }            
+            # Pack the message using MessagePack            
+            video_payload = {}
+            video_payload[u"message"] = video_message; 
+            video_payload[u"originatingTime"] = timestamp ; 
+            socket.send_multipart(["images".encode(), msgpack.dumps(video_payload)])
+
+        #elif camera_id == 3:
             # Do stuff for camera 3
-            print(f"This is Camera 3 ")
-        elif camera_id in {0, 1}:
+        #    print(f"This is Camera 3 ")
+        #elif camera_id in {0, 1}:
         # Do stuff for camera 0
-            print(f"This is Camera 0 or 1")
+            #print(f"This is Camera 0 or 1")
                 
     def on_image_received_processed(self, image: np.array, record) -> None:
         """
