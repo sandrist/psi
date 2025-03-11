@@ -155,7 +155,21 @@ class KinAriaStreamingClientObserver:
         """
         camera_id = record.camera_id
         self.visualizer.latest_images[camera_id] = image
-        
+                
+        img_byte_array = image.tobytes()
+        print(f"Processed image size: {len(img_byte_array)} for camera {camera_id}")
+
+        if camera_id == 2:
+            # stuff for camera 2
+            print(f"This is Camera 2 ")
+        elif camera_id == 3:
+            # Do stuff for camera 3
+            print(f"This is Camera 3 ")
+        elif camera_id in {2, 0}:
+        # Do stuff for camera 0
+            print(f"This is Camera 2 or 0 ")
+
+                
     def on_image_received_processed(self, image: np.array, record) -> None:
         """
         Handles image frames from cameras.
