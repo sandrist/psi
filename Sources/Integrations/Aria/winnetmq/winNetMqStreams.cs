@@ -48,7 +48,6 @@ class WinNetMqStreams
                 "tcp://127.0.0.1:5553",
                 EyesInstance);
 
-
             Mat matImage = new Mat(1408, 1408, MatType.CV_8UC3);
             Mat slamImage1 = new Mat(640, 480 , MatType.CV_8UC1);
             Mat slamImage2 = new Mat(640, 480 , MatType.CV_8UC1);
@@ -72,8 +71,7 @@ class WinNetMqStreams
                         Marshal.Copy(imageBytes, 0, eyesImages.Data, width * height * channels);
                         Cv2.ImShow("NetMQ Eyes Stream", eyesImages);
                         Cv2.WaitKey(1);
-                    }
-
+                    } 
                     return eyesImage;
                 });
 
