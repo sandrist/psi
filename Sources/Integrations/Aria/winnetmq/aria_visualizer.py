@@ -32,7 +32,7 @@ PORTS = {
     "camera_0": ("tcp://*:5550", "slam1"),
     "camera_1": ("tcp://*:5551", "slam2"),
     "camera_2": ("tcp://*:5552", "images"),
-    "camera_3": ("tcp://*:5553", "image4"),
+    "camera_3": ("tcp://*:5553", "eyes"),
     "imu": ("tcp://*:5560", "sensor1"),
     "magneto": ("tcp://*:5561", "sensor2"),
     "baro": ("tcp://*:5562", "sensor3"),
@@ -287,7 +287,6 @@ class KinAriaStreamingClientObserver:
         timestamp_ns = time.time() * 1e9
         self.visualizer.sensor_plot["audio"].add_samples(timestamp_ns, [audio_data[0]])
         self.send_data("audio", {"timestamp": timestamp_ns, "audio": audio_data.tolist()})
-
 
     def stop(self):
         print("Stopping stream...")

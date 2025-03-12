@@ -22,13 +22,13 @@ class WinNetMqStreams
             var ImageInstance = MessagePackFormat.Instance;
             var SlamInstance1 = MessagePackFormat.Instance;
             var SlamInstance2 = MessagePackFormat.Instance;
+            var EyesInstance = MessagePackFormat.Instance;
 
             var ariaImagesSource = new NetMQSource<dynamic>(
                 pipeline,
                 "images",
                 "tcp://127.0.0.1:5552",
-                ImageInstance);
-              
+                ImageInstance);              
             
             var ariaSlamCam1 = new NetMQSource<dynamic>(
                 pipeline,
@@ -40,11 +40,45 @@ class WinNetMqStreams
                 pipeline,
                 "slam2",
                 "tcp://127.0.0.1:5551",
-                SlamInstance2);                        
+                SlamInstance2);
+
+            var ariaEyesCams = new NetMQSource<dynamic>(
+                pipeline,
+                "eyes",
+                "tcp://127.0.0.1:5553",
+                EyesInstance);
+
 
             Mat matImage = new Mat(1408, 1408, MatType.CV_8UC3);
             Mat slamImage1 = new Mat(640, 480 , MatType.CV_8UC1);
             Mat slamImage2 = new Mat(640, 480 , MatType.CV_8UC1);
+            Mat eyesImages = new Mat(640, 480, MatType.CV_8UC1);
+
+            // Start Eyes Processing 
+            {
+                var processedStream = ariaEyesCams.Select(iframe =>
+                {
+                    int width = (int)iframe.width;
+                    int height = (int)iframe.height;
+                    int channels = (int)iframe.channels;
+                    byte[] imageBytes = (byte[])iframe.image_bytes;
+
+                    var eyesImage = ImagePool.GetOrCreate(width, height, PixelFormat.Gray_8bpp);
+                    eyesImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
+
+                    // Process Image in OpenCV
+                    lock (eyesImages) // Ensure thread safety
+                    {
+                        Marshal.Copy(imageBytes, 0, eyesImages.Data, width * height * channels);
+                        Cv2.ImShow("NetMQ Eyes Stream", eyesImages);
+                        Cv2.WaitKey(1);
+                    }
+
+                    return eyesImage;
+                });
+
+                processedStream.Write("EyesImages", store);
+            }
 
             // Start Image Processing 
             {
