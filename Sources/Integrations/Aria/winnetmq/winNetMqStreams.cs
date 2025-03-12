@@ -20,33 +20,31 @@ class WinNetMqStreams
             var store = PsiStore.Create(pipeline, "AriaImages", @"d:/temp/kin");
 
             var ImageInstance = MessagePackFormat.Instance;
-            // var SlamInstance1 = MessagePackFormat.Instance;
-            // var SlamInstance2 = MessagePackFormat.Instance;
+            var SlamInstance1 = MessagePackFormat.Instance;
+            var SlamInstance2 = MessagePackFormat.Instance;
 
             var ariaImagesSource = new NetMQSource<dynamic>(
                 pipeline,
                 "images",
                 "tcp://127.0.0.1:5552",
                 ImageInstance);
-               
-            /*
+              
+            
             var ariaSlamCam1 = new NetMQSource<dynamic>(
                 pipeline,
                 "slam1",
-                "tcp://127.0.0.1:5561",
+                "tcp://127.0.0.1:5550",
                 SlamInstance1);
 
             var ariaSlamCam2 = new NetMQSource<dynamic>(
                 pipeline,
                 "slam2",
-                "tcp://127.0.0.1:5562",
-                SlamInstance2);
-
-            */ 
+                "tcp://127.0.0.1:5551",
+                SlamInstance2);                        
 
             Mat matImage = new Mat(1408, 1408, MatType.CV_8UC3);
-            // Mat slamImage1 = new Mat(640, 480 , MatType.CV_8UC1);
-            // Mat slamImage2 = new Mat(640, 480 , MatType.CV_8UC1);
+            Mat slamImage1 = new Mat(640, 480 , MatType.CV_8UC1);
+            Mat slamImage2 = new Mat(640, 480 , MatType.CV_8UC1);
 
             // Start Image Processing 
             {
@@ -73,7 +71,6 @@ class WinNetMqStreams
 
                 processedStream.Write("VideoImages", store);
             }
-            /*
             // Start SLAM Processing 1
             {
                 var processedSlam1 = ariaSlamCam1.Select(sframe =>
@@ -125,7 +122,6 @@ class WinNetMqStreams
 
                 processedSlam2.Write("SlamImage2", store);
             }
-            */ 
 
             // Run pipeline asynchronously
             pipeline.RunAsync();

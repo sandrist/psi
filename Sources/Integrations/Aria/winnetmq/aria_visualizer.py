@@ -26,21 +26,29 @@ import aria.sdk as aria
 from projectaria_tools.core.sensor_data import BarometerData, ImageDataRecord, MotionData
 
 NANOSECOND = 1e-9
+
+# Define ports for each data stream with their corresponding labels
 PORTS = {
-    "camera_0": "tcp://*:5550",
-    "camera_1": "tcp://*:5551",
-    "camera_2": "tcp://*:5552",
-    "camera_3": "tcp://*:5553",
-    "imu": "tcp://*:5560",
-    "magneto": "tcp://*:5561",
-    "baro": "tcp://*:5562",
-    "audio": "tcp://*:5563",
+    "camera_0": ("tcp://*:5550", "slam1"),
+    "camera_1": ("tcp://*:5551", "slam2"),
+    "camera_2": ("tcp://*:5552", "images"),
+    "camera_3": ("tcp://*:5553", "image4"),
+    "imu": ("tcp://*:5560", "sensor1"),
+    "magneto": ("tcp://*:5561", "sensor2"),
+    "baro": ("tcp://*:5562", "sensor3"),
+    "audio": ("tcp://*:5563", "audio"),
 }
 
+# Initialize ZeroMQ context and create publishers
 context = zmq.Context()
-publishers = {key: context.socket(zmq.PUB) for key in PORTS}
-for key, socket in publishers.items():
-    socket.bind(PORTS[key])
+publishers = {}    # Store only sockets
+topic_labels = {}  # Separate dictionary for labels
+
+for key, (port, label) in PORTS.items():
+    socket = context.socket(zmq.PUB)
+    socket.bind(port)
+    publishers[key] = socket  # Store only the socket
+    topic_labels[key] = label  # Store labels separately
 
 from datetime import datetime
 def get_utc_timestamp():
@@ -156,17 +164,18 @@ class KinAriaStreamingClientObserver:
         """
         try:
             if topic in publishers:
-                socket = publishers[topic]
+                socket = publishers[topic]  # Correctly get only the socket
+                label = topic_labels[topic]  # Retrieve the label from topic_labels dictionary
                 video_payload = {
                     "message": data,
-                    "originatingTime": data.get("originatingTime", get_utc_timestamp())
+                    "originatingTime": data.get("originatingTime", 
+                                                get_utc_timestamp())
                 }
-                socket.send_multipart(["images".encode(), msgpack.dumps(video_payload)])
+                socket.send_multipart([label.encode(), msgpack.dumps(video_payload)])
             else:
                 print(f"Warning: No publisher found for topic {topic}")
         except Exception as e:
             print(f"Error sending {topic} data: {e}")        
-
 
     def on_image_received_raw(self, image: np.array, record) -> None:
         """
@@ -182,10 +191,10 @@ class KinAriaStreamingClientObserver:
         # Define structured metadata
         image_data = {
             "header": "AriaVMQ",
-            "width": image.shape[1],  # Width
+            "width": image.shape[1],   # Width
             "height": image.shape[0],  # Height
             "channels": image.shape[2] if len(image.shape) > 2 else 1,  # Handle grayscale images
-            "StreamType": 6,
+            "StreamType": camera_id,
             "image_bytes": img_byte_array,
             "originatingTime": timestamp
         }
@@ -196,10 +205,15 @@ class KinAriaStreamingClientObserver:
             rgb_image = np.rot90(image, -1)
             rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
             image_data["image_bytes"] = rgb_image.tobytes()
+        if camera_id in {0,1}:
+            #print("Processing Slam Cameras")
+            slam_image = np.rot90(image, -1)            
+            image_data["image_bytes"] = slam_image.tobytes()
 
+        #print("send_on_netmq camera_id:",{camera_id} )
+        
         # Send over NetMQ
         self.send_on_netmq(f"camera_{camera_id}", image_data)
-
         
     def on_image_received_processed(self, image: np.array, record) -> None:
         """
@@ -227,7 +241,6 @@ class KinAriaStreamingClientObserver:
             "camera_id": camera_id,
             "image": img_base64
         }
-
         self.send_data(f"camera_{camera_id}", image_data)
        
 
