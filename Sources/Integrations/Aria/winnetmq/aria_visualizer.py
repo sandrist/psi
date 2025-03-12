@@ -51,8 +51,21 @@ for key, (port, label) in PORTS.items():
     topic_labels[key] = label  # Store labels separately
 
 from datetime import datetime
+import threading
+
+
+# Global lock and last timestamp for thread-safe incrementing
+timestamp_lock = threading.Lock()
+last_timestamp = 0
+
 def get_utc_timestamp():
-    return int((datetime.utcnow() - datetime(1, 1, 1)).total_seconds() * 10**7)
+    global last_timestamp
+    with timestamp_lock:
+        new_timestamp = int((datetime.utcnow() - datetime(1, 1, 1)).total_seconds() * 10**7)
+        # Ensure timestamps always increase
+        last_timestamp = max(last_timestamp + 1, new_timestamp)
+        return last_timestamp
+
 
 class CVTemporalPlot:
     def __init__(self, title: str, dim: int, window_duration_sec: float = 4, width=500, height=300):
@@ -157,7 +170,6 @@ class KinAriaStreamingClientObserver:
         except Exception as e:
             print(f"Error sending {topic} data: {e}")
     
-    
     def send_on_netmq(self, topic: str, data: dict):
         """
         Sends structured data over NetMQ using multipart messages.
@@ -208,9 +220,7 @@ class KinAriaStreamingClientObserver:
         if camera_id in {0,1}:
             #print("Processing Slam Cameras")
             slam_image = np.rot90(image, -1)            
-            image_data["image_bytes"] = slam_image.tobytes()
-
-        #print("send_on_netmq camera_id:",{camera_id} )
+            image_data["image_bytes"] = slam_image.tobytes()        
         
         # Send over NetMQ
         self.send_on_netmq(f"camera_{camera_id}", image_data)
@@ -242,8 +252,7 @@ class KinAriaStreamingClientObserver:
             "image": img_base64
         }
         self.send_data(f"camera_{camera_id}", image_data)
-       
-
+   
     def on_image_received(self, image: np.array, record) -> None:
         """Determines which function to call based on mode."""
         if self.mode == "raw":
@@ -278,7 +287,7 @@ class KinAriaStreamingClientObserver:
         timestamp_ns = time.time() * 1e9
         self.visualizer.sensor_plot["audio"].add_samples(timestamp_ns, [audio_data[0]])
         self.send_data("audio", {"timestamp": timestamp_ns, "audio": audio_data.tolist()})
-    
+
 
     def stop(self):
         print("Stopping stream...")
