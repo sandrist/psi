@@ -52,7 +52,7 @@ class WinNetMqStreams
             Mat matImage = new Mat(1408, 1408, MatType.CV_8UC3);
             Mat slamImage1 = new Mat(640, 480 , MatType.CV_8UC1);
             Mat slamImage2 = new Mat(640, 480 , MatType.CV_8UC1);
-            Mat eyesImages = new Mat(640, 480, MatType.CV_8UC1);
+            Mat eyesImages = new Mat(240,640,  MatType.CV_8UC1);
 
             // Start Eyes Processing 
             {
@@ -118,7 +118,7 @@ class WinNetMqStreams
                     psiSlam.Resource.CopyFrom(slamimageBytes, 0, swidth * sheight * schannels);
 
                     // Process SLAM in OpenCV
-                    //lock (slamImage) // Ensure thread safety
+                    lock (slamImage1) // Ensure thread safety
                     {
                         Marshal.Copy(slamimageBytes, 0, slamImage1.Data, slamimageBytes.Length);
                         Cv2.ImShow("KiranM Slam Cam 1", slamImage1);
@@ -144,7 +144,7 @@ class WinNetMqStreams
                     psiSlam.Resource.CopyFrom(slamimageBytes, 0, swidth * sheight * schannels);
 
                     // Process SLAM in OpenCV
-                    // lock (slamImage) // Ensure thread safety
+                    lock (slamImage2) // Ensure thread safety
                     {
                         Marshal.Copy(slamimageBytes, 0, slamImage2.Data, slamimageBytes.Length);
                         Cv2.ImShow("KiranM Slam Cam2", slamImage2);

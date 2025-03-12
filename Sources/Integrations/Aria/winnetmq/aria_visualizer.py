@@ -220,7 +220,11 @@ class KinAriaStreamingClientObserver:
         if camera_id in {0,1}:
             #print("Processing Slam Cameras")
             slam_image = np.rot90(image, -1)            
-            image_data["image_bytes"] = slam_image.tobytes()        
+            image_data["image_bytes"] = slam_image.tobytes()    
+        #if camera_id == 3:
+            #print("Processing Eyes Cameras")
+            #rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
+            # image_data["image_bytes"] = slam_image.tobytes()        
         
         # Send over NetMQ
         self.send_on_netmq(f"camera_{camera_id}", image_data)
