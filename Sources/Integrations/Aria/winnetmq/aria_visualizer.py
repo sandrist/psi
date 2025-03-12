@@ -36,6 +36,7 @@ PORTS = {
     "baro": "tcp://*:5562",
     "audio": "tcp://*:5563",
 }
+
 context = zmq.Context()
 publishers = {key: context.socket(zmq.PUB) for key in PORTS}
 for key, socket in publishers.items():
@@ -44,7 +45,6 @@ for key, socket in publishers.items():
 from datetime import datetime
 def get_utc_timestamp():
     return int((datetime.utcnow() - datetime(1, 1, 1)).total_seconds() * 10**7)
-
 
 class CVTemporalPlot:
     def __init__(self, title: str, dim: int, window_duration_sec: float = 4, width=500, height=300):
@@ -141,73 +141,66 @@ class KinAriaStreamingClientObserver:
         :param mode: Either "raw" or "processed" to determine image processing mode
         """
         self.visualizer = visualizer
-        self.mode = mode  # Determines which processing method to use
-
+        self.mode = mode  # Determines which processing method to use               
+    
     def send_data(self, topic: str, data: dict):
         try:
             publishers[topic].send_json(data)
         except Exception as e:
             print(f"Error sending {topic} data: {e}")
     
+    
     def send_on_netmq(self, topic: str, data: dict):
+        """
+        Sends structured data over NetMQ using multipart messages.
+        """
         try:
-            publishers[topic].send_json(data)
+            if topic in publishers:
+                socket = publishers[topic]
+                video_payload = {
+                    "message": data,
+                    "originatingTime": data.get("originatingTime", get_utc_timestamp())
+                }
+                socket.send_multipart(["images".encode(), msgpack.dumps(video_payload)])
+            else:
+                print(f"Warning: No publisher found for topic {topic}")
         except Exception as e:
-            print(f"Error sending {topic} data: {e}")
- 
+            print(f"Error sending {topic} data: {e}")        
+
+
     def on_image_received_raw(self, image: np.array, record) -> None:
         """
         Handles image frames from cameras.
         """
         camera_id = record.camera_id
         self.visualizer.latest_images[camera_id] = image
-                
+
+        # Convert image to a byte array
         img_byte_array = image.tobytes()
-        print(f"Processed image size: {len(img_byte_array)} for camera {camera_id}")
+        timestamp = get_utc_timestamp()
 
+        # Define structured metadata
+        image_data = {
+            "header": "AriaVMQ",
+            "width": image.shape[1],  # Width
+            "height": image.shape[0],  # Height
+            "channels": image.shape[2] if len(image.shape) > 2 else 1,  # Handle grayscale images
+            "StreamType": 6,
+            "image_bytes": img_byte_array,
+            "originatingTime": timestamp
+        }
+
+        # Special handling for Camera 2 (RGB processing)
         if camera_id == 2:
-            # stuff for RBG Camera 
-            print(f"This is Camera 2 ")
-
+            #print("Processing Camera 2 (RGB)")
             rgb_image = np.rot90(image, -1)
             rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
-            
-            # Serialize the image to raw bytes
-            image_bytes = rgb_image.tobytes()
-            timestamp = get_utc_timestamp()
-            # Define the string identifier
-            header_string = "AriaZMQ"
-            header_bytes = header_string.encode('utf-8')  # Convert string to bytes
+            image_data["image_bytes"] = rgb_image.tobytes()
 
-            # ✅ Define fixed parameters (must match C# side)
-            width = 1408    # Ensure this is defined BEFORE using it
-            height = 1408   # Ensure this is defined BEFORE using it
-            channels = 3    # RGB has 3 channels
-            StreamType = 6  # Define stream type
+        # Send over NetMQ
+        self.send_on_netmq(f"camera_{camera_id}", image_data)
 
-            #Define the message structure
-            video_message = {
-                "header": "AriaVMQ",       # 7-byte identifier                
-                "width": width,             # Image width
-                "height": height,            # Image height
-                "channels": channels,             # RGB (3 channels)
-                "StreamType": StreamType,           # Stream type identifier
-                "image_bytes": image_bytes, # Actual image data
-                "originatingTime": timestamp      # Milliseconds
-            }            
-            # Pack the message using MessagePack            
-            video_payload = {}
-            video_payload[u"message"] = video_message; 
-            video_payload[u"originatingTime"] = timestamp ; 
-            socket.send_multipart(["images".encode(), msgpack.dumps(video_payload)])
-
-        #elif camera_id == 3:
-            # Do stuff for camera 3
-        #    print(f"This is Camera 3 ")
-        #elif camera_id in {0, 1}:
-        # Do stuff for camera 0
-            #print(f"This is Camera 0 or 1")
-                
+        
     def on_image_received_processed(self, image: np.array, record) -> None:
         """
         Handles image frames from cameras.
