@@ -23,28 +23,39 @@ class WinNetMqStreams
 
             var streams = new Dictionary<string, (string Address, PixelFormat Format, Mat Image)>
             {
-                { "images", ("tcp://127.0.0.1:5552", PixelFormat.BGR_24bpp, new Mat(1408, 1408, MatType.CV_8UC3)) },
                 { "slam1",  ("tcp://127.0.0.1:5550", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
                 { "slam2",  ("tcp://127.0.0.1:5551", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
-                { "eyes",   ("tcp://127.0.0.1:5553", PixelFormat.Gray_8bpp, new Mat(240, 640, MatType.CV_8UC1)) }
+                { "images", ("tcp://127.0.0.1:5552", PixelFormat.BGR_24bpp, new Mat(1408, 1408, MatType.CV_8UC3)) },
+                { "eyes",   ("tcp://127.0.0.1:5553", PixelFormat.Gray_8bpp, new Mat(240, 640, MatType.CV_8UC1)) },
+                { "accel0", ("tcp://127.0.0.1:5554", PixelFormat.Gray_8bpp, new Mat(1408, 1408, MatType.CV_8UC1)) },
+                { "accel1", ("tcp://127.0.0.1:5555", PixelFormat.Gray_8bpp, new Mat(1408, 1408, MatType.CV_8UC1)) },
+                { "gyro0",  ("tcp://127.0.0.1:5556", PixelFormat.Gray_8bpp, new Mat(1408, 1408, MatType.CV_8UC1)) },
+                { "gyro1",  ("tcp://127.0.0.1:5557", PixelFormat.Gray_8bpp, new Mat(1408, 1408, MatType.CV_8UC1)) },
+                { "magneto",("tcp://127.0.0.1:5558", PixelFormat.Gray_8bpp, new Mat(1408, 1408, MatType.CV_8UC1)) },
+                { "baro",   ("tcp://127.0.0.1:5559", PixelFormat.Gray_8bpp, new Mat(1408, 1408, MatType.CV_8UC1)) },
+                { "audio",  ("tcp://127.0.0.1:5560", PixelFormat.Gray_8bpp, new Mat(1408, 1408, MatType.CV_8UC1)) }
             };
 
-            foreach (var stream in streams)
+            // Process only the first 4 streams
+            foreach (var stream in streams.Take(4))
             {
                 string name = stream.Key;
                 string address = stream.Value.Address;
                 PixelFormat format = stream.Value.Format;
                 Mat matImage = stream.Value.Image;
-
+                int width = 0;
+                int height = 0; 
+                int channels = 0;
+                
                 var netMqSource = new NetMQSource<dynamic>(pipeline, name, address, MessagePackFormat.Instance);
 
                 var processedStream = netMqSource.Select(frame =>
                 {
-                    int width = (int)frame.width;
-                    int height = (int)frame.height;
-                    int channels = (int)frame.channels;
+                  
+                    width = (int)frame.width;
+                    height = (int)frame.height;
+                    channels = (int)frame.channels;
                     byte[] imageBytes = (byte[])frame.image_bytes;
-
                     var psiImage = ImagePool.GetOrCreate(width, height, format);
                     psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
 
@@ -55,8 +66,8 @@ class WinNetMqStreams
                         Cv2.ImShow($"NetMQ {name} Stream", matImage);
                         Cv2.WaitKey(1);
                     }
-
                     return psiImage;
+
                 });
 
                 processedStream.Write($"{name}Images", store);

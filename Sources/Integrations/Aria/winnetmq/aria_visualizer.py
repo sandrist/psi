@@ -20,6 +20,7 @@ import queue
 import base64
 import json
 import zmq
+import sys
 from collections import deque
 from typing import Sequence
 import aria.sdk as aria
@@ -33,10 +34,13 @@ PORTS = {
     "camera_1": ("tcp://*:5551", "slam2"),
     "camera_2": ("tcp://*:5552", "images"),
     "camera_3": ("tcp://*:5553", "eyes"),
-    "imu": ("tcp://*:5560", "sensor1"),
-    "magneto": ("tcp://*:5561", "sensor2"),
-    "baro": ("tcp://*:5562", "sensor3"),
-    "audio": ("tcp://*:5563", "audio"),
+    "accel0": ("tcp://*:5554", "accel0"),
+    "accel1": ("tcp://*:5555", "accel1"),    
+    "gyro0": ("tcp://*:5556", "gyro0"),
+    "gyro1": ("tcp://*:5557", "gyro1"),    
+    "magneto": ("tcp://*:5558", "magneto"),
+    "baro": ("tcp://*:5559", "baro"),
+    "audio": ("tcp://*:5560", "audio"),
 }
 
 # Initialize ZeroMQ context and create publishers
@@ -266,22 +270,118 @@ class KinAriaStreamingClientObserver:
         else:
             raise ValueError(f"Unknown mode: {self.mode}")
     
+    
     def on_imu_received(self, samples: Sequence, imu_idx: int):
         sample = samples[0]
         imu_data = {"timestamp": sample.capture_timestamp_ns, "accel": sample.accel_msec2, "gyro": sample.gyro_radsec}
         self.visualizer.sensor_plot["accel"][imu_idx].add_samples(sample.capture_timestamp_ns, sample.accel_msec2)
         self.visualizer.sensor_plot["gyro"][imu_idx].add_samples(sample.capture_timestamp_ns, sample.gyro_radsec)
-        self.send_data("imu", imu_data)
+        
+        if self.mode == "raw":                        
+            if imu_idx == 0:
+                print(f"Size of accel0: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
+                print(f"Size of gyro0: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size
+                #self.send_on_netmq("accel0", sample.accel_msec2)       
+                #self.send_on_netmq("gyro0", sample.gyro_radsec)  
+
+                # Define structured metadata
+                image_data = {
+                    "header": "AriaIMU",
+                    "width": 80,   # Width
+                    "height": 1,  # Height
+                    "channels": 1,  # Handle grayscale images
+                    "StreamType": 5,
+                    "image_bytes": {"accel0": sample.accel_msec2},
+                    "originatingTime": get_utc_timestamp()
+                }
+                self.send_on_netmq("accel0", image_data)  # Wrap in dict
+
+                image_data = {
+                    "header": "AriaIMU",
+                    "width": 80,   # Width
+                    "height": 1,  # Height
+                    "channels": 1,  # Handle grayscale images
+                    "StreamType": 7,
+                    "image_bytes": {"gyro0": sample.gyro_radsec},
+                    "originatingTime": get_utc_timestamp()
+                }
+                self.send_on_netmq("gyro0", image_data)    # Wrap in dict
+            elif imu_idx == 1:
+                print(f"Size of accel1: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
+                print(f"Size of gyro1: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size
+                
+                # Define structured metadata
+                image_data = {
+                    "header": "AriaIMU",
+                    "width": 80,   # Width
+                    "height": 1,  # Height
+                    "channels": 1,  # Handle grayscale images
+                    "StreamType": 6,
+                    "image_bytes": {"accel1": sample.accel_msec2},
+                    "originatingTime": get_utc_timestamp()
+                }
+                #self.send_on_netmq("accel1", sample.accel_msec2)
+                #self.send_on_netmq("gyro1", sample.gyro_radsec)       
+                self.send_on_netmq("accel1", image_data)  # Wrap in dict
+
+                # Define structured metadata
+                image_data = {
+                    "header": "AriaIMU",
+                    "width": 80,   # Width
+                    "height": 1,  # Height
+                    "channels": 1,  # Handle grayscale images
+                    "StreamType": 8,
+                    "image_bytes": {"gyro1": sample.accel_msec2},
+                    "originatingTime": get_utc_timestamp()
+                }
+
+                self.send_on_netmq("gyro1", image_data)    # Wrap in dict
+            else:
+                raise ValueError(f"Unknown Imu: {imu_idx}")
+        elif self.mode == "processed":
+            self.send_data("imu", imu_data)       
     
     def on_magneto_received(self, sample):
         magneto_data = {"timestamp": sample.capture_timestamp_ns, "magnetometer": sample.mag_tesla}
         self.visualizer.sensor_plot["magneto"].add_samples(sample.capture_timestamp_ns, sample.mag_tesla)
-        self.send_data("magneto", magneto_data)
-    
+
+        print(f"Size of magneto_data: {sys.getsizeof(magneto_data)} bytes")  # Print size
+
+        if self.mode == "raw":
+            # Define structured metadata
+            mag_data = {
+                "header": "AriaIMU",
+                "width": 80,   # Width
+                "height": 1,  # Height
+                "channels": 1,  # Handle grayscale images
+                "StreamType": 8,
+                "image_bytes": {"magneto": magneto_data},
+                "originatingTime": get_utc_timestamp()
+            }
+            self.send_on_netmq("magneto", mag_data)            
+        elif self.mode == "processed":
+            self.send_data("magneto", magneto_data)     
+
     def on_baro_received(self, sample):
         baro_data = {"timestamp": sample.capture_timestamp_ns, "pressure": sample.pressure}
         self.visualizer.sensor_plot["baro"].add_samples(sample.capture_timestamp_ns, [sample.pressure])
-        self.send_data("baro", baro_data)
+        #self.send_data("baro", baro_data)
+        print(f"Size of baro_data: {sys.getsizeof(baro_data)} bytes")  # Print size
+
+        if self.mode == "raw":            
+              # Define structured metadata
+            baro_data = {
+                "header": "AriaIMU",
+                "width": 80,   # Width
+                "height": 1,  # Height
+                "channels": 1,  # Handle grayscale images
+                "StreamType": 9,
+                "image_bytes": {"baro": baro_data},
+                "originatingTime": get_utc_timestamp()
+            }
+            self.send_on_netmq("baro", baro_data)
+        elif self.mode == "processed":
+            self.send_data("baro", baro_data)
     
     def on_audio_received(self, audio_and_record, *args):
         audio_data = np.array(audio_and_record.data, dtype=np.float32)
