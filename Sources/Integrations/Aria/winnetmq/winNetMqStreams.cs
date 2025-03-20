@@ -77,26 +77,16 @@ class WinNetMqStreams
                         }
                         return psiImage;
                     }
-                    else 
+                    else if (name == "accel0" || name == "accel1" || name == "gyro0" || name == "gyro1")
                     {
-
+                        Console.WriteLine(name);   
                         try
                         {
-                            // Debugging: Print the actual type of frame to see what it contains
-                            // Console.WriteLine($"Type of frame: {frame.GetType()}");
-
                             // If frame is a dynamic ExpandoObject, we access its properties directly
                             if (frame is ExpandoObject expandoMessage)
                             {
                                 // Convert to IDictionary for easier access to properties
                                 var messageDict = (IDictionary<string, object>)expandoMessage;
-
-                                // Print out all the keys of the ExpandoObject for debugging
-                                Console.WriteLine("Keys in frame.Message:");
-                                foreach (var key in messageDict.Keys)
-                                {
-                                    Console.WriteLine($"Key: {key}");
-                                }
 
                                 // Assuming the message has a 'values' key, extract it
                                 if (messageDict.ContainsKey("values"))
@@ -106,25 +96,33 @@ class WinNetMqStreams
                                     // Check if imuData is in the expected format (array or list of objects)
                                     if (imuData is object[] rawData)
                                     {
-                                        Console.WriteLine($"Received IMU data with {rawData.Length} values.");
+                                        // Print the IMU data array directly
+                                        Console.WriteLine("Received IMU data:");
+                                        foreach (var value in rawData)
+                                        {
+                                            Console.WriteLine(value);  // Print each value in the array
+                                        }
                                     }
                                     else if (imuData is List<object> rawDataList)
                                     {
-                                        Console.WriteLine($"Received IMU data with {rawDataList.Count} values.");
+                                        // Print the IMU data list directly
+                                        Console.WriteLine("Received IMU Raw data:");
+                                        foreach (var value in rawDataList)
+                                        {
+                                            Console.WriteLine(value);  // Print each value in the list
+                                        }
                                     }
                                     else
                                     {
+                                        // Handle unexpected data format if necessary
                                         Console.WriteLine("The 'values' data is not in the expected format (neither object[] nor List<object>).");
                                     }
                                 }
                                 else
                                 {
+                                    // If the 'values' key is not found
                                     Console.WriteLine("'values' key not found in the message.");
                                 }
-                            }
-                            else
-                            {
-                                Console.WriteLine("Frame is not an ExpandoObject or doesn't have expected structure.");
                             }
                         }
                         catch (Exception ex)
@@ -135,6 +133,8 @@ class WinNetMqStreams
 
                         return frame; // Return unchanged frame if needed for further processing
                     }
+                    else
+                    {  return frame; }
                 });
 
                 processedStream.Write($"{name}Images", store);
