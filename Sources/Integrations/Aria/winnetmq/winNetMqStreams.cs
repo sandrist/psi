@@ -103,15 +103,6 @@ class WinNetMqStreams
                                             Console.WriteLine(value);  // Print each value in the array
                                         }
                                     }
-                                    else if (imuData is List<object> rawDataList)
-                                    {
-                                        // Print the IMU data list directly
-                                        Console.WriteLine("Received IMU Raw data:");
-                                        foreach (var value in rawDataList)
-                                        {
-                                            Console.WriteLine(value);  // Print each value in the list
-                                        }
-                                    }
                                     else
                                     {
                                         // Handle unexpected data format if necessary
