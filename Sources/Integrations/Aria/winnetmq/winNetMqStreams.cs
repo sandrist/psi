@@ -12,6 +12,7 @@ using Microsoft.Psi.Interop.Transport;
 using MessagePack;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 
 class WinNetMqStreams
 {
@@ -27,47 +28,113 @@ class WinNetMqStreams
                 { "slam2",  ("tcp://127.0.0.1:5551", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
                 { "images", ("tcp://127.0.0.1:5552", PixelFormat.BGR_24bpp, new Mat(1408, 1408, MatType.CV_8UC3)) },
                 { "eyes",   ("tcp://127.0.0.1:5553", PixelFormat.Gray_8bpp, new Mat(240, 640, MatType.CV_8UC1)) },
-                { "accel0", ("tcp://127.0.0.1:5554", PixelFormat.Gray_8bpp, new Mat(1408, 1408, MatType.CV_8UC1)) },
-                { "accel1", ("tcp://127.0.0.1:5555", PixelFormat.Gray_8bpp, new Mat(1408, 1408, MatType.CV_8UC1)) },
-                { "gyro0",  ("tcp://127.0.0.1:5556", PixelFormat.Gray_8bpp, new Mat(1408, 1408, MatType.CV_8UC1)) },
-                { "gyro1",  ("tcp://127.0.0.1:5557", PixelFormat.Gray_8bpp, new Mat(1408, 1408, MatType.CV_8UC1)) },
-                { "magneto",("tcp://127.0.0.1:5558", PixelFormat.Gray_8bpp, new Mat(1408, 1408, MatType.CV_8UC1)) },
-                { "baro",   ("tcp://127.0.0.1:5559", PixelFormat.Gray_8bpp, new Mat(1408, 1408, MatType.CV_8UC1)) },
-                { "audio",  ("tcp://127.0.0.1:5560", PixelFormat.Gray_8bpp, new Mat(1408, 1408, MatType.CV_8UC1)) }
+                { "accel0", ("tcp://127.0.0.1:5554", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
+                { "accel1", ("tcp://127.0.0.1:5555", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
+                { "gyro0",  ("tcp://127.0.0.1:5556", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
+                { "gyro1",  ("tcp://127.0.0.1:5557", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
+                { "magneto",("tcp://127.0.0.1:5558", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
+                { "baro",   ("tcp://127.0.0.1:5559", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
+                { "audio",  ("tcp://127.0.0.1:5560", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) }
             };
 
-            // Process only the first 4 streams
-            foreach (var stream in streams.Take(4))
+            // Process only the first 10 streams
+            foreach (var stream in streams.Take(10))
             {
                 string name = stream.Key;
                 string address = stream.Value.Address;
                 PixelFormat format = stream.Value.Format;
                 Mat matImage = stream.Value.Image;
-                int width = 0;
-                int height = 0; 
-                int channels = 0;
-                
+                int width = 1;
+                int height = 1;
+                int channels = 1;
+                int streamtype = 1;
+
+
                 var netMqSource = new NetMQSource<dynamic>(pipeline, name, address, MessagePackFormat.Instance);
 
                 var processedStream = netMqSource.Select(frame =>
                 {
-                  
-                    width = (int)frame.width;
-                    height = (int)frame.height;
-                    channels = (int)frame.channels;
-                    byte[] imageBytes = (byte[])frame.image_bytes;
-                    var psiImage = ImagePool.GetOrCreate(width, height, format);
-                    psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
 
-                    // Process Image in OpenCV
-                    lock (matImage) // Ensure thread safety
+                    if (name == "slam1" || name == "slam2" || name == "images" || name =="eyes")
                     {
-                        Marshal.Copy(imageBytes, 0, matImage.Data, imageBytes.Length);
-                        Cv2.ImShow($"NetMQ {name} Stream", matImage);
-                        Cv2.WaitKey(1);
-                    }
-                    return psiImage;
+                        // Do something specific for "slam1" and "slam2"
+                        // Console.WriteLine($"Processing {name} (special handling for slam1 or slam2)");
+                        width = (int)frame.width;
+                        height = (int)frame.height;
+                        channels = (int)frame.channels;
+                        streamtype = (int)frame.StreamType;
 
+                        byte[] imageBytes = (byte[])frame.image_bytes;
+                        var psiImage = ImagePool.GetOrCreate(width, height, format);
+                        psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
+
+                        // Process Image in OpenCV
+                        lock (matImage) // Ensure thread safety
+                        {
+                            Marshal.Copy(imageBytes, 0, matImage.Data, imageBytes.Length);
+                            Cv2.ImShow($"NetMQ {name} Stream", matImage);
+                            Cv2.WaitKey(1);
+                        }
+                        return psiImage;
+                    }
+                    else 
+                    {
+
+                        try
+                        {
+                            // Debugging: Print the actual type of frame to see what it contains
+                            // Console.WriteLine($"Type of frame: {frame.GetType()}");
+
+                            // If frame is a dynamic ExpandoObject, we access its properties directly
+                            if (frame is ExpandoObject expandoMessage)
+                            {
+                                // Convert to IDictionary for easier access to properties
+                                var messageDict = (IDictionary<string, object>)expandoMessage;
+
+                                // Print out all the keys of the ExpandoObject for debugging
+                                Console.WriteLine("Keys in frame.Message:");
+                                foreach (var key in messageDict.Keys)
+                                {
+                                    Console.WriteLine($"Key: {key}");
+                                }
+
+                                // Assuming the message has a 'values' key, extract it
+                                if (messageDict.ContainsKey("values"))
+                                {
+                                    var imuData = messageDict["values"];
+
+                                    // Check if imuData is in the expected format (array or list of objects)
+                                    if (imuData is object[] rawData)
+                                    {
+                                        Console.WriteLine($"Received IMU data with {rawData.Length} values.");
+                                    }
+                                    else if (imuData is List<object> rawDataList)
+                                    {
+                                        Console.WriteLine($"Received IMU data with {rawDataList.Count} values.");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("The 'values' data is not in the expected format (neither object[] nor List<object>).");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("'values' key not found in the message.");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Frame is not an ExpandoObject or doesn't have expected structure.");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Catch and log any errors that occur during processing
+                            Console.WriteLine($"Error processing frame: {ex.Message}");
+                        }
+
+                        return frame; // Return unchanged frame if needed for further processing
+                    }
                 });
 
                 processedStream.Write($"{name}Images", store);

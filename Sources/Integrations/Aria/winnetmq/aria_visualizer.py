@@ -277,67 +277,33 @@ class KinAriaStreamingClientObserver:
         self.visualizer.sensor_plot["accel"][imu_idx].add_samples(sample.capture_timestamp_ns, sample.accel_msec2)
         self.visualizer.sensor_plot["gyro"][imu_idx].add_samples(sample.capture_timestamp_ns, sample.gyro_radsec)
         
-        if self.mode == "raw":                        
-            if imu_idx == 0:
-                print(f"Size of accel0: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
-                print(f"Size of gyro0: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size
-                #self.send_on_netmq("accel0", sample.accel_msec2)       
-                #self.send_on_netmq("gyro0", sample.gyro_radsec)  
+        if self.mode == "raw":
+                print(f"Sending Size of accel0: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
+                print(f"Sending Size of gyro0: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size
+                # print(type(sample.accel_msec2), type(sample.gyro_radsec))
 
-                # Define structured metadata
-                image_data = {
-                    "header": "AriaIMU",
-                    "width": 80,   # Width
-                    "height": 1,  # Height
-                    "channels": 1,  # Handle grayscale images
-                    "StreamType": 5,
-                    "image_bytes": {"accel0": sample.accel_msec2},
-                    "originatingTime": get_utc_timestamp()
-                }
-                self.send_on_netmq("accel0", image_data)  # Wrap in dict
+                accel_size = sum(sys.getsizeof(v) for v in sample.accel_msec2)
+                gyro_size = sum(sys.getsizeof(v) for v in sample.gyro_radsec)
 
-                image_data = {
-                    "header": "AriaIMU",
-                    "width": 80,   # Width
-                    "height": 1,  # Height
-                    "channels": 1,  # Handle grayscale images
-                    "StreamType": 7,
-                    "image_bytes": {"gyro0": sample.gyro_radsec},
-                    "originatingTime": get_utc_timestamp()
-                }
-                self.send_on_netmq("gyro0", image_data)    # Wrap in dict
-            elif imu_idx == 1:
-                print(f"Size of accel1: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
-                print(f"Size of gyro1: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size
+                print(f"Sending Size of accel0: {accel_size} bytes")
+                print(f"Sending Size of gyro0: {gyro_size} bytes")
+
+                accel_array = np.array(sample.accel_msec2, dtype=np.float32)
+                gyro_array = np.array(sample.gyro_radsec, dtype=np.float32)
+
+                print(f"Accel array size: {accel_array.nbytes} bytes")
+                print(f"Gyro array size: {gyro_array.nbytes} bytes")
                 
-                # Define structured metadata
-                image_data = {
-                    "header": "AriaIMU",
-                    "width": 80,   # Width
-                    "height": 1,  # Height
-                    "channels": 1,  # Handle grayscale images
-                    "StreamType": 6,
-                    "image_bytes": {"accel1": sample.accel_msec2},
-                    "originatingTime": get_utc_timestamp()
-                }
-                #self.send_on_netmq("accel1", sample.accel_msec2)
-                #self.send_on_netmq("gyro1", sample.gyro_radsec)       
-                self.send_on_netmq("accel1", image_data)  # Wrap in dict
-
-                # Define structured metadata
-                image_data = {
-                    "header": "AriaIMU",
-                    "width": 80,   # Width
-                    "height": 1,  # Height
-                    "channels": 1,  # Handle grayscale images
-                    "StreamType": 8,
-                    "image_bytes": {"gyro1": sample.accel_msec2},
-                    "originatingTime": get_utc_timestamp()
-                }
-
-                self.send_on_netmq("gyro1", image_data)    # Wrap in dict
-            else:
-                raise ValueError(f"Unknown Imu: {imu_idx}")
+                if imu_idx == 0:                              
+                    self.send_on_netmq("accel0", {"values": accel_array.tolist()})  
+                    self.send_on_netmq("gyro0", {"values": gyro_array.tolist()})
+                elif imu_idx == 1:
+                    print(f"Size of accel1: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
+                    print(f"Size of gyro1: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size                                                                   
+                    self.send_on_netmq("accel1", {"values": accel_array.tolist()})  
+                    self.send_on_netmq("gyro1", {"values": gyro_array.tolist()})
+                else:
+                    raise ValueError(f"Unknown Imu: {imu_idx}")
         elif self.mode == "processed":
             self.send_data("imu", imu_data)       
     
@@ -354,11 +320,11 @@ class KinAriaStreamingClientObserver:
                 "width": 80,   # Width
                 "height": 1,  # Height
                 "channels": 1,  # Handle grayscale images
-                "StreamType": 8,
+                "StreamType": 9,
                 "image_bytes": {"magneto": magneto_data},
                 "originatingTime": get_utc_timestamp()
             }
-            self.send_on_netmq("magneto", mag_data)            
+            #self.send_on_netmq("magneto", mag_data)            
         elif self.mode == "processed":
             self.send_data("magneto", magneto_data)     
 
@@ -375,11 +341,11 @@ class KinAriaStreamingClientObserver:
                 "width": 80,   # Width
                 "height": 1,  # Height
                 "channels": 1,  # Handle grayscale images
-                "StreamType": 9,
+                "StreamType": 10,
                 "image_bytes": {"baro": baro_data},
                 "originatingTime": get_utc_timestamp()
             }
-            self.send_on_netmq("baro", baro_data)
+            #self.send_on_netmq("baro", baro_data)
         elif self.mode == "processed":
             self.send_data("baro", baro_data)
     
