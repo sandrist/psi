@@ -1,87 +1,22 @@
-﻿using System.Dynamic;
-using System.Runtime.InteropServices;
-using LiveCharts;
-using LiveCharts.WinForms;
-using LiveCharts.Wpf;
-using Microsoft.Psi;
-using Microsoft.Psi.Imaging;
-using Microsoft.Psi.Interop.Format;
-using Microsoft.Psi.Interop.Transport;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using NetMQ;
+using Newtonsoft.Json;
 using OpenCvSharp;
-using static System.Net.Mime.MediaTypeNames;
+using System.Runtime.InteropServices;
+using Microsoft.Psi;
+using Microsoft.Psi.Interop.Format;
+using Microsoft.Psi.Imaging;
+using Microsoft.Psi.Interop.Transport;
+using MessagePack;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
 
-class WinNetMqStreams : Form
+class WinNetMqStreams
 {
-    private readonly CartesianChart chart;
-    private readonly ChartValues<float> accelX, accelY, accelZ;
-    private readonly ChartValues<float> gyroX, gyroY, gyroZ;
-    private int index = 0;
-
-    public WinNetMqStreams()
-    {
-        this.Text = "IMU Data Visualization";
-        this.Size = new System.Drawing.Size(800, 500);
-
-        chart = new CartesianChart
-        {
-            Dock = DockStyle.Fill,
-            Series = new SeriesCollection
-            {
-                new LineSeries { Title = "Accel X", Values = (accelX = new ChartValues<float>()) },
-                new LineSeries { Title = "Accel Y", Values = (accelY = new ChartValues<float>()) },
-                new LineSeries { Title = "Accel Z", Values = (accelZ = new ChartValues<float>()) },
-                new LineSeries { Title = "Gyro X", Values = (gyroX = new ChartValues<float>()) },
-                new LineSeries { Title = "Gyro Y", Values = (gyroY = new ChartValues<float>()) },
-                new LineSeries { Title = "Gyro Z", Values = (gyroZ = new ChartValues<float>()) }
-            }
-        };
-
-        Controls.Add(chart);
-    }
-
-    public void UpdateChart(string name, object[] imuData)
-    {
-        if (imuData.Length < 3) return; // Ensure at least 3 values (X, Y, Z)
-
-        float x = Convert.ToSingle(imuData[0]);
-        float y = Convert.ToSingle(imuData[1]);
-        float z = Convert.ToSingle(imuData[2]);
-
-        switch (name)
-        {
-            case "accel0":
-            case "accel1":
-                accelX.Add(x);
-                accelY.Add(y);
-                accelZ.Add(z);
-                break;
-
-            case "gyro0":
-            case "gyro1":
-                gyroX.Add(x);
-                gyroY.Add(y);
-                gyroZ.Add(z);
-                break;
-        }
-
-        // Keep chart within 50 points for smooth updates
-        if (accelX.Count > 50) accelX.RemoveAt(0);
-        if (accelY.Count > 50) accelY.RemoveAt(0);
-        if (accelZ.Count > 50) accelZ.RemoveAt(0);
-        if (gyroX.Count > 50) gyroX.RemoveAt(0);
-        if (gyroY.Count > 50) gyroY.RemoveAt(0);
-        if (gyroZ.Count > 50) gyroZ.RemoveAt(0);
-
-        chart.Update();
-    }
-
-    public static void Main()
-    {
-        var imuForm = new WinNetMqStreams();
-        Application.Run(imuForm);
-    }
-
-    public static void StartPipeline()
+    static void Main(string[] args)
     {
         using (var pipeline = Pipeline.Create())
         {
@@ -96,64 +31,110 @@ class WinNetMqStreams : Form
                 { "accel0", ("tcp://127.0.0.1:5554", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
                 { "accel1", ("tcp://127.0.0.1:5555", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
                 { "gyro0",  ("tcp://127.0.0.1:5556", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
-                { "gyro1",  ("tcp://127.0.0.1:5557", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) }
+                { "gyro1",  ("tcp://127.0.0.1:5557", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
+                { "magneto",("tcp://127.0.0.1:5558", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
+                { "baro",   ("tcp://127.0.0.1:5559", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
+                { "audio",  ("tcp://127.0.0.1:5560", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) }
             };
 
-            foreach (var stream in streams)
+            // Process only the first 10 streams
+            foreach (var stream in streams.Take(10))
             {
                 string name = stream.Key;
                 string address = stream.Value.Address;
+                PixelFormat format = stream.Value.Format;
                 Mat matImage = stream.Value.Image;
+                int width = 1;
+                int height = 1;
+                int channels = 1;
+                int streamtype = 1;
+
 
                 var netMqSource = new NetMQSource<dynamic>(pipeline, name, address, MessagePackFormat.Instance);
 
                 var processedStream = netMqSource.Select(frame =>
                 {
-                    if (name == "slam1" || name == "slam2" || name == "images" || name == "eyes")
+
+                    if (name == "slam1" || name == "slam2" || name == "images" || name =="eyes")
                     {
+                        // Do something specific for "slam1" and "slam2"
+                        // Console.WriteLine($"Processing {name} (special handling for slam1 or slam2)");
+                        width = (int)frame.width;
+                        height = (int)frame.height;
+                        channels = (int)frame.channels;
+                        streamtype = (int)frame.StreamType;
+
                         byte[] imageBytes = (byte[])frame.image_bytes;
-                        lock (matImage)
+                        var psiImage = ImagePool.GetOrCreate(width, height, format);
+                        psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
+
+                        // Process Image in OpenCV
+                        lock (matImage) // Ensure thread safety
                         {
                             Marshal.Copy(imageBytes, 0, matImage.Data, imageBytes.Length);
                             Cv2.ImShow($"NetMQ {name} Stream", matImage);
                             Cv2.WaitKey(1);
                         }
-                        return frame;
+                        return psiImage;
                     }
                     else if (name == "accel0" || name == "accel1" || name == "gyro0" || name == "gyro1")
                     {
-                        Console.WriteLine(name);
+                        Console.WriteLine(name);   
                         try
                         {
+                            // If frame is a dynamic ExpandoObject, we access its properties directly
                             if (frame is ExpandoObject expandoMessage)
                             {
+                                // Convert to IDictionary for easier access to properties
                                 var messageDict = (IDictionary<string, object>)expandoMessage;
 
-                                if (messageDict.ContainsKey("values") && messageDict["values"] is object[] rawData)
+                                // Assuming the message has a 'values' key, extract it
+                                if (messageDict.ContainsKey("values"))
                                 {
-                                    Console.WriteLine($"Received IMU data ({name}): {string.Join(", ", rawData)}");
+                                    var imuData = messageDict["values"];
 
-                                    // Plot IMU data
-                                    Application.OpenForms[0].BeginInvoke((Action)(() =>
+                                    // Check if imuData is in the expected format (array or list of objects)
+                                    if (imuData is object[] rawData)
                                     {
-                                        ((WinNetMqStreams)Application.OpenForms[0]).UpdateChart(name, rawData);
-                                    }));
+                                        // Print the IMU data array directly
+                                        Console.WriteLine("Received IMU data:");
+                                        foreach (var value in rawData)
+                                        {
+                                            Console.WriteLine(value);  // Print each value in the array
+                                        }
+                                        Console.WriteLine("KiranM : Done:");
+
+
+                                    }
+                                    else
+                                    {
+                                        // Handle unexpected data format if necessary
+                                        Console.WriteLine("The 'values' data is not in the expected format (neither object[] nor List<object>).");
+                                    }
+                                }
+                                else
+                                {
+                                    // If the 'values' key is not found
+                                    Console.WriteLine("'values' key not found in the message.");
                                 }
                             }
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine($"Error processing IMU data: {ex.Message}");
+                            // Catch and log any errors that occur during processing
+                            Console.WriteLine($"Error processing frame: {ex.Message}");
                         }
 
-                        return frame;
+                        return frame; // Return unchanged frame if needed for further processing
                     }
-                    return frame;
+                    else
+                    {  return frame; }
                 });
 
                 processedStream.Write($"{name}Images", store);
             }
 
+            // Run pipeline asynchronously
             pipeline.RunAsync();
 
             Console.WriteLine("KiranM: Press any key to stop recording...");
