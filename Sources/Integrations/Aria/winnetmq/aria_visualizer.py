@@ -312,19 +312,15 @@ class KinAriaStreamingClientObserver:
         self.visualizer.sensor_plot["magneto"].add_samples(sample.capture_timestamp_ns, sample.mag_tesla)
 
         print(f"Size of magneto_data: {sys.getsizeof(magneto_data)} bytes")  # Print size
+        print(type(sample.capture_timestamp_ns), type(sample.mag_tesla))
+        
+        mag_size = sum(sys.getsizeof(v) for v in sample.mag_tesla)
+        print(f"Sending Size of accel0: {mag_size} bytes")
 
-        if self.mode == "raw":
-            # Define structured metadata
-            mag_data = {
-                "header": "AriaIMU",
-                "width": 80,   # Width
-                "height": 1,  # Height
-                "channels": 1,  # Handle grayscale images
-                "StreamType": 9,
-                "image_bytes": {"magneto": magneto_data},
-                "originatingTime": get_utc_timestamp()
-            }
-            #self.send_on_netmq("magneto", mag_data)            
+        mag_array = np.array(sample.mag_tesla, dtype=np.float32)
+
+        if self.mode == "raw":            
+            self.send_on_netmq("magneto", {"values": mag_array.tolist()})  
         elif self.mode == "processed":
             self.send_data("magneto", magneto_data)     
 
@@ -333,19 +329,10 @@ class KinAriaStreamingClientObserver:
         self.visualizer.sensor_plot["baro"].add_samples(sample.capture_timestamp_ns, [sample.pressure])
         #self.send_data("baro", baro_data)
         print(f"Size of baro_data: {sys.getsizeof(baro_data)} bytes")  # Print size
+        print(type(sample.capture_timestamp_ns), type(sample.pressure))
 
-        if self.mode == "raw":            
-              # Define structured metadata
-            baro_data = {
-                "header": "AriaIMU",
-                "width": 80,   # Width
-                "height": 1,  # Height
-                "channels": 1,  # Handle grayscale images
-                "StreamType": 10,
-                "image_bytes": {"baro": baro_data},
-                "originatingTime": get_utc_timestamp()
-            }
-            #self.send_on_netmq("baro", baro_data)
+        if self.mode == "raw":
+            self.send_on_netmq("baro", {"values": baro_array.tolist()})  
         elif self.mode == "processed":
             self.send_data("baro", baro_data)
     
