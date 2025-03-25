@@ -34,11 +34,11 @@ class WinNetMqStreams
                 { "gyro1",  ("tcp://127.0.0.1:5557", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
                 { "magneto",("tcp://127.0.0.1:5558", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
                 { "baro",   ("tcp://127.0.0.1:5559", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
-                { "audio",  ("tcp://127.0.0.1:5560", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) }
+                { "audio",  ("tcp://127.0.0.1:5560", PixelFormat.Gray_8bpp, new Mat(1408, 1408, MatType.CV_8UC1)) }
             };
 
-            // Process only the first 10 streams
-            foreach (var stream in streams.Take(10))
+            // Process only the first 11 streams
+            foreach (var stream in streams.Take(11))
             {
                 string name = stream.Key;
                 string address = stream.Value.Address;
@@ -48,7 +48,6 @@ class WinNetMqStreams
                 int height = 1;
                 int channels = 1;
                 int streamtype = 1;
-
 
                 var netMqSource = new NetMQSource<dynamic>(pipeline, name, address, MessagePackFormat.Instance);
 
@@ -83,14 +82,8 @@ class WinNetMqStreams
                                 name == "gyro1"  ||
                                 name == "magneto" ||
                                 name == "baro"    ||
-                                name == "audio"
-                                )
+                                name == "audio")
                     {
-                        if(name == "audio")
-                        {
-                            Console.WriteLine(name);
-                        }
-
                         Console.WriteLine(name);   
                         try
                         {

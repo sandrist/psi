@@ -57,7 +57,6 @@ for key, (port, label) in PORTS.items():
 from datetime import datetime
 import threading
 
-
 # Global lock and last timestamp for thread-safe incrementing
 timestamp_lock = threading.Lock()
 last_timestamp = 0
@@ -341,15 +340,26 @@ class KinAriaStreamingClientObserver:
         audio_data = np.array(audio_and_record.data, dtype=np.float32)
         if len(audio_data) == 0:
             return
+
+        # Normalize audio data
         audio_data /= np.max(np.abs(audio_data)) if np.max(np.abs(audio_data)) > 0 else 1
+        
+         # Generate timestamp
         timestamp_ns = time.time() * 1e9
+
+        # Add first sample to visualizer
         self.visualizer.sensor_plot["audio"].add_samples(timestamp_ns, [audio_data[0]])
 
+         # Print all audio samples
+        #print("Audio Samples Received:")
+        #for i, sample in enumerate(audio_data):
+        #    print(f"Sample {i}: {sample}")
+
+        print(f"Sending Audio Frames: ")
         if self.mode == "raw":            
             self.send_on_netmq("audio", {"values": audio_data.tolist()})  
         elif self.mode == "processed":
             self.send_data("audio", {"timestamp": timestamp_ns, "audio": audio_data.tolist()})
-
 
     def stop(self):
         print("Stopping stream...")
