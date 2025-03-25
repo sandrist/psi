@@ -330,6 +330,7 @@ class KinAriaStreamingClientObserver:
         #self.send_data("baro", baro_data)
         print(f"Size of baro_data: {sys.getsizeof(baro_data)} bytes")  # Print size
         print(type(sample.capture_timestamp_ns), type(sample.pressure))
+        baro_array = np.array(sample.pressure, dtype=np.float32)
 
         if self.mode == "raw":
             self.send_on_netmq("baro", {"values": baro_array.tolist()})  

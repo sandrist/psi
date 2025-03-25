@@ -77,7 +77,13 @@ class WinNetMqStreams
                         }
                         return psiImage;
                     }
-                    else if (name == "accel0" || name == "accel1" || name == "gyro0" || name == "gyro1")
+                    else if (name == "accel0" || 
+                                name == "accel1" || 
+                                name == "gyro0"  || 
+                                name == "gyro1"  ||
+                                name == "magneto" ||
+                                name == "baro"
+                                )
                     {
                         Console.WriteLine(name);   
                         try
@@ -97,17 +103,38 @@ class WinNetMqStreams
                                     if (imuData is object[] rawData)
                                     {
                                         // Print the IMU data array directly
-                                        Console.WriteLine("Received IMU data:");
+                                        //Console.WriteLine("Received IMU data:");
                                         foreach (var value in rawData)
                                         {
                                             Console.WriteLine(value);  // Print each value in the array
                                         }
+                                    }
+                                    else if (imuData is List<object> listData)
+                                    {
+                                        Console.WriteLine("Received IMU data (List<object>):");
+                                        foreach (var value in listData)
+                                        {
+                                            Console.WriteLine(value);
+                                        }
+                                    }
+                                    else if (imuData is int || imuData is float || imuData is double)
+                                    {
+                                        // Convert single value to list
+                                        Console.WriteLine("Received single value, converting to list:");
+                                        List<object> convertedList = new List<object> { imuData };
+                                        Console.WriteLine($"Converted Data: {string.Join(", ", convertedList)}");
+                                    }
+                                    else if (imuData is string jsonString)
+                                    {
+                                        Console.WriteLine("Received data as a JSON string, possible serialization issue.");
+                                        // Optional: Try parsing it as JSON
                                     }
                                     else
                                     {
                                         // Handle unexpected data format if necessary
                                         Console.WriteLine("The 'values' data is not in the expected format (neither object[] nor List<object>).");
                                     }
+
                                 }
                                 else
                                 {
