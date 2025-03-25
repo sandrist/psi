@@ -82,9 +82,15 @@ class WinNetMqStreams
                                 name == "gyro0"  || 
                                 name == "gyro1"  ||
                                 name == "magneto" ||
-                                name == "baro"
+                                name == "baro"    ||
+                                name == "audio"
                                 )
                     {
+                        if(name == "audio")
+                        {
+                            Console.WriteLine(name);
+                        }
+
                         Console.WriteLine(name);   
                         try
                         {

@@ -344,7 +344,12 @@ class KinAriaStreamingClientObserver:
         audio_data /= np.max(np.abs(audio_data)) if np.max(np.abs(audio_data)) > 0 else 1
         timestamp_ns = time.time() * 1e9
         self.visualizer.sensor_plot["audio"].add_samples(timestamp_ns, [audio_data[0]])
-        self.send_data("audio", {"timestamp": timestamp_ns, "audio": audio_data.tolist()})
+
+        if self.mode == "raw":            
+            self.send_on_netmq("audio", {"values": audio_data.tolist()})  
+        elif self.mode == "processed":
+            self.send_data("audio", {"timestamp": timestamp_ns, "audio": audio_data.tolist()})
+
 
     def stop(self):
         print("Stopping stream...")
