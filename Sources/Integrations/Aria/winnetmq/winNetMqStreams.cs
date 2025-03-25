@@ -102,9 +102,6 @@ class WinNetMqStreams
                                         {
                                             Console.WriteLine(value);  // Print each value in the array
                                         }
-                                        Console.WriteLine("KiranM : Done:");
-
-
                                     }
                                     else
                                     {
