@@ -53,7 +53,6 @@ class WinNetMqStreams
 
                 var processedStream = netMqSource.Select(frame =>
                 {
-
                     if (name == "slam1" || name == "slam2" || name == "images" || name =="eyes")
                     {
                         // Do something specific for "slam1" and "slam2"
