@@ -60,17 +60,55 @@ class WinNetMqStreams
                                 int height = (int)frame.height;
                                 int channels = (int)frame.channels;
 
-                                var psiImage = ImagePool.GetOrCreate(width, height, format);
-                                psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
-
+                                if (name == "slam1" || name == "slam2" )
+                                {
+                                    var psiImage = ImagePool.GetOrCreate(height, width, PixelFormat.Gray_8bpp);
+                                    psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
                                 lock (matImage)
                                 {
                                     Marshal.Copy(imageBytes, 0, matImage.Data, imageBytes.Length);
                                     Cv2.ImShow($"NetMQ {name} Stream", matImage);
                                     Cv2.WaitKey(1);
                                 }
+
                                 return psiImage;
+
                             }
+                            else if (name == "images")
+                                {
+                                    var     psiImage = ImagePool.GetOrCreate(height, width, PixelFormat.BGR_24bpp);
+                                    psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
+                                    lock (matImage)
+                                    {
+                                        Marshal.Copy(imageBytes, 0, matImage.Data, imageBytes.Length);
+                                        Cv2.ImShow($"NetMQ {name} Stream", matImage);
+                                        Cv2.WaitKey(1);
+                                    }
+
+                                    return psiImage;
+                            }
+                            else if (name == "eyes")
+                                {
+                                    var  psiImage = ImagePool.GetOrCreate(width, height, PixelFormat.Gray_8bpp);
+                                    psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
+                                lock (matImage)
+                                {
+                                    Marshal.Copy(imageBytes, 0, matImage.Data, imageBytes.Length);
+                                    Cv2.ImShow($"NetMQ {name} Stream", matImage);
+                                    Cv2.WaitKey(1);
+                                }
+
+                                return psiImage;
+
+                            }
+                            else
+                            {
+                                return null; 
+                            }
+
+
+
+                        }
                             catch (Exception ex)
                             {
                                 Console.WriteLine($"Error processing {name}: {ex.Message}");
