@@ -24,9 +24,9 @@ class WinNetMqStreams
 
             var streams = new Dictionary<string, (string Address, PixelFormat Format, Mat Image)>
             {
-                { "slam1",  ("tcp://127.0.0.1:5550", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
-                { "slam2",  ("tcp://127.0.0.1:5551", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
-                { "images", ("tcp://127.0.0.1:5552", PixelFormat.BGR_24bpp, new Mat(1408, 1408, MatType.CV_8UC3)) },
+                { "slam1",  ("tcp://127.0.0.1:5550", PixelFormat.Gray_8bpp, new Mat(640,480, MatType.CV_8UC1)) },
+                { "slam2",  ("tcp://127.0.0.1:5551", PixelFormat.Gray_8bpp, new Mat(640,480, MatType.CV_8UC1)) },
+                { "images", ("tcp://127.0.0.1:5552", PixelFormat.BGR_24bpp, new Mat(1408,1408, MatType.CV_8UC3)) },
                 { "eyes",   ("tcp://127.0.0.1:5553", PixelFormat.Gray_8bpp, new Mat(240, 640, MatType.CV_8UC1)) },
                 { "accel0", ("tcp://127.0.0.1:5554", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
                 { "accel1", ("tcp://127.0.0.1:5555", PixelFormat.Gray_8bpp, new Mat(640, 480, MatType.CV_8UC1)) },
@@ -46,7 +46,7 @@ class WinNetMqStreams
 
                 var netMqSource = new NetMQSource<dynamic>(pipeline, name, address, MessagePackFormat.Instance);
 
-                if (name == "slam1" || name == "slam2" || name == "images" || name == "eyes")
+                if (name == "slam1" || name == "slam2" || name == "images" || name == "eyes")                
                 {
                     var processedStream = netMqSource.Select(frame =>
                     {
@@ -81,49 +81,6 @@ class WinNetMqStreams
                     processedStream.Write($"{name}", store);
 
                 }
-
-/*
-                var processedStream = netMqSource.Select(frame =>
-                {
-                    if (cts.Token.IsCancellationRequested)
-                        return null; // Stop processing
-
-                    if (name == "slam1" || name == "slam2" || name == "images" || name == "eyes")
-                    {
-                        try
-                        {
-                            byte[] imageBytes = (byte[])frame.image_bytes;
-                            int width = (int)frame.width;
-                            int height = (int)frame.height;
-                            int channels = (int)frame.channels;
-
-                            var psiImage = ImagePool.GetOrCreate(width, height, format);
-                            psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
-
-                            lock (matImage)
-                            {
-                                Marshal.Copy(imageBytes, 0, matImage.Data, imageBytes.Length);
-                                Cv2.ImShow($"NetMQ {name} Stream", matImage);
-                                Cv2.WaitKey(1);
-                            }
-                            return psiImage;
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Error processing {name}: {ex.Message}");
-                            return null;
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Received {name} data");
-                        return frame;
-                    }
-                });
-
-                processedStream.Write($"{name}", store);
-*/
-
             }
 
             pipeline.RunAsync();
