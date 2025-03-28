@@ -76,8 +76,8 @@ class WinNetMqStreams
                             }
                             else if (name == "images")
                                 {
-                                    var     psiImage = ImagePool.GetOrCreate(height, width, PixelFormat.BGR_24bpp);
-                                    psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
+                                    var     psiImage = ImagePool.GetOrCreate(height,width, PixelFormat.BGR_24bpp);
+                                    psiImage.Resource.CopyFrom(imageBytes, 0, height * width * channels);
                                     lock (matImage)
                                     {
                                         Marshal.Copy(imageBytes, 0, matImage.Data, imageBytes.Length);
