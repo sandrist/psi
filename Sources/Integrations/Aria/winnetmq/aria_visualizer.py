@@ -277,28 +277,28 @@ class KinAriaStreamingClientObserver:
         self.visualizer.sensor_plot["gyro"][imu_idx].add_samples(sample.capture_timestamp_ns, sample.gyro_radsec)
         
         if self.mode == "raw":
-                print(f"Sending Size of accel0: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
-                print(f"Sending Size of gyro0: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size
+                # print(f"Sending Size of accel0: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
+                # print(f"Sending Size of gyro0: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size
                 # print(type(sample.accel_msec2), type(sample.gyro_radsec))
 
                 accel_size = sum(sys.getsizeof(v) for v in sample.accel_msec2)
                 gyro_size = sum(sys.getsizeof(v) for v in sample.gyro_radsec)
 
-                print(f"Sending Size of accel0: {accel_size} bytes")
-                print(f"Sending Size of gyro0: {gyro_size} bytes")
+                #print(f"Sending Size of accel0: {accel_size} bytes")
+                #print(f"Sending Size of gyro0: {gyro_size} bytes")
 
                 accel_array = np.array(sample.accel_msec2, dtype=np.float32)
                 gyro_array = np.array(sample.gyro_radsec, dtype=np.float32)
 
-                print(f"Accel array size: {accel_array.nbytes} bytes")
-                print(f"Gyro array size: {gyro_array.nbytes} bytes")
+                #print(f"Accel array size: {accel_array.nbytes} bytes")
+                #print(f"Gyro array size: {gyro_array.nbytes} bytes")
                 
                 if imu_idx == 0:                              
                     self.send_on_netmq("accel0", {"values": accel_array.tolist()})  
                     self.send_on_netmq("gyro0", {"values": gyro_array.tolist()})
                 elif imu_idx == 1:
-                    print(f"Size of accel1: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
-                    print(f"Size of gyro1: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size                                                                   
+                    #print(f"Size of accel1: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
+                    #print(f"Size of gyro1: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size                                                                   
                     self.send_on_netmq("accel1", {"values": accel_array.tolist()})  
                     self.send_on_netmq("gyro1", {"values": gyro_array.tolist()})
                 else:
@@ -310,11 +310,11 @@ class KinAriaStreamingClientObserver:
         magneto_data = {"timestamp": sample.capture_timestamp_ns, "magnetometer": sample.mag_tesla}
         self.visualizer.sensor_plot["magneto"].add_samples(sample.capture_timestamp_ns, sample.mag_tesla)
 
-        print(f"Size of magneto_data: {sys.getsizeof(magneto_data)} bytes")  # Print size
-        print(type(sample.capture_timestamp_ns), type(sample.mag_tesla))
+        #print(f"Size of magneto_data: {sys.getsizeof(magneto_data)} bytes")  # Print size
+        #print(type(sample.capture_timestamp_ns), type(sample.mag_tesla))
         
         mag_size = sum(sys.getsizeof(v) for v in sample.mag_tesla)
-        print(f"Sending Size of accel0: {mag_size} bytes")
+        # print(f"Sending Size of accel0: {mag_size} bytes")
 
         mag_array = np.array(sample.mag_tesla, dtype=np.float32)
 
@@ -327,8 +327,8 @@ class KinAriaStreamingClientObserver:
         baro_data = {"timestamp": sample.capture_timestamp_ns, "pressure": sample.pressure}
         self.visualizer.sensor_plot["baro"].add_samples(sample.capture_timestamp_ns, [sample.pressure])
         #self.send_data("baro", baro_data)
-        print(f"Size of baro_data: {sys.getsizeof(baro_data)} bytes")  # Print size
-        print(type(sample.capture_timestamp_ns), type(sample.pressure))
+        #print(f"Size of baro_data: {sys.getsizeof(baro_data)} bytes")  # Print size
+        #print(type(sample.capture_timestamp_ns), type(sample.pressure))
         baro_array = np.array(sample.pressure, dtype=np.float32)
 
         if self.mode == "raw":
@@ -355,7 +355,7 @@ class KinAriaStreamingClientObserver:
         #for i, sample in enumerate(audio_data):
         #    print(f"Sample {i}: {sample}")
 
-        print(f"Sending Audio Frames: ")
+        #print(f"Sending Audio Frames: ")
         if self.mode == "raw":            
             self.send_on_netmq("audio", {"values": audio_data.tolist()})  
         elif self.mode == "processed":

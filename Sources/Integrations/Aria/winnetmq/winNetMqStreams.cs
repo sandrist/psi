@@ -13,9 +13,11 @@ using MessagePack;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
 
 class WinNetMqStreams
-{
+{    
     static void Main(string[] args)
     {
         using (var pipeline = Pipeline.Create())
