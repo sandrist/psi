@@ -10,19 +10,17 @@ using Microsoft.Psi.Interop.Format;
 using Microsoft.Psi.Imaging;
 using Microsoft.Psi.Interop.Transport;
 using MessagePack;
-using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using LiveChartsCore;
-using LiveChartsCore.SkiaSharpView;
 
 class WinNetMqStreams
-{    
+{
     static void Main(string[] args)
     {
+        using (var cts = new CancellationTokenSource())
         using (var pipeline = Pipeline.Create())
         {
-            var store = PsiStore.Create(pipeline, "AriaImages", @"d:/temp/kin");
+            var store = PsiStore.Create(pipeline, "AriaStreams", @"d:/temp/kin");
 
             var streams = new Dictionary<string, (string Address, PixelFormat Format, Mat Image)>
             {
@@ -39,130 +37,115 @@ class WinNetMqStreams
                 { "audio",  ("tcp://127.0.0.1:5560", PixelFormat.Gray_8bpp, new Mat(1408, 1408, MatType.CV_8UC1)) }
             };
 
-            // Process only the first 11 streams
             foreach (var stream in streams.Take(11))
             {
                 string name = stream.Key;
                 string address = stream.Value.Address;
                 PixelFormat format = stream.Value.Format;
                 Mat matImage = stream.Value.Image;
-                int width = 1;
-                int height = 1;
-                int channels = 1;
-                int streamtype = 1;
 
                 var netMqSource = new NetMQSource<dynamic>(pipeline, name, address, MessagePackFormat.Instance);
 
+                if (name == "slam1" || name == "slam2" || name == "images" || name == "eyes")
+                {
+                    var processedStream = netMqSource.Select(frame =>
+                    {
+                        if (cts.Token.IsCancellationRequested)
+                            return null; // Stop processing
+
+                            try
+                            {
+                                byte[] imageBytes = (byte[])frame.image_bytes;
+                                int width = (int)frame.width;
+                                int height = (int)frame.height;
+                                int channels = (int)frame.channels;
+
+                                var psiImage = ImagePool.GetOrCreate(width, height, format);
+                                psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
+
+                                lock (matImage)
+                                {
+                                    Marshal.Copy(imageBytes, 0, matImage.Data, imageBytes.Length);
+                                    Cv2.ImShow($"NetMQ {name} Stream", matImage);
+                                    Cv2.WaitKey(1);
+                                }
+                                return psiImage;
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Error processing {name}: {ex.Message}");
+                                return null;
+                            }                 
+                    });
+
+                    processedStream.Write($"{name}", store);
+
+                }
+
+/*
                 var processedStream = netMqSource.Select(frame =>
                 {
-                    if (name == "slam1" || name == "slam2" || name == "images" || name =="eyes")
-                    {
-                        // Do something specific for "slam1" and "slam2"
-                        // Console.WriteLine($"Processing {name} (special handling for slam1 or slam2)");
-                        width = (int)frame.width;
-                        height = (int)frame.height;
-                        channels = (int)frame.channels;
-                        streamtype = (int)frame.StreamType;
+                    if (cts.Token.IsCancellationRequested)
+                        return null; // Stop processing
 
-                        byte[] imageBytes = (byte[])frame.image_bytes;
-                        var psiImage = ImagePool.GetOrCreate(width, height, format);
-                        psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
-
-                        // Process Image in OpenCV
-                        lock (matImage) // Ensure thread safety
-                        {
-                            Marshal.Copy(imageBytes, 0, matImage.Data, imageBytes.Length);
-                            Cv2.ImShow($"NetMQ {name} Stream", matImage);
-                            Cv2.WaitKey(1);
-                        }
-                        return psiImage;
-                    }
-                    else if (name == "accel0" || 
-                                name == "accel1" || 
-                                name == "gyro0"  || 
-                                name == "gyro1"  ||
-                                name == "magneto" ||
-                                name == "baro"    ||
-                                name == "audio")
+                    if (name == "slam1" || name == "slam2" || name == "images" || name == "eyes")
                     {
-                        Console.WriteLine(name);   
                         try
                         {
-                            // If frame is a dynamic ExpandoObject, we access its properties directly
-                            if (frame is ExpandoObject expandoMessage)
+                            byte[] imageBytes = (byte[])frame.image_bytes;
+                            int width = (int)frame.width;
+                            int height = (int)frame.height;
+                            int channels = (int)frame.channels;
+
+                            var psiImage = ImagePool.GetOrCreate(width, height, format);
+                            psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
+
+                            lock (matImage)
                             {
-                                // Convert to IDictionary for easier access to properties
-                                var messageDict = (IDictionary<string, object>)expandoMessage;
-
-                                // Assuming the message has a 'values' key, extract it
-                                if (messageDict.ContainsKey("values"))
-                                {
-                                    var imuData = messageDict["values"];
-
-                                    // Check if imuData is in the expected format (array or list of objects)
-                                    if (imuData is object[] rawData)
-                                    {
-                                        // Print the IMU data array directly
-                                        //Console.WriteLine("Received IMU data:");
-                                        foreach (var value in rawData)
-                                        {
-                                            Console.WriteLine(value);  // Print each value in the array
-                                        }
-                                    }
-                                    else if (imuData is List<object> listData)
-                                    {
-                                        Console.WriteLine("Received IMU data (List<object>):");
-                                        foreach (var value in listData)
-                                        {
-                                            Console.WriteLine(value);
-                                        }
-                                    }
-                                    else if (imuData is int || imuData is float || imuData is double)
-                                    {
-                                        // Convert single value to list
-                                        Console.WriteLine("Received single value, converting to list:");
-                                        List<object> convertedList = new List<object> { imuData };
-                                        Console.WriteLine($"Converted Data: {string.Join(", ", convertedList)}");
-                                    }
-                                    else if (imuData is string jsonString)
-                                    {
-                                        Console.WriteLine("Received data as a JSON string, possible serialization issue.");
-                                        // Optional: Try parsing it as JSON
-                                    }
-                                    else
-                                    {
-                                        // Handle unexpected data format if necessary
-                                        Console.WriteLine("The 'values' data is not in the expected format (neither object[] nor List<object>).");
-                                    }
-
-                                }
-                                else
-                                {
-                                    // If the 'values' key is not found
-                                    Console.WriteLine("'values' key not found in the message.");
-                                }
+                                Marshal.Copy(imageBytes, 0, matImage.Data, imageBytes.Length);
+                                Cv2.ImShow($"NetMQ {name} Stream", matImage);
+                                Cv2.WaitKey(1);
                             }
+                            return psiImage;
                         }
                         catch (Exception ex)
                         {
-                            // Catch and log any errors that occur during processing
-                            Console.WriteLine($"Error processing frame: {ex.Message}");
+                            Console.WriteLine($"Error processing {name}: {ex.Message}");
+                            return null;
                         }
-
-                        return frame; // Return unchanged frame if needed for further processing
                     }
                     else
-                    {  return frame; }
+                    {
+                        Console.WriteLine($"Received {name} data");
+                        return frame;
+                    }
                 });
 
-                processedStream.Write($"{name}Images", store);
+                processedStream.Write($"{name}", store);
+*/
+
             }
 
-            // Run pipeline asynchronously
             pipeline.RunAsync();
 
-            Console.WriteLine("KiranM: Press any key to stop recording...");
-            Console.ReadLine();
+            Task.Run(() =>
+            {
+                Console.WriteLine("Press 'q' to terminate gracefully...");
+                while (!cts.Token.IsCancellationRequested)
+                {
+                    if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Q)
+                    {
+                        cts.Cancel();
+                        pipeline.Dispose(); // Properly dispose of the pipeline
+                        break;
+                    }
+                    Thread.Sleep(100); // Prevent CPU overuse
+                }
+            });
+
+            pipeline.WaitAll();
+            Console.WriteLine("Pipeline terminated.");
+
         }
     }
 }
