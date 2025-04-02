@@ -19,7 +19,7 @@ import aria.sdk as aria
 
 from common import update_iptables
 
-from aria_visualizer import KinAriaVisualizer, KinAriaStreamingClientObserver
+from aria_visualizer import KinAriaVisualizer, AriaNetMQStreamingObserver
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
@@ -103,7 +103,7 @@ def main():
 
     # 7. Create the visualizer observer and attach the streaming client
     aria_visualizer = KinAriaVisualizer()
-    aria_visualizer_streaming_client_observer = KinAriaStreamingClientObserver(
+    aria_visualizer_streaming_client_observer = AriaNetMQStreamingObserver(
         aria_visualizer, mode=args.mode
     )     
     

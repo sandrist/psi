@@ -155,10 +155,10 @@ class KinAriaVisualizer:
             self.stop()
     
     def stop(self):
-        print("Stopping stream...")
+        print("KinAriaVisualizer Stopping stream ...")
         cv2.destroyAllWindows()
 
-class KinAriaStreamingClientObserver:
+class AriaNetMQStreamingObserver:
     
     def __init__(self, visualizer, mode: str):
         """
@@ -401,8 +401,6 @@ class KinAriaStreamingClientObserver:
             wf.writeframes(np.array(self.audio_buffer, dtype=np.int16).tobytes())
         print(f"KiranM:Audio saved to {filename}")
 
-
-
     def stop(self):
-        print("Stopping stream...")
+        print("AriaNetMQStreamingObserver Stopping stream...")
         self.visualizer.stop()
