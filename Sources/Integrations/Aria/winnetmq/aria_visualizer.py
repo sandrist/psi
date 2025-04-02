@@ -15,6 +15,7 @@ import time
 import cv2
 import numpy as np
 import threading
+import wave
 import msgpack
 import queue
 import base64
@@ -391,6 +392,16 @@ class KinAriaStreamingClientObserver:
             self.send_on_netmq("audio", {"values": audio_data.tolist()})  
         elif self.mode == "processed":
             self.send_data("audio", {"timestamp": timestamp_ns, "audio": audio_data.tolist()})
+
+    def save_audio_to_wav(self, filename):
+        with wave.open(filename, 'w') as wf:
+            wf.setnchannels(1)  # Mono audio
+            wf.setsampwidth(2)  # 16-bit PCM
+            wf.setframerate(self.sample_rate)
+            wf.writeframes(np.array(self.audio_buffer, dtype=np.int16).tobytes())
+        print(f"KiranM:Audio saved to {filename}")
+
+
 
     def stop(self):
         print("Stopping stream...")
