@@ -166,6 +166,8 @@ class KinAriaStreamingClientObserver:
         """
         self.visualizer = visualizer
         self.mode = mode  # Determines which processing method to use               
+        self.audio_buffer = []  # Buffer to store audio samples
+        self.sample_rate = 48000  # Adjust as needed    
     
     def send_data(self, topic: str, data: dict):
         try:
@@ -363,7 +365,6 @@ class KinAriaStreamingClientObserver:
             raise ValueError(f"Expected 7-channel audio input, but got shape {audio_data.shape}")
        
 
-
         # Mix to stereo within this function
         left_mix = (new_audio_data[0] + new_audio_data[2] + new_audio_data[4] + 0.5 * new_audio_data[6]) / 3.5
         right_mix = (new_audio_data[1] + new_audio_data[3] + new_audio_data[5] + 0.5 * new_audio_data[6]) / 3.5
@@ -371,6 +372,7 @@ class KinAriaStreamingClientObserver:
 
         # Convert to int16 format for WAV file
         stereo_audio_int16 = np.int16(stereo_audio * 32767)
+        self.audio_buffer.extend(stereo_audio_int16)
 
 
          # Generate timestamp
