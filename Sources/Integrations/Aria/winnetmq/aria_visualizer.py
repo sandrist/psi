@@ -357,7 +357,6 @@ class AriaNetMQStreamTransport:
         # Normalize audio data
         audio_data /= np.max(np.abs(audio_data)) if np.max(np.abs(audio_data)) > 0 else 1
         
-
          # Ensure the shape is correct
         if audio_data.ndim == 1:
             # Assuming it's a flat array and needs to be reshaped
@@ -370,6 +369,9 @@ class AriaNetMQStreamTransport:
         if new_audio_data.shape[0] != 7:
             raise ValueError(f"Expected 7-channel audio input, but got shape {audio_data.shape}")
        
+        # Normalize per-channel
+        new_audio_data = np.array([ch / (np.max(np.abs(ch)) + 1e-8) for ch in new_audio_data])
+
 
         # Mix to stereo within this function
         left_mix = (new_audio_data[0] + new_audio_data[2] + new_audio_data[4] + 0.5 * new_audio_data[6]) / 3.5
@@ -378,8 +380,7 @@ class AriaNetMQStreamTransport:
 
         # Convert to int16 format for WAV file
         stereo_audio_int16 = np.int16(stereo_audio * 32767)
-        self.audio_buffer.extend(stereo_audio_int16)
-
+        self.audio_buffer.extend(stereo_audio_int16.flatten())
 
          # Generate timestamp
         timestamp_ns = time.time() * 1e9
@@ -400,7 +401,7 @@ class AriaNetMQStreamTransport:
 
     def save_audio_to_wav(self, filename):
         with wave.open(filename, 'w') as wf:
-            wf.setnchannels(1)  # Mono audio
+            wf.setnchannels(2)  # Stereo audio
             wf.setsampwidth(2)  # 16-bit PCM
             wf.setframerate(self.sample_rate)
             wf.writeframes(np.array(self.audio_buffer, dtype=np.int16).tobytes())
