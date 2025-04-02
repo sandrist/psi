@@ -121,7 +121,7 @@ class CVTemporalPlot:
                              (normalized_x[j], normalized_y[j]), self.line_colors[i % len(self.line_colors)], 2)
             cv2.imshow(self.title, img)
 
-class KinAriaVisualizer:
+class AriaVisualizer:
     def __init__(self):
         self.sensor_plot = {
             "accel": [CVTemporalPlot(f"IMU{idx} Accel", 3) for idx in range(2)],
@@ -155,14 +155,14 @@ class KinAriaVisualizer:
             self.stop()
     
     def stop(self):
-        print("KinAriaVisualizer Stopping stream ...")
+        print("AriaVisualizer Stopping stream ...")
         cv2.destroyAllWindows()
 
-class AriaNetMQStreamingObserver:
+class AriaNetMQStreamTransport:
     
     def __init__(self, visualizer, mode: str):
         """
-        :param visualizer: Instance of KinAriaVisualizer
+        :param visualizer: Instance of AriaVisualizer
         :param mode: Either "raw" or "processed" to determine image processing mode
         """
         self.visualizer = visualizer
@@ -402,5 +402,5 @@ class AriaNetMQStreamingObserver:
         print(f"KiranM:Audio saved to {filename}")
 
     def stop(self):
-        print("AriaNetMQStreamingObserver Stopping stream...")
+        print("AriaNetMQStreamTransport Stopping stream...")
         self.visualizer.stop()
