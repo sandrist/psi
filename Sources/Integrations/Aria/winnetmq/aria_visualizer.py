@@ -131,7 +131,9 @@ class AriaVisualizer:
             "audio": CVTemporalPlot("Audio Waveform", 1, window_duration_sec=2)
         }
         self.latest_images = {}
-    
+        self.audio_transport = None  # Will be set externally
+
+
     def render_loop(self):
         print("Starting stream... Press 'q' to exit.")
         try:
@@ -156,6 +158,8 @@ class AriaVisualizer:
     
     def stop(self):
         print("AriaVisualizer Stopping stream ...")
+        if self.audio_transport:
+            self.audio_transport.save_audio_to_wav("output_audio.wav")
         cv2.destroyAllWindows()
 
 class AriaNetMQStreamTransport:
@@ -168,7 +172,8 @@ class AriaNetMQStreamTransport:
         self.visualizer = visualizer
         self.mode = mode  # Determines which processing method to use               
         self.audio_buffer = []  # Buffer to store audio samples
-        self.sample_rate = 48000  # Adjust as needed    
+        self.sample_rate = 48000  # Adjust as needed  
+        self.visualizer.audio_transport = self  # Link to visualizer
     
     def send_data(self, topic: str, data: dict):
         try:
