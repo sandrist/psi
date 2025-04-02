@@ -345,55 +345,45 @@ class AriaNetMQStreamTransport:
             self.send_data("baro", baro_data)
     
     def on_audio_received(self, audio_and_record, *args):
-        audio_data = np.array(audio_and_record.data, dtype=np.float32)
-        if len(audio_data) == 0:
-            return
-
-          # Ensure audio_and_record.data exists
         if not hasattr(audio_and_record, "data") or audio_and_record.data is None:
             print("Received empty audio data")
+            return
+
+        audio_data = np.array(audio_and_record.data, dtype=np.float32)
+        if audio_data.size == 0:
             return           
-        
-        # Normalize audio data
-        audio_data /= np.max(np.abs(audio_data)) if np.max(np.abs(audio_data)) > 0 else 1
-        
-         # Ensure the shape is correct
-        if audio_data.ndim == 1:
-            # Assuming it's a flat array and needs to be reshaped
-            if audio_data.size % 7 == 0:
-                # print("KiranM: Audio Reshape.. ")
-                new_audio_data = audio_data.reshape(7, -1)
-            else:
-                raise ValueError(f"Unexpected audio data size: {audio_data.size}, cannot reshape to (7, N)")
 
-        if new_audio_data.shape[0] != 7:
+        # Reshape into 7 channels
+        if audio_data.size % 7 == 0:
+            audio_data = audio_data.reshape(7, -1)
+        else:
+            raise ValueError(f"Unexpected audio data size: {audio_data.size}, cannot reshape to (7, N)")
+
+        if audio_data.shape[0] != 7:
             raise ValueError(f"Expected 7-channel audio input, but got shape {audio_data.shape}")
-       
-        # Normalize per-channel
-        new_audio_data = np.array([ch / (np.max(np.abs(ch)) + 1e-8) for ch in new_audio_data])
 
+        # Mix to stereo *before* normalization
+        left_mix = (audio_data[0] + audio_data[2] + audio_data[4] + 0.5 * audio_data[6]) / 3.5
+        right_mix = (audio_data[1] + audio_data[3] + audio_data[5] + 0.5 * audio_data[6]) / 3.5
 
-        # Mix to stereo within this function
-        left_mix = (new_audio_data[0] + new_audio_data[2] + new_audio_data[4] + 0.5 * new_audio_data[6]) / 3.5
-        right_mix = (new_audio_data[1] + new_audio_data[3] + new_audio_data[5] + 0.5 * new_audio_data[6]) / 3.5
-        stereo_audio = np.vstack((left_mix, right_mix)).T  # Interleave left and right
+        # Normalize stereo mix together to maintain balance
+        max_val = max(np.max(np.abs(left_mix)), np.max(np.abs(right_mix)), 1e-8)
+        left_mix /= max_val
+        right_mix /= max_val
 
-        # Convert to int16 format for WAV file
+        # Create interleaved stereo format
+        stereo_audio = np.empty((left_mix.size + right_mix.size,), dtype=np.float32)
+        stereo_audio[0::2] = left_mix  # Left channel
+        stereo_audio[1::2] = right_mix  # Right channel
+
+        # Convert to 16-bit PCM format
         stereo_audio_int16 = np.int16(stereo_audio * 32767)
-        self.audio_buffer.extend(stereo_audio_int16.flatten())
+        self.audio_buffer.extend(stereo_audio_int16)
 
-         # Generate timestamp
+        # Generate timestamp
         timestamp_ns = time.time() * 1e9
+        self.visualizer.sensor_plot["audio"].add_samples(timestamp_ns, [audio_data[0, 0]])
 
-        # Add first sample to visualizer
-        self.visualizer.sensor_plot["audio"].add_samples(timestamp_ns, [audio_data[0]])
-
-         # Print all audio samples
-        #print("Audio Samples Received:")
-        #for i, sample in enumerate(audio_data):
-        #    print(f"Sample {i}: {sample}")
-
-        #print(f"Sending Audio Frames: ")
         if self.mode == "raw":            
             self.send_on_netmq("audio", {"values": audio_data.tolist()})  
         elif self.mode == "processed":
