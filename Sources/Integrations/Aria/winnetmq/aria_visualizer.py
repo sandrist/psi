@@ -341,9 +341,38 @@ class KinAriaStreamingClientObserver:
         if len(audio_data) == 0:
             return
 
+          # Ensure audio_and_record.data exists
+        if not hasattr(audio_and_record, "data") or audio_and_record.data is None:
+            print("Received empty audio data")
+            return           
+        
         # Normalize audio data
         audio_data /= np.max(np.abs(audio_data)) if np.max(np.abs(audio_data)) > 0 else 1
         
+
+         # Ensure the shape is correct
+        if audio_data.ndim == 1:
+            # Assuming it's a flat array and needs to be reshaped
+            if audio_data.size % 7 == 0:
+                # print("KiranM: Audio Reshape.. ")
+                new_audio_data = audio_data.reshape(7, -1)
+            else:
+                raise ValueError(f"Unexpected audio data size: {audio_data.size}, cannot reshape to (7, N)")
+
+        if new_audio_data.shape[0] != 7:
+            raise ValueError(f"Expected 7-channel audio input, but got shape {audio_data.shape}")
+       
+
+
+        # Mix to stereo within this function
+        left_mix = (new_audio_data[0] + new_audio_data[2] + new_audio_data[4] + 0.5 * new_audio_data[6]) / 3.5
+        right_mix = (new_audio_data[1] + new_audio_data[3] + new_audio_data[5] + 0.5 * new_audio_data[6]) / 3.5
+        stereo_audio = np.vstack((left_mix, right_mix)).T  # Interleave left and right
+
+        # Convert to int16 format for WAV file
+        stereo_audio_int16 = np.int16(stereo_audio * 32767)
+
+
          # Generate timestamp
         timestamp_ns = time.time() * 1e9
 
