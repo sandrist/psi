@@ -354,6 +354,7 @@ class AriaNetMQStreamTransport:
         if audio_data.size == 0:
             return           
 
+        # KiranM: Every Step here is very important and the order of execution.
         # Reshape into 7 channels (assuming the input data is correctly formatted)
         if audio_data.size % 7 == 0:
             audio_data = audio_data.reshape(-1, 7).T  # Transpose to shape (7, N)
@@ -363,7 +364,7 @@ class AriaNetMQStreamTransport:
         if audio_data.shape[0] != 7:
             raise ValueError(f"Expected 7-channel audio input, but got shape {audio_data.shape}")
 
-        # Apply a balanced stereo mix:
+        # KiranM : Apply a balanced stereo mix:
         # Left: Channels 0, 2, 4 (front-left, left, rear-left) + 50% center
         # Right: Channels 1, 3, 5 (front-right, right, rear-right) + 50% center
         left_mix = (audio_data[0] + audio_data[2] + audio_data[4] + 0.5 * audio_data[6]) / 3
@@ -377,19 +378,26 @@ class AriaNetMQStreamTransport:
         # Convert to 16-bit PCM format
         stereo_audio = np.vstack((left_mix, right_mix)).T  # Shape (N, 2)
         stereo_audio_int16 = np.int16(stereo_audio * 32767)
+        interleaved_audio = stereo_audio_int16.flatten()
 
         # Append to buffer in interleaved format
-        self.audio_buffer.extend(stereo_audio_int16.flatten())
+        self.audio_buffer.extend(interleaved_audio)
 
         # Generate timestamp
         timestamp_ns = time.time() * 1e9
         self.visualizer.sensor_plot["audio"].add_samples(timestamp_ns, [audio_data[0, 0]])
 
+        """
+        KiranM: Minimal processing on the receiving end. Instead of sending raw 
+        7-channel data, it now sends already-mixed, normalized, 
+        and formatted stereo audio in an interleaved int16 format. This reduces 
+        the need for extra processing on the receiver side.
+        """
+
         if self.mode == "raw":            
-            self.send_on_netmq("audio", {"values": audio_data.tolist()})  
+            self.send_on_netmq("audio", {"values": interleaved_audio.tobytes()})  
         elif self.mode == "processed":
             self.send_data("audio", {"timestamp": timestamp_ns, "audio": audio_data.tolist()})
-
 
 
     def save_audio_to_wav(self, filename):
