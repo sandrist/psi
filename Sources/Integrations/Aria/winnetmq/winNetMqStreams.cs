@@ -18,7 +18,6 @@ using Microsoft.VisualBasic;
 
 class WinNetMqStreams
 {
-
     private static List<byte> audioBuffer = new List<byte>();  // Store byte data instead of shorts
     private static string outputWavFile = "output_audio.wav";
     private static int sampleRate = 44100;  // 44.1 kHz
@@ -60,14 +59,12 @@ class WinNetMqStreams
                 Console.WriteLine("No audio data to write.");
                 return;
             }
-
             try
             {
                 using (var writer = new WaveFileWriter(outputWavFile, new WaveFormat(sampleRate, 16, channels)))
                 {
                     writer.Write(audioBuffer.ToArray(), 0, audioBuffer.Count);
                 }
-
                 Console.WriteLine($"Audio successfully saved to {outputWavFile}");
             }
             catch (Exception ex)
