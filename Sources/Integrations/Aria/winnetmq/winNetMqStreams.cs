@@ -13,9 +13,70 @@ using NetMQ;
 using Newtonsoft.Json;
 using OpenCvSharp;
 using MessagePack;
+using NAudio.Wave;
+using Microsoft.VisualBasic;
 
 class WinNetMqStreams
 {
+
+    private static List<byte> audioBuffer = new List<byte>();  // Store byte data instead of shorts
+    private static string outputWavFile = "output_audio.wav";
+    private static int sampleRate = 44100;  // 44.1 kHz
+    private static int channels = 2;        // Stereo
+
+    private static short[] ConvertBytesToInt16(byte[] byteData)
+    {
+        if (byteData.Length % 2 != 0)
+        {
+            Console.WriteLine($"Warning: Audio data size {byteData.Length} is not aligned properly. Skipping last byte.");
+            byteData = byteData.Take(byteData.Length - 1).ToArray();
+        }
+
+        short[] int16Data = new short[byteData.Length / 2];
+        Buffer.BlockCopy(byteData, 0, int16Data, 0, byteData.Length);
+        return int16Data;
+    }
+
+    private static void ProcessAudio(short[] int16Data)
+    {
+        if (int16Data.Length == 0) return;
+
+        lock (audioBuffer)
+        {
+            byte[] byteData = new byte[int16Data.Length * 2];
+            Buffer.BlockCopy(int16Data, 0, byteData, 0, byteData.Length);
+            audioBuffer.AddRange(byteData);
+        }
+
+        Console.WriteLine($"Buffered {int16Data.Length / 2} stereo samples.");
+    }
+
+    private static void WriteWavFile()
+    {
+        lock (audioBuffer)
+        {
+            if (audioBuffer.Count == 0)
+            {
+                Console.WriteLine("No audio data to write.");
+                return;
+            }
+
+            try
+            {
+                using (var writer = new WaveFileWriter(outputWavFile, new WaveFormat(sampleRate, 16, channels)))
+                {
+                    writer.Write(audioBuffer.ToArray(), 0, audioBuffer.Count);
+                }
+
+                Console.WriteLine($"Audio successfully saved to {outputWavFile}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error writing WAV file: {ex.Message}");
+            }
+        }
+    }
+
     static void Main(string[] args)
     {
         using (var cts = new CancellationTokenSource())
@@ -68,6 +129,43 @@ class WinNetMqStreams
                         }
                         return psiImage;
                     });
+                    processedStream.Write(name, store);
+                }
+                else if(name == "audio")
+                {
+                    var netMqSource = new NetMQSource<dynamic>(pipeline, name, address, MessagePackFormat.Instance);
+
+                    var processedStream = netMqSource.Select(frame =>
+                    {
+                        if (cts.Token.IsCancellationRequested)
+                            return null;
+
+                        if (frame is ExpandoObject expandoMessage)
+                        {
+                            var messageDict = (IDictionary<string, object>)expandoMessage;
+
+                            if (messageDict.ContainsKey("values"))
+                            {
+                                var rawAudioData = messageDict["values"];
+
+                                if (rawAudioData is byte[] byteData)
+                                {
+                                    short[] int16Data = ConvertBytesToInt16(byteData);
+                                    ProcessAudio(int16Data);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Unexpected audio data format.");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("'values' key not found in the message.");
+                            }
+                        }
+                        return frame;
+                    });
+
                     processedStream.Write(name, store);
                 }
                 else
@@ -152,13 +250,16 @@ class WinNetMqStreams
                     {
                         cts.Cancel();
                         pipeline.Dispose();
+                        WriteWavFile(); // Save to WAV on exit
                         break;
                     }
                     Thread.Sleep(100);
                 }
             });
+            
             pipeline.WaitAll();
             Console.WriteLine("Pipeline terminated.");
+            WriteWavFile(); // Save to WAV on exit
         }
     }
 }
