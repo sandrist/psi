@@ -220,7 +220,6 @@ class WinNetMqStreams
                                     // Handle unexpected data format if necessary
                                     Console.WriteLine("The 'values' data is not in the expected format (neither object[] nor List<object>).");
                                 }
-
                             }
                             else
                             {
@@ -229,14 +228,10 @@ class WinNetMqStreams
                             }
                         }
                         return frame;
-
                     });
                     processedStream.Write(name, store);
                 }
-              
-                
             }
-
             pipeline.RunAsync();
             Task.Run(() =>
             {
