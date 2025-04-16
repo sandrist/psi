@@ -201,7 +201,7 @@ class AriaNetMQStreamTransport:
         except Exception as e:
             print(f"Error sending {topic} data: {e}")        
 
-    def on_image_received_raw(self, image: np.array, record) -> None:
+    def on_image_received(self, image: np.array, record) -> None:
         """
         Handles image frames from cameras.
         """
@@ -232,10 +232,7 @@ class AriaNetMQStreamTransport:
         # Send over NetMQ
         self.send_on_netmq(f"camera_{camera_id}", image_data)
        
-    
-    def on_image_received(self, image: np.array, record) -> None:
-            self.on_image_received_raw(image, record)
-      
+          
     def on_imu_received(self, samples: Sequence, imu_idx: int):
         sample = samples[0]
         imu_data = {"timestamp": sample.capture_timestamp_ns, "accel": sample.accel_msec2, "gyro": sample.gyro_radsec}
