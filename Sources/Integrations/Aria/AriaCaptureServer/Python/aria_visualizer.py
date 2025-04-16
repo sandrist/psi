@@ -159,7 +159,7 @@ class AriaVisualizer:
     def stop(self):
         print("AriaVisualizer Stopping stream ...")
         if self.audio_transport:
-            self.audio_transport.save_audio_to_wav("output_audio.wav")
+           self.audio_transport.save_audio_to_wav("output_audio.wav")
         cv2.destroyAllWindows()
 
 class AriaNetMQStreamTransport:
@@ -285,22 +285,14 @@ class AriaNetMQStreamTransport:
 
                 accel_size = sum(sys.getsizeof(v) for v in sample.accel_msec2)
                 gyro_size = sum(sys.getsizeof(v) for v in sample.gyro_radsec)
-
-                #print(f"Sending Size of accel0: {accel_size} bytes")
-                #print(f"Sending Size of gyro0: {gyro_size} bytes")
-
+                                
                 accel_array = np.array(sample.accel_msec2, dtype=np.float32)
                 gyro_array = np.array(sample.gyro_radsec, dtype=np.float32)
-
-                #print(f"Accel array size: {accel_array.nbytes} bytes")
-                #print(f"Gyro array size: {gyro_array.nbytes} bytes")
-                
+                                
                 if imu_idx == 0:                              
                     self.send_on_netmq("accel0", {"values": accel_array.tolist()})  
                     self.send_on_netmq("gyro0", {"values": gyro_array.tolist()})
-                elif imu_idx == 1:
-                    #print(f"Size of accel1: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
-                    #print(f"Size of gyro1: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size                                                                   
+                elif imu_idx == 1:                    
                     self.send_on_netmq("accel1", {"values": accel_array.tolist()})  
                     self.send_on_netmq("gyro1", {"values": gyro_array.tolist()})
                 else:
@@ -312,13 +304,8 @@ class AriaNetMQStreamTransport:
     
         magneto_data = {"timestamp": sample.capture_timestamp_ns, "magnetometer": sample.mag_tesla}
         self.visualizer.sensor_plot["magneto"].add_samples(sample.capture_timestamp_ns, sample.mag_tesla)
-    
-        #print(f"Size of magneto_data: {sys.getsizeof(magneto_data)} bytes")  # Print size
-        #print(type(sample.capture_timestamp_ns), type(sample.mag_tesla))
-        
-        mag_size = sum(sys.getsizeof(v) for v in sample.mag_tesla)
-        # print(f"Sending Size of accel0: {mag_size} bytes")
-
+            
+        mag_size = sum(sys.getsizeof(v) for v in sample.mag_tesla)    
         mag_array = np.array(sample.mag_tesla, dtype=np.float32)
 
         if self.mode == "raw":            
@@ -329,9 +316,7 @@ class AriaNetMQStreamTransport:
     def on_baro_received(self, sample):
         baro_data = {"timestamp": sample.capture_timestamp_ns, "pressure": sample.pressure}
         self.visualizer.sensor_plot["baro"].add_samples(sample.capture_timestamp_ns, [sample.pressure])
-        #self.send_data("baro", baro_data)
-        #print(f"Size of baro_data: {sys.getsizeof(baro_data)} bytes")  # Print size
-        #print(type(sample.capture_timestamp_ns), type(sample.pressure))
+        
         baro_array = np.array(sample.pressure, dtype=np.float32)
 
         if self.mode == "raw":
@@ -340,7 +325,6 @@ class AriaNetMQStreamTransport:
             self.send_data("baro", baro_data)
 
     def on_audio_received(self, audio_and_record, *args):
-        """Processes incoming 7-channel audio and converts to stereo."""
         if not hasattr(audio_and_record, "data") or audio_and_record.data is None:
             print("Received empty audio data")
             return

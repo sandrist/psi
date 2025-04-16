@@ -4,17 +4,12 @@
 namespace AriaCaptureServer
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Runtime.InteropServices;
-    using System.Xml.Linq;
+    using System.Linq;    
     using Microsoft.Psi;
     using Microsoft.Psi.Audio;
     using Microsoft.Psi.Imaging;
     using Microsoft.Psi.Interop.Format;
     using Microsoft.Psi.Interop.Transport;
-    using OpenCvSharp;
-
 
     internal class Program
     {
@@ -22,15 +17,7 @@ namespace AriaCaptureServer
         {
             using var pipeline = Pipeline.Create();
             var store = PsiStore.Create(pipeline, "AriaStreams", @"D:\Temp\kin");
-
-            /*
-            var audioSource = new NetMQSource<dynamic>(
-                pipeline,
-                "audio",
-                "tcp://127.0.0.1:5560",
-                MessagePackFormat.Instance);
-            */ 
-
+            
             var rgbSource = new NetMQSource<dynamic>(
                 pipeline,
                 "images",
@@ -54,28 +41,7 @@ namespace AriaCaptureServer
                 "eyes",
                 "tcp://127.0.0.1:5553",
                 MessagePackFormat.Instance);
-
-            /* KiranM: Remove Imu for now.. so we can fix the rest of the pipes
-            var imuSource = new NetMQSource<dynamic>(
-                pipeline,
-                "imu",
-                "tcp://127.0.0.1:5564",
-                MessagePackFormat.Instance,
-                useSourceOriginatingTimes: false); //TODO: fix this
-            */
-
-            /*
-            // Process audio buffers
-            var audioFormat = WaveFormat.Create16BitPcm(48000, 2);
-
-            audioSource.Select(iframe =>
-            {
-                byte[] audioBytes = (byte[])iframe.audio;              
-                return new AudioBuffer(audioBytes, audioFormat);
-            }).Write("Audio", store);
-             
-            */ 
-
+                        
             // Start Image Processing 
             rgbSource.Select(iframe =>
             {
@@ -128,12 +94,7 @@ namespace AriaCaptureServer
 
                 return psiImage;
             }).EncodeJpeg().Write("Eyes", store);
-
-            /* KiranM: Remove Imu for now.. so we can fix the rest of the pipes
-            imuSource.Select(iframe => ((int)iframe.idx, (double)iframe.accel0, (double)iframe.accel1, (double)iframe.accel2, (double)iframe.gyro0, (double)iframe.gyro1, (double)iframe.gyro2))
-                .Write("IMU", store);
-            */ 
-
+                        
             // Run pipeline asynchronously
             pipeline.RunAsync();
             Console.WriteLine("Capturing ARIA streams. Press any key to stop recording...");
