@@ -205,7 +205,9 @@ class AriaNetMQStreamTransport:
         Handles image frames from cameras.
         """
         camera_id = record.camera_id
-        self.visualizer.latest_images[camera_id] = image
+        
+        # KiranM : remove visualisation on the Python side..
+        #self.visualizer.latest_images[camera_id] = image
 
         # Convert image to a byte array
         img_byte_array = image.tobytes()
@@ -222,20 +224,10 @@ class AriaNetMQStreamTransport:
             "originatingTime": timestamp
         }
 
-        # Special handling for Camera 2 (RGB processing)
-        if camera_id == 2:
-            #print("Processing Camera 2 (RGB)")
-            rgb_image = np.rot90(image, -1)
-            rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
-            image_data["image_bytes"] = rgb_image.tobytes()
         if camera_id in {0,1}:
-            #print("Processing Slam Cameras")
-            slam_image = np.rot90(image, -1)            
-            image_data["image_bytes"] = slam_image.tobytes()    
-        #if camera_id == 3:
-            #print("Processing Eyes Cameras")
-            #rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
-            # image_data["image_bytes"] = slam_image.tobytes()        
+        #    #print("Processing Slam Cameras")
+           slam_image = np.rot90(image, -1)            
+           image_data["image_bytes"] = slam_image.tobytes()    
         
         # Send over NetMQ
         self.send_on_netmq(f"camera_{camera_id}", image_data)
@@ -281,6 +273,8 @@ class AriaNetMQStreamTransport:
     def on_imu_received(self, samples: Sequence, imu_idx: int):
         sample = samples[0]
         imu_data = {"timestamp": sample.capture_timestamp_ns, "accel": sample.accel_msec2, "gyro": sample.gyro_radsec}
+        
+        
         self.visualizer.sensor_plot["accel"][imu_idx].add_samples(sample.capture_timestamp_ns, sample.accel_msec2)
         self.visualizer.sensor_plot["gyro"][imu_idx].add_samples(sample.capture_timestamp_ns, sample.gyro_radsec)
         
@@ -313,11 +307,12 @@ class AriaNetMQStreamTransport:
                     raise ValueError(f"Unknown Imu: {imu_idx}")
         elif self.mode == "processed":
             self.send_data("imu", imu_data)       
-    
+
     def on_magneto_received(self, sample):
+    
         magneto_data = {"timestamp": sample.capture_timestamp_ns, "magnetometer": sample.mag_tesla}
         self.visualizer.sensor_plot["magneto"].add_samples(sample.capture_timestamp_ns, sample.mag_tesla)
-
+    
         #print(f"Size of magneto_data: {sys.getsizeof(magneto_data)} bytes")  # Print size
         #print(type(sample.capture_timestamp_ns), type(sample.mag_tesla))
         
@@ -329,7 +324,7 @@ class AriaNetMQStreamTransport:
         if self.mode == "raw":            
             self.send_on_netmq("magneto", {"values": mag_array.tolist()})  
         elif self.mode == "processed":
-            self.send_data("magneto", magneto_data)     
+            self.send_data("magneto", magneto_data)    
 
     def on_baro_received(self, sample):
         baro_data = {"timestamp": sample.capture_timestamp_ns, "pressure": sample.pressure}
@@ -343,7 +338,7 @@ class AriaNetMQStreamTransport:
             self.send_on_netmq("baro", {"values": baro_array.tolist()})  
         elif self.mode == "processed":
             self.send_data("baro", baro_data)
-        
+
     def on_audio_received(self, audio_and_record, *args):
         """Processes incoming 7-channel audio and converts to stereo."""
         if not hasattr(audio_and_record, "data") or audio_and_record.data is None:
@@ -386,14 +381,7 @@ class AriaNetMQStreamTransport:
         # Generate timestamp
         timestamp_ns = time.time() * 1e9
         self.visualizer.sensor_plot["audio"].add_samples(timestamp_ns, [audio_data[0, 0]])
-
-        """
-        KiranM: Minimal processing on the receiving end. Instead of sending raw 
-        7-channel data, it now sends already-mixed, normalized, 
-        and formatted stereo audio in an interleaved int16 format. This reduces 
-        the need for extra processing on the receiver side.
-        """
-
+        
         if self.mode == "raw":            
             self.send_on_netmq("audio", {"values": interleaved_audio.tobytes()})  
         elif self.mode == "processed":

@@ -6,11 +6,15 @@ namespace AriaCaptureServer
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.InteropServices;
+    using System.Xml.Linq;
     using Microsoft.Psi;
     using Microsoft.Psi.Audio;
     using Microsoft.Psi.Imaging;
     using Microsoft.Psi.Interop.Format;
     using Microsoft.Psi.Interop.Transport;
+    using OpenCvSharp;
+
 
     internal class Program
     {
@@ -82,7 +86,7 @@ namespace AriaCaptureServer
 
                 var psiImage = ImagePool.GetOrCreate(height, width, PixelFormat.BGR_24bpp);
                 psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
-
+                          
                 return psiImage;
             }).EncodeJpeg().Write("RGB", store);
 
