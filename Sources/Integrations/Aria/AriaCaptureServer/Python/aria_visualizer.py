@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from pickle import FALSE
 import time
 import cv2
 import numpy as np
@@ -131,7 +132,7 @@ class AriaVisualizer:
             "audio": CVTemporalPlot("Audio Waveform", 1, window_duration_sec=2)
         }
         self.latest_images = {}
-        self.audio_transport = None  # Will be set externally
+        self.audio_transport = None  
 
 
     def render_loop(self):
@@ -206,8 +207,7 @@ class AriaNetMQStreamTransport:
         """
         camera_id = record.camera_id
         
-        # KiranM : remove visualisation on the Python side..
-        #self.visualizer.latest_images[camera_id] = image
+        self.visualizer.latest_images[camera_id] = image
 
         # Convert image to a byte array
         img_byte_array = image.tobytes()
@@ -231,74 +231,32 @@ class AriaNetMQStreamTransport:
         
         # Send over NetMQ
         self.send_on_netmq(f"camera_{camera_id}", image_data)
-        
-    def on_image_received_processed(self, image: np.array, record) -> None:
-        """
-        Handles image frames from cameras.
-        """
-        camera_id = record.camera_id
-        self.visualizer.latest_images[camera_id] = image
-
-        # Try using capture_timestamp_ns or any other time-related field you find
-        timestamp_ns = getattr(record, 'capture_timestamp_ns', None)
-        if timestamp_ns is None:
-            # Handle the case where no timestamp is found (you can use time.time() as a fallback)
-            timestamp_ns = time.time() * 1e9
-
-        # Convert the image to a byte array
-        _, img_bytes = cv2.imencode('.jpg', image)
-        img_byte_array = img_bytes.tobytes()
-
-        # Optionally encode it to base64 if required
-        img_base64 = base64.b64encode(img_byte_array).decode('utf-8')
-
-        # Create a dictionary to hold the data and send it using send_data
-        image_data = {
-            "timestamp": timestamp_ns,
-            "camera_id": camera_id,
-            "image": img_base64
-        }
-        self.send_data(f"camera_{camera_id}", image_data)
-   
+       
+    
     def on_image_received(self, image: np.array, record) -> None:
-        """Determines which function to call based on mode."""
-        if self.mode == "raw":
             self.on_image_received_raw(image, record)
-        elif self.mode == "processed":
-            self.on_image_received_processed(image, record)
-        else:
-            raise ValueError(f"Unknown mode: {self.mode}")
-    
-    
+      
     def on_imu_received(self, samples: Sequence, imu_idx: int):
         sample = samples[0]
         imu_data = {"timestamp": sample.capture_timestamp_ns, "accel": sample.accel_msec2, "gyro": sample.gyro_radsec}
         
-        
         self.visualizer.sensor_plot["accel"][imu_idx].add_samples(sample.capture_timestamp_ns, sample.accel_msec2)
         self.visualizer.sensor_plot["gyro"][imu_idx].add_samples(sample.capture_timestamp_ns, sample.gyro_radsec)
         
-        if self.mode == "raw":
-                # print(f"Sending Size of accel0: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
-                # print(f"Sending Size of gyro0: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size
-                # print(type(sample.accel_msec2), type(sample.gyro_radsec))
-
-                accel_size = sum(sys.getsizeof(v) for v in sample.accel_msec2)
-                gyro_size = sum(sys.getsizeof(v) for v in sample.gyro_radsec)
+        accel_size = sum(sys.getsizeof(v) for v in sample.accel_msec2)
+        gyro_size = sum(sys.getsizeof(v) for v in sample.gyro_radsec)
                                 
-                accel_array = np.array(sample.accel_msec2, dtype=np.float32)
-                gyro_array = np.array(sample.gyro_radsec, dtype=np.float32)
+        accel_array = np.array(sample.accel_msec2, dtype=np.float32)
+        gyro_array = np.array(sample.gyro_radsec, dtype=np.float32)
                                 
-                if imu_idx == 0:                              
-                    self.send_on_netmq("accel0", {"values": accel_array.tolist()})  
-                    self.send_on_netmq("gyro0", {"values": gyro_array.tolist()})
-                elif imu_idx == 1:                    
-                    self.send_on_netmq("accel1", {"values": accel_array.tolist()})  
-                    self.send_on_netmq("gyro1", {"values": gyro_array.tolist()})
-                else:
-                    raise ValueError(f"Unknown Imu: {imu_idx}")
-        elif self.mode == "processed":
-            self.send_data("imu", imu_data)       
+        if imu_idx == 0:                              
+            self.send_on_netmq("accel0", {"values": accel_array.tolist()})  
+            self.send_on_netmq("gyro0", {"values": gyro_array.tolist()})
+        elif imu_idx == 1:                    
+            self.send_on_netmq("accel1", {"values": accel_array.tolist()})  
+            self.send_on_netmq("gyro1", {"values": gyro_array.tolist()})
+        else:
+            raise ValueError(f"Unknown Imu: {imu_idx}")
 
     def on_magneto_received(self, sample):
     
@@ -308,10 +266,7 @@ class AriaNetMQStreamTransport:
         mag_size = sum(sys.getsizeof(v) for v in sample.mag_tesla)    
         mag_array = np.array(sample.mag_tesla, dtype=np.float32)
 
-        if self.mode == "raw":            
-            self.send_on_netmq("magneto", {"values": mag_array.tolist()})  
-        elif self.mode == "processed":
-            self.send_data("magneto", magneto_data)    
+        self.send_on_netmq("magneto", {"values": mag_array.tolist()})  
 
     def on_baro_received(self, sample):
         baro_data = {"timestamp": sample.capture_timestamp_ns, "pressure": sample.pressure}
@@ -319,11 +274,8 @@ class AriaNetMQStreamTransport:
         
         baro_array = np.array(sample.pressure, dtype=np.float32)
 
-        if self.mode == "raw":
-            self.send_on_netmq("baro", {"values": baro_array.tolist()})  
-        elif self.mode == "processed":
-            self.send_data("baro", baro_data)
-
+        self.send_on_netmq("baro", {"values": baro_array.tolist()})  
+        
     def on_audio_received(self, audio_and_record, *args):
         if not hasattr(audio_and_record, "data") or audio_and_record.data is None:
             print("Received empty audio data")
@@ -366,11 +318,8 @@ class AriaNetMQStreamTransport:
         timestamp_ns = time.time() * 1e9
         self.visualizer.sensor_plot["audio"].add_samples(timestamp_ns, [audio_data[0, 0]])
         
-        if self.mode == "raw":            
-            self.send_on_netmq("audio", {"values": interleaved_audio.tobytes()})  
-        elif self.mode == "processed":
-            self.send_data("audio", {"timestamp": timestamp_ns, "audio": audio_data.tolist()})
-
+        self.send_on_netmq("audio", {"values": interleaved_audio.tobytes()})  
+        
 
     def save_audio_to_wav(self, filename):
         with wave.open(filename, 'w') as wf:
