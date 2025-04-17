@@ -40,6 +40,9 @@
     <Reference Include="AsyncIO, Version=0.1.69.0, Culture=neutral, PublicKeyToken=44a94435bd6f33f8, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\AsyncIO.0.1.69\lib\net40\AsyncIO.dll</HintPath>
     </Reference>
+    <Reference Include="CsvHelper, Version=15.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\CsvHelper.15.0.0\lib\net47\CsvHelper.dll</HintPath>
+    </Reference>
     <Reference Include="MessagePack, Version=3.1.3.0, Culture=neutral, PublicKeyToken=b4a0369545f0a1be, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\MessagePack.3.1.3\lib\net472\MessagePack.dll</HintPath>
     </Reference>
@@ -53,11 +56,23 @@
     <Reference Include="Microsoft.NET.StringTools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\Microsoft.NET.StringTools.17.11.4\lib\net472\Microsoft.NET.StringTools.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Psi, Version=0.19.100.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Microsoft.Psi.Runtime.0.19.100.1-beta\lib\netstandard2.0\Microsoft.Psi.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Psi.IL, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Microsoft.Psi.Runtime.0.19.100.1-beta\lib\netstandard2.0\Microsoft.Psi.IL.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Psi.Interop, Version=0.19.100.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Microsoft.Psi.Interop.0.19.100.1-beta\lib\netstandard2.0\Microsoft.Psi.Interop.dll</HintPath>
+    </Reference>
     <Reference Include="NaCl, Version=0.1.13.0, Culture=neutral, PublicKeyToken=827c20e50a9775fa, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\NaCl.Net.0.1.13\lib\net472\NaCl.dll</HintPath>
     </Reference>
     <Reference Include="NetMQ, Version=4.0.1.13, Culture=neutral, PublicKeyToken=a6decef4ddc58b3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\NetMQ.4.0.1.13\lib\net47\NetMQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="OpenCvSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\OpenCvSharp4.4.10.0.20241108\lib\netstandard2.0\OpenCvSharp.dll</HintPath>
@@ -70,6 +85,7 @@
       <HintPath>..\..\..\..\packages\System.Collections.Immutable.8.0.0\lib\net462\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
@@ -80,7 +96,14 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.Cryptography.Pkcs, Version=6.0.0.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\System.Security.Cryptography.Pkcs.6.0.3\lib\net461\System.Security.Cryptography.Pkcs.dll</HintPath>
+    </Reference>
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Primitives, Version=4.10.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\System.ServiceModel.Primitives.4.10.3\lib\net461\System.ServiceModel.Primitives.dll</HintPath>
+    </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
@@ -114,14 +137,6 @@
     <ProjectReference Include="..\..\..\Imaging\Microsoft.Psi.Imaging\Microsoft.Psi.Imaging.csproj">
       <Project>{9bf2e5ef-186a-4179-b753-ae11ee90e026}</Project>
       <Name>Microsoft.Psi.Imaging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Runtime\Microsoft.Psi.Interop\Microsoft.Psi.Interop.csproj">
-      <Project>{825b11e7-9bf3-43b7-9bce-4309ee404aee}</Project>
-      <Name>Microsoft.Psi.Interop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Runtime\Microsoft.Psi\Microsoft.Psi.csproj">
-      <Project>{04147400-0ab0-4f07-9975-d4b7e58150db}</Project>
-      <Name>Microsoft.Psi</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

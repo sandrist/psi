@@ -9,7 +9,10 @@ namespace AriaCaptureServer
     using Microsoft.Psi.Audio;
     using Microsoft.Psi.Imaging;
     using Microsoft.Psi.Interop.Format;
-    using Microsoft.Psi.Interop.Transport;
+    using Microsoft.Psi.Interop.Transport;    
+    using MessagePack;
+    using System.Collections.Generic;
+    using System.Dynamic;
 
     internal class Program
     {
@@ -17,7 +20,9 @@ namespace AriaCaptureServer
         {
             using var pipeline = Pipeline.Create();
             var store = PsiStore.Create(pipeline, "AriaStreams", @"D:\Temp\kin");
-            
+
+            var options = MessagePackSerializerOptions.Standard.WithCompression(MessagePackCompression.None);
+
             var rgbSource = new NetMQSource<dynamic>(
                 pipeline,
                 "images",
@@ -41,7 +46,13 @@ namespace AriaCaptureServer
                 "eyes",
                 "tcp://127.0.0.1:5553",
                 MessagePackFormat.Instance);
-                        
+
+            var audioSource = new NetMQSource<dynamic>(
+               pipeline,
+               "audio",
+               "tcp://127.0.0.1:5560",
+               MessagePackFormat.Instance);
+
             // Start Image Processing 
             rgbSource.Select(iframe =>
             {
@@ -94,7 +105,18 @@ namespace AriaCaptureServer
 
                 return psiImage;
             }).EncodeJpeg().Write("Eyes", store);
-                        
+
+            var audioFormat = WaveFormat.Create16BitPcm(48000, 2);
+
+            audioSource.Select(iframe =>
+            {
+                var messageDict = (IDictionary<string, object>)(ExpandoObject)iframe;
+                var byteData = (byte[])messageDict["values"];
+
+                return new AudioBuffer(byteData, audioFormat);
+
+            }).Write("Audio", store);
+
             // Run pipeline asynchronously
             pipeline.RunAsync();
             Console.WriteLine("Capturing ARIA streams. Press any key to stop recording...");
