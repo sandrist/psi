@@ -13,6 +13,9 @@ namespace AriaCaptureServer
     using MessagePack;
     using System.Collections.Generic;
     using System.Dynamic;
+    using OpenCvSharp;
+    using System.Runtime.InteropServices;
+    using System.Xml.Linq;
 
     internal class Program
     {
@@ -20,8 +23,6 @@ namespace AriaCaptureServer
         {
             using var pipeline = Pipeline.Create();
             var store = PsiStore.Create(pipeline, "AriaStreams", @"D:\Temp\kin");
-
-            var options = MessagePackSerializerOptions.Standard.WithCompression(MessagePackCompression.None);
 
             var rgbSource = new NetMQSource<dynamic>(
                 pipeline,
@@ -56,6 +57,7 @@ namespace AriaCaptureServer
             // Start Image Processing 
             rgbSource.Select(iframe =>
             {
+            Mat matImage = new Mat(1408, 1408, MatType.CV_8UC3); 
                 int width = (int)iframe.width;
                 int height = (int)iframe.height;
                 int channels = (int)iframe.channels;
@@ -63,7 +65,14 @@ namespace AriaCaptureServer
 
                 var psiImage = ImagePool.GetOrCreate(height, width, PixelFormat.BGR_24bpp);
                 psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
-                          
+
+                lock (matImage)
+                {
+                    Marshal.Copy(imageBytes, 0, matImage.Data, imageBytes.Length);
+                    Cv2.ImShow($"RGB Stream", matImage);
+                    Cv2.WaitKey(1);
+                }
+
                 return psiImage;
             }).EncodeJpeg().Write("RGB", store);
 
