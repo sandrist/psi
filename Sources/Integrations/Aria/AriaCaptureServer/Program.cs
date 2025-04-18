@@ -104,15 +104,13 @@ namespace AriaCaptureServer
                 return psiImage;
             }).EncodeJpeg().Write("Eyes", store);
 
-            var audioFormat = WaveFormat.Create16BitPcm(48000, 2);
+            var audioFormat = WaveFormat.CreatePcm(48000, 32, 7);
 
             audioSource.Select(iframe =>
             {
                 var messageDict = (IDictionary<string, object>)(ExpandoObject)iframe;
                 var byteData = (byte[])messageDict["values"];
-
                 return new AudioBuffer(byteData, audioFormat);
-
             }).Write("Audio", store);
 
             // Run pipeline asynchronously
