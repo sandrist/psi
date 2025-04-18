@@ -19,7 +19,7 @@ namespace AriaCaptureServer
         static void Main(string[] args)
         {
             using var pipeline = Pipeline.Create();
-            var store = PsiStore.Create(pipeline, "AriaStreams", @"D:\Temp\kin");
+            var store = PsiStore.Create(pipeline, "AriaStreams", @"C:\Temp\");
 
             var rgbSource = new NetMQSource<dynamic>(
                 pipeline,
