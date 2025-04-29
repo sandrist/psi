@@ -175,7 +175,10 @@ class AriaNetMQStreamTransport:
         self.audio_buffer = []  # Buffer to store audio samples
         self.sample_rate = 48000  # Adjust as needed  
         self.visualizer.audio_transport = self  # Link to visualizer
-    
+        self.start_time_ticks = None
+        self.start_time_ns = None
+
+
     def send_data(self, topic: str, data: dict):
         try:
             publishers[topic].send_json(data)
@@ -202,16 +205,35 @@ class AriaNetMQStreamTransport:
             print(f"Error sending {topic} data: {e}")        
 
     def on_image_received(self, image: np.array, record) -> None:
+        import datetime
         """
         Handles image frames from cameras.
         """
         camera_id = record.camera_id
         
-        self.visualizer.latest_images[camera_id] = image
-
-        # Convert image to a byte array
         img_byte_array = image.tobytes()
-        timestamp = get_utc_timestamp()
+
+
+        # KiranM: Record.capture_timestamp_ns is relative to the start 
+        # of a previous capture session, and we are anchoring 
+        # it to a session_start_time_utc that is way in the 
+        # future compared to get_utc_timestamp()
+        
+        # Capture wall-clock timestamp now and               
+        # Initialize on first frame
+        if self.start_time_ticks is None:
+            self.start_time_ticks = get_utc_timestamp()
+            self.start_time_ns = record.capture_timestamp_ns
+
+        # Calculate timestamp2 relative to first frame
+        # Align subsequent timestamps to the first one
+        relative_ns = record.capture_timestamp_ns - self.start_time_ns
+        timestamp = self.start_time_ticks + (relative_ns // 100)
+
+        # print("timestamp1:", timestamp1)
+        # print("timestamp2:", timestamp2)
+
+        self.visualizer.latest_images[camera_id] = image
 
         # Define structured metadata
         image_data = {
@@ -277,7 +299,7 @@ class AriaNetMQStreamTransport:
         if not hasattr(audio_and_record, "data") or audio_and_record.data is None:
             print("Received empty audio data")
             return
-
+                
         audio_data = np.array(audio_and_record.data, dtype=np.float32)
         if audio_data.size == 0:
             return           
