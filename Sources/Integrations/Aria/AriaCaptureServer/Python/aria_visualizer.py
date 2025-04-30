@@ -163,6 +163,20 @@ class AriaVisualizer:
            self.audio_transport.save_audio_to_wav("output_audio.wav")
         cv2.destroyAllWindows()
 
+
+
+def convert_ns_to_psi_ticks(capture_timestamp_ns: int, context) -> int:
+    """
+    Converts device-relative nanosecond timestamps to Psi Studio-compatible 100ns ticks.
+    """
+    if context.start_time_ticks is None:
+        context.start_time_ticks = get_utc_timestamp()
+        context.start_time_ns = capture_timestamp_ns
+
+    relative_ns = capture_timestamp_ns - context.start_time_ns
+    return context.start_time_ticks + (relative_ns // 100)
+
+
 class AriaNetMQStreamTransport:
     
     def __init__(self, visualizer, mode: str):
@@ -176,8 +190,7 @@ class AriaNetMQStreamTransport:
         self.sample_rate = 48000  # Adjust as needed  
         self.visualizer.audio_transport = self  # Link to visualizer
         self.start_time_ticks = None
-        self.start_time_ns = None
-
+        self.start_time_ns = None    
 
     def send_data(self, topic: str, data: dict):
         try:
@@ -213,26 +226,8 @@ class AriaNetMQStreamTransport:
         
         img_byte_array = image.tobytes()
 
-
-        # KiranM: Record.capture_timestamp_ns is relative to the start 
-        # of a previous capture session, and we are anchoring 
-        # it to a session_start_time_utc that is way in the 
-        # future compared to get_utc_timestamp()
+        timestamp = convert_ns_to_psi_ticks(record.capture_timestamp_ns, self)
         
-        # Capture wall-clock timestamp now and               
-        # Initialize on first frame
-        if self.start_time_ticks is None:
-            self.start_time_ticks = get_utc_timestamp()
-            self.start_time_ns = record.capture_timestamp_ns
-
-        # Calculate timestamp2 relative to first frame
-        # Align subsequent timestamps to the first one
-        relative_ns = record.capture_timestamp_ns - self.start_time_ns
-        timestamp = self.start_time_ticks + (relative_ns // 100)
-
-        # print("timestamp1:", timestamp1)
-        # print("timestamp2:", timestamp2)
-
         self.visualizer.latest_images[camera_id] = image
 
         # Define structured metadata
@@ -253,7 +248,6 @@ class AriaNetMQStreamTransport:
         
         # Send over NetMQ
         self.send_on_netmq(f"camera_{camera_id}", image_data)
-       
           
     def on_imu_received(self, samples: Sequence, imu_idx: int):
         sample = samples[0]
@@ -267,13 +261,14 @@ class AriaNetMQStreamTransport:
                                 
         accel_array = np.array(sample.accel_msec2, dtype=np.float32)
         gyro_array = np.array(sample.gyro_radsec, dtype=np.float32)
-                                
+
+        timestamp = convert_ns_to_psi_ticks(sample.capture_timestamp_ns, self)
         if imu_idx == 0:                              
-            self.send_on_netmq("accel0", {"values": accel_array.tolist()})  
-            self.send_on_netmq("gyro0", {"values": gyro_array.tolist()})
+            self.send_on_netmq("accel0",{"values": accel_array.tolist(), "originatingTime": timestamp})            
+            self.send_on_netmq("gyro0", {"values": gyro_array.tolist(), "originatingTime": timestamp})
         elif imu_idx == 1:                    
-            self.send_on_netmq("accel1", {"values": accel_array.tolist()})  
-            self.send_on_netmq("gyro1", {"values": gyro_array.tolist()})
+            self.send_on_netmq("accel1",{"values": accel_array.tolist(), "originatingTime": timestamp})            
+            self.send_on_netmq("gyro1", {"values": gyro_array.tolist(), "originatingTime": timestamp})            
         else:
             raise ValueError(f"Unknown Imu: {imu_idx}")
 
@@ -281,19 +276,21 @@ class AriaNetMQStreamTransport:
     
         magneto_data = {"timestamp": sample.capture_timestamp_ns, "magnetometer": sample.mag_tesla}
         self.visualizer.sensor_plot["magneto"].add_samples(sample.capture_timestamp_ns, sample.mag_tesla)
-            
+
+        timestamp = convert_ns_to_psi_ticks(sample.capture_timestamp_ns, self)            
         mag_size = sum(sys.getsizeof(v) for v in sample.mag_tesla)    
         mag_array = np.array(sample.mag_tesla, dtype=np.float32)
 
-        self.send_on_netmq("magneto", {"values": mag_array.tolist()})  
+        self.send_on_netmq("magneto", {"values": mag_array.tolist(), "originatingTime": timestamp})  
 
     def on_baro_received(self, sample):
         baro_data = {"timestamp": sample.capture_timestamp_ns, "pressure": sample.pressure}
         self.visualizer.sensor_plot["baro"].add_samples(sample.capture_timestamp_ns, [sample.pressure])
         
+        timestamp = convert_ns_to_psi_ticks(sample.capture_timestamp_ns, self)
         baro_array = np.array(sample.pressure, dtype=np.float32)
 
-        self.send_on_netmq("baro", {"values": baro_array.tolist()})  
+        self.send_on_netmq("baro", {"values": baro_array.tolist(),"originatingTime": timestamp })  
         
     def on_audio_received(self, audio_and_record, *args):
         if not hasattr(audio_and_record, "data") or audio_and_record.data is None:
