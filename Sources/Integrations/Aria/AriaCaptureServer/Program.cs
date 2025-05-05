@@ -18,6 +18,12 @@ namespace AriaCaptureServer
     {
         static void Main(string[] args)
         {
+            //RunLivePipeline();
+            ProcessData();
+        }
+
+        static void RunLivePipeline()
+        {
             using var pipeline = Pipeline.Create();
             var store = PsiStore.Create(pipeline, "AriaStreams", @"C:\Temp\");
 
@@ -53,7 +59,7 @@ namespace AriaCaptureServer
 
             // Start Image Processing 
             rgbSource.Select(iframe =>
-            {            
+            {
                 int width = (int)iframe.width;
                 int height = (int)iframe.height;
                 int channels = (int)iframe.channels;
@@ -61,7 +67,7 @@ namespace AriaCaptureServer
 
                 var psiImage = ImagePool.GetOrCreate(height, width, PixelFormat.BGR_24bpp);
                 psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
-                                
+
                 return psiImage;
             }).EncodeJpeg().Write("RGB", store);
 
@@ -85,7 +91,7 @@ namespace AriaCaptureServer
                 int channels = (int)iframe.channels;
                 byte[] imageBytes = (byte[])iframe.image_bytes;
 
-                var psiImage = ImagePool.GetOrCreate(height,width, PixelFormat.Gray_8bpp);
+                var psiImage = ImagePool.GetOrCreate(height, width, PixelFormat.Gray_8bpp);
                 psiImage.Resource.CopyFrom(imageBytes, 0, width * height * channels);
 
                 return psiImage;
@@ -117,6 +123,22 @@ namespace AriaCaptureServer
             pipeline.RunAsync();
             Console.WriteLine("Capturing ARIA streams. Press any key to stop recording...");
             Console.ReadKey();
+        }
+
+        static void ProcessData()
+        {
+            Console.WriteLine("Processing data...");
+            using var pipeline = Pipeline.Create(deliveryPolicy: DeliveryPolicy.Unlimited);
+
+            var outputStore = PsiStore.Create(pipeline, "AriaAudio", @"C:\Temp\");
+            var inputStore = PsiStore.Open(pipeline, "AriaStreams", @"C:\Temp\AriaStreams.0022");
+            var inputAudio = inputStore.OpenStream<AudioBuffer>("Audio");
+
+            var newAudioFormat = WaveFormat.Create16kHz1Channel16BitPcm();
+            inputAudio.Resample(newAudioFormat).Write("ResampledAudio", outputStore);
+
+            pipeline.Run(ReplayDescriptor.ReplayAll);
+            Console.WriteLine("Done!");
         }
     }
 }
