@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from pickle import FALSE
 import time
 import cv2
 import numpy as np
@@ -132,7 +131,7 @@ class AriaVisualizer:
             "audio": CVTemporalPlot("Audio Waveform", 1, window_duration_sec=2)
         }
         self.latest_images = {}
-        self.audio_transport = None  
+        self.audio_transport = None  # Will be set externally
 
 
     def render_loop(self):
@@ -160,22 +159,8 @@ class AriaVisualizer:
     def stop(self):
         print("AriaVisualizer Stopping stream ...")
         if self.audio_transport:
-           self.audio_transport.save_audio_to_wav("output_audio.wav")
+            self.audio_transport.save_audio_to_wav("output_audio.wav")
         cv2.destroyAllWindows()
-
-
-
-def convert_ns_to_psi_ticks(capture_timestamp_ns: int, context) -> int:
-    """
-    Converts device-relative nanosecond timestamps to Psi Studio-compatible 100ns ticks.
-    """
-    if context.start_time_ticks is None:
-        context.start_time_ticks = get_utc_timestamp()
-        context.start_time_ns = capture_timestamp_ns
-
-    relative_ns = capture_timestamp_ns - context.start_time_ns
-    return context.start_time_ticks + (relative_ns // 100)
-
 
 class AriaNetMQStreamTransport:
     
@@ -189,9 +174,7 @@ class AriaNetMQStreamTransport:
         self.audio_buffer = []  # Buffer to store audio samples
         self.sample_rate = 48000  # Adjust as needed  
         self.visualizer.audio_transport = self  # Link to visualizer
-        self.start_time_ticks = None
-        self.start_time_ns = None    
-
+    
     def send_data(self, topic: str, data: dict):
         try:
             publishers[topic].send_json(data)
@@ -215,20 +198,29 @@ class AriaNetMQStreamTransport:
             else:
                 print(f"Warning: No publisher found for topic {topic}")
         except Exception as e:
-            print(f"Error sending {topic} data: {e}")        
+            print(f"Error sending {topic} data: {e}")
 
-    def on_image_received(self, image: np.array, record) -> None:
-        import datetime
+    def send_topic_message(self, topic: str, outputMessage, timestamp, encodeBinary=False):
+        '''Send a given message on a given socket with specified topic name'''
+
+        payload = {}
+        payload['message'] = outputMessage
+        payload['originatingTime'] = timestamp
+        if encodeBinary:
+            publishers[topic].send_multipart([topic.encode(), msgpack.packb(payload, use_bin_type=True)])
+        else:
+            publishers[topic].send_multipart([topic.encode(), msgpack.dumps(payload)])
+
+    def on_image_received_raw(self, image: np.array, record) -> None:
         """
         Handles image frames from cameras.
         """
         camera_id = record.camera_id
-        
-        img_byte_array = image.tobytes()
-
-        timestamp = convert_ns_to_psi_ticks(record.capture_timestamp_ns, self)
-        
         self.visualizer.latest_images[camera_id] = image
+
+        # Convert image to a byte array
+        img_byte_array = image.tobytes()
+        timestamp = get_utc_timestamp()
 
         # Define structured metadata
         image_data = {
@@ -241,101 +233,185 @@ class AriaNetMQStreamTransport:
             "originatingTime": timestamp
         }
 
+        # Special handling for Camera 2 (RGB processing)
+        if camera_id == 2:
+            #print("Processing Camera 2 (RGB)")
+            rgb_image = np.rot90(image, -1)
+            rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
+            image_data["image_bytes"] = rgb_image.tobytes()
         if camera_id in {0,1}:
-        #    #print("Processing Slam Cameras")
-           slam_image = np.rot90(image, -1)            
-           image_data["image_bytes"] = slam_image.tobytes()    
+            #print("Processing Slam Cameras")
+            slam_image = np.rot90(image, -1)            
+            image_data["image_bytes"] = slam_image.tobytes()    
+        #if camera_id == 3:
+            #print("Processing Eyes Cameras")
+            #rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
+            # image_data["image_bytes"] = slam_image.tobytes()        
         
         # Send over NetMQ
         self.send_on_netmq(f"camera_{camera_id}", image_data)
-          
+        
+    def on_image_received_processed(self, image: np.array, record) -> None:
+        """
+        Handles image frames from cameras.
+        """
+        camera_id = record.camera_id
+        self.visualizer.latest_images[camera_id] = image
+
+        # Try using capture_timestamp_ns or any other time-related field you find
+        timestamp_ns = getattr(record, 'capture_timestamp_ns', None)
+        if timestamp_ns is None:
+            # Handle the case where no timestamp is found (you can use time.time() as a fallback)
+            timestamp_ns = time.time() * 1e9
+
+        # Convert the image to a byte array
+        _, img_bytes = cv2.imencode('.jpg', image)
+        img_byte_array = img_bytes.tobytes()
+
+        # Optionally encode it to base64 if required
+        img_base64 = base64.b64encode(img_byte_array).decode('utf-8')
+
+        # Create a dictionary to hold the data and send it using send_data
+        image_data = {
+            "timestamp": timestamp_ns,
+            "camera_id": camera_id,
+            "image": img_base64
+        }
+        self.send_data(f"camera_{camera_id}", image_data)
+   
+    def on_image_received(self, image: np.array, record) -> None:
+        """Determines which function to call based on mode."""
+        if self.mode == "raw":
+            self.on_image_received_raw(image, record)
+        elif self.mode == "processed":
+            self.on_image_received_processed(image, record)
+        else:
+            raise ValueError(f"Unknown mode: {self.mode}")
+    
+    
     def on_imu_received(self, samples: Sequence, imu_idx: int):
         sample = samples[0]
         imu_data = {"timestamp": sample.capture_timestamp_ns, "accel": sample.accel_msec2, "gyro": sample.gyro_radsec}
-        
         self.visualizer.sensor_plot["accel"][imu_idx].add_samples(sample.capture_timestamp_ns, sample.accel_msec2)
         self.visualizer.sensor_plot["gyro"][imu_idx].add_samples(sample.capture_timestamp_ns, sample.gyro_radsec)
         
+        # print(f"Sending Size of accel0: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
+        # print(f"Sending Size of gyro0: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size
+        # print(type(sample.accel_msec2), type(sample.gyro_radsec))
+
         accel_size = sum(sys.getsizeof(v) for v in sample.accel_msec2)
         gyro_size = sum(sys.getsizeof(v) for v in sample.gyro_radsec)
-                                
+
+        #print(f"Sending Size of accel0: {accel_size} bytes")
+        #print(f"Sending Size of gyro0: {gyro_size} bytes")
+
         accel_array = np.array(sample.accel_msec2, dtype=np.float32)
         gyro_array = np.array(sample.gyro_radsec, dtype=np.float32)
 
-        timestamp = convert_ns_to_psi_ticks(sample.capture_timestamp_ns, self)
+        #print(f"Accel array size: {accel_array.nbytes} bytes")
+        #print(f"Gyro array size: {gyro_array.nbytes} bytes")
+                
         if imu_idx == 0:                              
-            self.send_on_netmq("accel0",{"values": accel_array.tolist(), "originatingTime": timestamp})            
-            self.send_on_netmq("gyro0", {"values": gyro_array.tolist(), "originatingTime": timestamp})
-        elif imu_idx == 1:                    
-            self.send_on_netmq("accel1",{"values": accel_array.tolist(), "originatingTime": timestamp})            
-            self.send_on_netmq("gyro1", {"values": gyro_array.tolist(), "originatingTime": timestamp})            
+            self.send_on_netmq("accel0", {"values": accel_array.tolist()})  
+            self.send_on_netmq("gyro0", {"values": gyro_array.tolist()})
+        elif imu_idx == 1:
+            #print(f"Size of accel1: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
+            #print(f"Size of gyro1: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size                                                                   
+            self.send_on_netmq("accel1", {"values": accel_array.tolist()})  
+            self.send_on_netmq("gyro1", {"values": gyro_array.tolist()})
         else:
-            raise ValueError(f"Unknown Imu: {imu_idx}")
-
-    def on_magneto_received(self, sample):
+            raise ValueError(f"Unknown Imu: {imu_idx}")   
     
+    def on_magneto_received(self, sample):
         magneto_data = {"timestamp": sample.capture_timestamp_ns, "magnetometer": sample.mag_tesla}
         self.visualizer.sensor_plot["magneto"].add_samples(sample.capture_timestamp_ns, sample.mag_tesla)
 
-        timestamp = convert_ns_to_psi_ticks(sample.capture_timestamp_ns, self)            
-        mag_size = sum(sys.getsizeof(v) for v in sample.mag_tesla)    
+        #print(f"Size of magneto_data: {sys.getsizeof(magneto_data)} bytes")  # Print size
+        #print(type(sample.capture_timestamp_ns), type(sample.mag_tesla))
+        
+        mag_size = sum(sys.getsizeof(v) for v in sample.mag_tesla)
+        # print(f"Sending Size of accel0: {mag_size} bytes")
+
         mag_array = np.array(sample.mag_tesla, dtype=np.float32)
 
-        self.send_on_netmq("magneto", {"values": mag_array.tolist(), "originatingTime": timestamp})  
+        if self.mode == "raw":            
+            self.send_on_netmq("magneto", {"values": mag_array.tolist()})  
+        elif self.mode == "processed":
+            self.send_data("magneto", magneto_data)     
 
     def on_baro_received(self, sample):
         baro_data = {"timestamp": sample.capture_timestamp_ns, "pressure": sample.pressure}
         self.visualizer.sensor_plot["baro"].add_samples(sample.capture_timestamp_ns, [sample.pressure])
-        
-        timestamp = convert_ns_to_psi_ticks(sample.capture_timestamp_ns, self)
+        #self.send_data("baro", baro_data)
+        #print(f"Size of baro_data: {sys.getsizeof(baro_data)} bytes")  # Print size
+        #print(type(sample.capture_timestamp_ns), type(sample.pressure))
         baro_array = np.array(sample.pressure, dtype=np.float32)
 
-        self.send_on_netmq("baro", {"values": baro_array.tolist(),"originatingTime": timestamp })  
+        if self.mode == "raw":
+            self.send_on_netmq("baro", {"values": baro_array.tolist()})  
+        elif self.mode == "processed":
+            self.send_data("baro", baro_data)
         
     def on_audio_received(self, audio_and_record, *args):
+        """Processes incoming 7-channel audio and converts to stereo."""
         if not hasattr(audio_and_record, "data") or audio_and_record.data is None:
             print("Received empty audio data")
             return
-                
+
         audio_data = np.array(audio_and_record.data, dtype=np.float32)
         if audio_data.size == 0:
+            print("Received empty audio data")
             return           
-
-        # KiranM: Every Step here is very important and the order of execution.
-        # Reshape into 7 channels (assuming the input data is correctly formatted)
-        if audio_data.size % 7 == 0:
-            audio_data = audio_data.reshape(-1, 7).T  # Transpose to shape (7, N)
-        else:
-            raise ValueError(f"Unexpected audio data size: {audio_data.size}, cannot reshape to (7, N)")
-
-        if audio_data.shape[0] != 7:
-            raise ValueError(f"Expected 7-channel audio input, but got shape {audio_data.shape}")
-
-        # KiranM : Apply a balanced stereo mix:
-        # Left: Channels 0, 2, 4 (front-left, left, rear-left) + 50% center
-        # Right: Channels 1, 3, 5 (front-right, right, rear-right) + 50% center
-        left_mix = (audio_data[0] + audio_data[2] + audio_data[4] + 0.5 * audio_data[6]) / 3
-        right_mix = (audio_data[1] + audio_data[3] + audio_data[5] + 0.5 * audio_data[6]) / 3
-
-        # Normalize stereo mix (avoid extreme loudness)
-        max_val = max(np.max(np.abs(left_mix)), np.max(np.abs(right_mix)), 1e-8)
-        left_mix /= max_val
-        right_mix /= max_val
-
-        # Convert to 16-bit PCM format
-        stereo_audio = np.vstack((left_mix, right_mix)).T  # Shape (N, 2)
-        stereo_audio_int16 = np.int16(stereo_audio * 32767)
-        interleaved_audio = stereo_audio_int16.flatten()
-
-        # Append to buffer in interleaved format
-        self.audio_buffer.extend(interleaved_audio)
-
+        
         # Generate timestamp
         timestamp_ns = time.time() * 1e9
-        self.visualizer.sensor_plot["audio"].add_samples(timestamp_ns, [audio_data[0, 0]])
+        self.send_topic_message("audio", {"values": audio_data.tobytes()}, timestamp_ns, encodeBinary=True)
+
+        # Previous code below:
+
+        # # KiranM: Every Step here is very important and the order of execution.
+        # # Reshape into 7 channels (assuming the input data is correctly formatted)
+        # if audio_data.size % 7 == 0:
+        #     audio_data = audio_data.reshape(-1, 7).T  # Transpose to shape (7, N)
+        # else:
+        #     raise ValueError(f"Unexpected audio data size: {audio_data.size}, cannot reshape to (7, N)")
+
+        # if audio_data.shape[0] != 7:
+        #     raise ValueError(f"Expected 7-channel audio input, but got shape {audio_data.shape}")
+
+        # # KiranM : Apply a balanced stereo mix:
+        # # Left: Channels 0, 2, 4 (front-left, left, rear-left) + 50% center
+        # # Right: Channels 1, 3, 5 (front-right, right, rear-right) + 50% center
+        # left_mix = (audio_data[0] + audio_data[2] + audio_data[4] + 0.5 * audio_data[6]) / 3
+        # right_mix = (audio_data[1] + audio_data[3] + audio_data[5] + 0.5 * audio_data[6]) / 3
+
+        # # Normalize stereo mix (avoid extreme loudness)
+        # max_val = max(np.max(np.abs(left_mix)), np.max(np.abs(right_mix)), 1e-8)
+        # left_mix /= max_val
+        # right_mix /= max_val
+
+        # # Convert to 16-bit PCM format
+        # stereo_audio = np.vstack((left_mix, right_mix)).T  # Shape (N, 2)
+        # stereo_audio_int16 = np.int16(stereo_audio * 32767)
+        # interleaved_audio = stereo_audio_int16.flatten()
+
+        # # Append to buffer in interleaved format
+        # self.audio_buffer.extend(interleaved_audio)
+
         
-        self.send_on_netmq("audio", {"values": interleaved_audio.tobytes()})  
-        
+        # self.visualizer.sensor_plot["audio"].add_samples(timestamp_ns, [audio_data[0, 0]])
+
+        # """
+        # KiranM: Minimal processing on the receiving end. Instead of sending raw 
+        # 7-channel data, it now sends already-mixed, normalized, 
+        # and formatted stereo audio in an interleaved int16 format. This reduces 
+        # the need for extra processing on the receiver side.
+        # """
+
+        # if self.mode == "raw":            
+        #     self.send_on_netmq("audio", {"values": interleaved_audio.tobytes()})  
+        # elif self.mode == "processed":
+        #     self.send_data("audio", {"timestamp": timestamp_ns, "audio": audio_data.tolist()})
 
     def save_audio_to_wav(self, filename):
         with wave.open(filename, 'w') as wf:
