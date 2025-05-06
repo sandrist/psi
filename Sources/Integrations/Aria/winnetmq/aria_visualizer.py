@@ -198,7 +198,18 @@ class AriaNetMQStreamTransport:
             else:
                 print(f"Warning: No publisher found for topic {topic}")
         except Exception as e:
-            print(f"Error sending {topic} data: {e}")        
+            print(f"Error sending {topic} data: {e}")
+
+    def send_topic_message(self, topic: str, outputMessage, timestamp, encodeBinary=False):
+        '''Send a given message on a given socket with specified topic name'''
+
+        payload = {}
+        payload['message'] = outputMessage
+        payload['originatingTime'] = timestamp
+        if encodeBinary:
+            publishers[topic].send_multipart([topic.encode(), msgpack.packb(payload, use_bin_type=True)])
+        else:
+            publishers[topic].send_multipart([topic.encode(), msgpack.dumps(payload)])
 
     def on_image_received_raw(self, image: np.array, record) -> None:
         """
@@ -284,35 +295,32 @@ class AriaNetMQStreamTransport:
         self.visualizer.sensor_plot["accel"][imu_idx].add_samples(sample.capture_timestamp_ns, sample.accel_msec2)
         self.visualizer.sensor_plot["gyro"][imu_idx].add_samples(sample.capture_timestamp_ns, sample.gyro_radsec)
         
-        if self.mode == "raw":
-                # print(f"Sending Size of accel0: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
-                # print(f"Sending Size of gyro0: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size
-                # print(type(sample.accel_msec2), type(sample.gyro_radsec))
+        # print(f"Sending Size of accel0: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
+        # print(f"Sending Size of gyro0: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size
+        # print(type(sample.accel_msec2), type(sample.gyro_radsec))
 
-                accel_size = sum(sys.getsizeof(v) for v in sample.accel_msec2)
-                gyro_size = sum(sys.getsizeof(v) for v in sample.gyro_radsec)
+        accel_size = sum(sys.getsizeof(v) for v in sample.accel_msec2)
+        gyro_size = sum(sys.getsizeof(v) for v in sample.gyro_radsec)
 
-                #print(f"Sending Size of accel0: {accel_size} bytes")
-                #print(f"Sending Size of gyro0: {gyro_size} bytes")
+        #print(f"Sending Size of accel0: {accel_size} bytes")
+        #print(f"Sending Size of gyro0: {gyro_size} bytes")
 
-                accel_array = np.array(sample.accel_msec2, dtype=np.float32)
-                gyro_array = np.array(sample.gyro_radsec, dtype=np.float32)
+        accel_array = np.array(sample.accel_msec2, dtype=np.float32)
+        gyro_array = np.array(sample.gyro_radsec, dtype=np.float32)
 
-                #print(f"Accel array size: {accel_array.nbytes} bytes")
-                #print(f"Gyro array size: {gyro_array.nbytes} bytes")
+        #print(f"Accel array size: {accel_array.nbytes} bytes")
+        #print(f"Gyro array size: {gyro_array.nbytes} bytes")
                 
-                if imu_idx == 0:                              
-                    self.send_on_netmq("accel0", {"values": accel_array.tolist()})  
-                    self.send_on_netmq("gyro0", {"values": gyro_array.tolist()})
-                elif imu_idx == 1:
-                    #print(f"Size of accel1: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
-                    #print(f"Size of gyro1: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size                                                                   
-                    self.send_on_netmq("accel1", {"values": accel_array.tolist()})  
-                    self.send_on_netmq("gyro1", {"values": gyro_array.tolist()})
-                else:
-                    raise ValueError(f"Unknown Imu: {imu_idx}")
-        elif self.mode == "processed":
-            self.send_data("imu", imu_data)       
+        if imu_idx == 0:                              
+            self.send_on_netmq("accel0", {"values": accel_array.tolist()})  
+            self.send_on_netmq("gyro0", {"values": gyro_array.tolist()})
+        elif imu_idx == 1:
+            #print(f"Size of accel1: {sys.getsizeof(sample.accel_msec2)} bytes")  # Print size
+            #print(f"Size of gyro1: {sys.getsizeof(sample.gyro_radsec)} bytes")  # Print size                                                                   
+            self.send_on_netmq("accel1", {"values": accel_array.tolist()})  
+            self.send_on_netmq("gyro1", {"values": gyro_array.tolist()})
+        else:
+            raise ValueError(f"Unknown Imu: {imu_idx}")   
     
     def on_magneto_received(self, sample):
         magneto_data = {"timestamp": sample.capture_timestamp_ns, "magnetometer": sample.mag_tesla}
@@ -352,53 +360,58 @@ class AriaNetMQStreamTransport:
 
         audio_data = np.array(audio_and_record.data, dtype=np.float32)
         if audio_data.size == 0:
+            print("Received empty audio data")
             return           
-
-        # KiranM: Every Step here is very important and the order of execution.
-        # Reshape into 7 channels (assuming the input data is correctly formatted)
-        if audio_data.size % 7 == 0:
-            audio_data = audio_data.reshape(-1, 7).T  # Transpose to shape (7, N)
-        else:
-            raise ValueError(f"Unexpected audio data size: {audio_data.size}, cannot reshape to (7, N)")
-
-        if audio_data.shape[0] != 7:
-            raise ValueError(f"Expected 7-channel audio input, but got shape {audio_data.shape}")
-
-        # KiranM : Apply a balanced stereo mix:
-        # Left: Channels 0, 2, 4 (front-left, left, rear-left) + 50% center
-        # Right: Channels 1, 3, 5 (front-right, right, rear-right) + 50% center
-        left_mix = (audio_data[0] + audio_data[2] + audio_data[4] + 0.5 * audio_data[6]) / 3
-        right_mix = (audio_data[1] + audio_data[3] + audio_data[5] + 0.5 * audio_data[6]) / 3
-
-        # Normalize stereo mix (avoid extreme loudness)
-        max_val = max(np.max(np.abs(left_mix)), np.max(np.abs(right_mix)), 1e-8)
-        left_mix /= max_val
-        right_mix /= max_val
-
-        # Convert to 16-bit PCM format
-        stereo_audio = np.vstack((left_mix, right_mix)).T  # Shape (N, 2)
-        stereo_audio_int16 = np.int16(stereo_audio * 32767)
-        interleaved_audio = stereo_audio_int16.flatten()
-
-        # Append to buffer in interleaved format
-        self.audio_buffer.extend(interleaved_audio)
-
+        
         # Generate timestamp
         timestamp_ns = time.time() * 1e9
-        self.visualizer.sensor_plot["audio"].add_samples(timestamp_ns, [audio_data[0, 0]])
+        self.send_topic_message("audio", {"values": audio_data.tobytes()}, timestamp_ns, encodeBinary=True)
 
-        """
-        KiranM: Minimal processing on the receiving end. Instead of sending raw 
-        7-channel data, it now sends already-mixed, normalized, 
-        and formatted stereo audio in an interleaved int16 format. This reduces 
-        the need for extra processing on the receiver side.
-        """
+        # Previous code below:
 
-        if self.mode == "raw":            
-            self.send_on_netmq("audio", {"values": interleaved_audio.tobytes()})  
-        elif self.mode == "processed":
-            self.send_data("audio", {"timestamp": timestamp_ns, "audio": audio_data.tolist()})
+        # # KiranM: Every Step here is very important and the order of execution.
+        # # Reshape into 7 channels (assuming the input data is correctly formatted)
+        # if audio_data.size % 7 == 0:
+        #     audio_data = audio_data.reshape(-1, 7).T  # Transpose to shape (7, N)
+        # else:
+        #     raise ValueError(f"Unexpected audio data size: {audio_data.size}, cannot reshape to (7, N)")
 
+        # if audio_data.shape[0] != 7:
+        #     raise ValueError(f"Expected 7-channel audio input, but got shape {audio_data.shape}")
+
+        # # KiranM : Apply a balanced stereo mix:
+        # # Left: Channels 0, 2, 4 (front-left, left, rear-left) + 50% center
+        # # Right: Channels 1, 3, 5 (front-right, right, rear-right) + 50% center
+        # left_mix = (audio_data[0] + audio_data[2] + audio_data[4] + 0.5 * audio_data[6]) / 3
+        # right_mix = (audio_data[1] + audio_data[3] + audio_data[5] + 0.5 * audio_data[6]) / 3
+
+        # # Normalize stereo mix (avoid extreme loudness)
+        # max_val = max(np.max(np.abs(left_mix)), np.max(np.abs(right_mix)), 1e-8)
+        # left_mix /= max_val
+        # right_mix /= max_val
+
+        # # Convert to 16-bit PCM format
+        # stereo_audio = np.vstack((left_mix, right_mix)).T  # Shape (N, 2)
+        # stereo_audio_int16 = np.int16(stereo_audio * 32767)
+        # interleaved_audio = stereo_audio_int16.flatten()
+
+        # # Append to buffer in interleaved format
+        # self.audio_buffer.extend(interleaved_audio)
+
+        
+        # self.visualizer.sensor_plot["audio"].add_samples(timestamp_ns, [audio_data[0, 0]])
+
+        # """
+        # KiranM: Minimal processing on the receiving end. Instead of sending raw 
+        # 7-channel data, it now sends already-mixed, normalized, 
+        # and formatted stereo audio in an interleaved int16 format. This reduces 
+        # the need for extra processing on the receiver side.
+        # """
+
+        # if self.mode == "raw":            
+        #     self.send_on_netmq("audio", {"values": interleaved_audio.tobytes()})  
+        # elif self.mode == "processed":
+        #     self.send_data("audio", {"timestamp": timestamp_ns, "audio": audio_data.tolist()})
 
     def save_audio_to_wav(self, filename):
         with wave.open(filename, 'w') as wf:
