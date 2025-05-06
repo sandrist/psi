@@ -14,11 +14,7 @@
 
 import argparse
 import sys
-
 import aria.sdk as aria
-
-from common import update_iptables
-
 from aria_visualizer import AriaVisualizer, AriaNetMQStreamTransport
 
 def parse_args() -> argparse.Namespace:
@@ -55,6 +51,7 @@ def parse_args() -> argparse.Namespace:
 def main():
     args = parse_args()
     if args.update_iptables and sys.platform.startswith("linux"):
+        from common import update_iptables
         update_iptables()
 
     #  Optional: Set SDK's log level to Trace or Debug for more verbose logs. Defaults to Info

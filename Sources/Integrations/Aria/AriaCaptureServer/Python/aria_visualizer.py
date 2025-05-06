@@ -159,8 +159,8 @@ class AriaVisualizer:
     
     def stop(self):
         print("AriaVisualizer Stopping stream ...")
-        if self.audio_transport:
-           self.audio_transport.save_audio_to_wav("output_audio.wav")
+        # if self.audio_transport:
+        #    self.audio_transport.save_audio_to_wav("output_audio.wav")
         cv2.destroyAllWindows()
 
 
@@ -338,13 +338,13 @@ class AriaNetMQStreamTransport:
         # self.send_on_netmq("audio", {"values": interleaved_audio.tobytes()})  
         
 
-    def save_audio_to_wav(self, filename):
-        with wave.open(filename, 'w') as wf:
-            wf.setnchannels(2)  # Stereo audio
-            wf.setsampwidth(2)  # 16-bit PCM
-            wf.setframerate(self.sample_rate)
-            wf.writeframes(np.array(self.audio_buffer, dtype=np.int16).tobytes())
-        print(f"KiranM:Audio saved to {filename}")
+    # def save_audio_to_wav(self, filename):
+    #     with wave.open(filename, 'w') as wf:
+    #         wf.setnchannels(2)  # Stereo audio
+    #         wf.setsampwidth(2)  # 16-bit PCM
+    #         wf.setframerate(self.sample_rate)
+    #         wf.writeframes(np.array(self.audio_buffer, dtype=np.int16).tobytes())
+    #     print(f"KiranM:Audio saved to {filename}")
 
     def stop(self):
         print("AriaNetMQStreamTransport Stopping stream...")
