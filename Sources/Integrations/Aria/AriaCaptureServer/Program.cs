@@ -18,8 +18,8 @@ namespace AriaCaptureServer
     {
         static void Main(string[] args)
         {
-            //RunLivePipeline();
-            ProcessData();
+            RunLivePipeline();
+            //ProcessData();
         }
 
         static void RunLivePipeline()
@@ -112,12 +112,15 @@ namespace AriaCaptureServer
 
             var audioFormat = WaveFormat.CreatePcm(48000, 32, 7);
 
-            audioSource.Select(iframe =>
+            var audio = audioSource.Select(iframe =>
             {
                 var messageDict = (IDictionary<string, object>)(ExpandoObject)iframe;
                 var byteData = (byte[])messageDict["values"];
                 return new AudioBuffer(byteData, audioFormat);
-            }).Write("Audio", store);
+            }, DeliveryPolicy.Unlimited);
+
+            audio.Write("Audio", store, deliveryPolicy: DeliveryPolicy.Unlimited);
+            audio.Resample(WaveFormat.Create16kHz1Channel16BitPcm()).Write("ResampledAudio", store, deliveryPolicy: DeliveryPolicy.Unlimited);
 
             // Run pipeline asynchronously
             pipeline.RunAsync();
