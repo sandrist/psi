@@ -268,3 +268,4 @@ paket-files/
 /_site/
 /.sass-cache/
 Gemfile.lock
+Sources/Integrations/Aria/AriaCaptureServer/Python/__pycache__/

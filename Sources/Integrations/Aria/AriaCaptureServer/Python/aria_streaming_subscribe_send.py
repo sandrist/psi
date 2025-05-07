@@ -19,7 +19,7 @@ import cv2
 import numpy as np
 from common import quit_keypress, update_iptables
 from typing import Sequence
-from psi_com import *
+from psi_common import *
 
 from projectaria_tools.core.sensor_data import ImageDataRecord
 
