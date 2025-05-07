@@ -301,51 +301,7 @@ class AriaNetMQStreamTransport:
             return
         
         self.send_on_netmq("audio", {"values": audio_data.tobytes()})
-
-        # # KiranM: Every Step here is very important and the order of execution.
-        # # Reshape into 7 channels (assuming the input data is correctly formatted)
-        # if audio_data.size % 7 == 0:
-        #     audio_data = audio_data.reshape(-1, 7).T  # Transpose to shape (7, N)
-        # else:
-        #     raise ValueError(f"Unexpected audio data size: {audio_data.size}, cannot reshape to (7, N)")
-
-        # if audio_data.shape[0] != 7:
-        #     raise ValueError(f"Expected 7-channel audio input, but got shape {audio_data.shape}")
-
-        # # KiranM : Apply a balanced stereo mix:
-        # # Left: Channels 0, 2, 4 (front-left, left, rear-left) + 50% center
-        # # Right: Channels 1, 3, 5 (front-right, right, rear-right) + 50% center
-        # left_mix = (audio_data[0] + audio_data[2] + audio_data[4] + 0.5 * audio_data[6]) / 3
-        # right_mix = (audio_data[1] + audio_data[3] + audio_data[5] + 0.5 * audio_data[6]) / 3
-
-        # # Normalize stereo mix (avoid extreme loudness)
-        # max_val = max(np.max(np.abs(left_mix)), np.max(np.abs(right_mix)), 1e-8)
-        # left_mix /= max_val
-        # right_mix /= max_val
-
-        # # Convert to 16-bit PCM format
-        # stereo_audio = np.vstack((left_mix, right_mix)).T  # Shape (N, 2)
-        # stereo_audio_int16 = np.int16(stereo_audio * 32767)
-        # interleaved_audio = stereo_audio_int16.flatten()
-
-        # # Append to buffer in interleaved format
-        # self.audio_buffer.extend(interleaved_audio)
-
-        # # Generate timestamp
-        # timestamp_ns = time.time() * 1e9
-        # self.visualizer.sensor_plot["audio"].add_samples(timestamp_ns, [audio_data[0, 0]])
         
-        # self.send_on_netmq("audio", {"values": interleaved_audio.tobytes()})  
-        
-
-    # def save_audio_to_wav(self, filename):
-    #     with wave.open(filename, 'w') as wf:
-    #         wf.setnchannels(2)  # Stereo audio
-    #         wf.setsampwidth(2)  # 16-bit PCM
-    #         wf.setframerate(self.sample_rate)
-    #         wf.writeframes(np.array(self.audio_buffer, dtype=np.int16).tobytes())
-    #     print(f"KiranM:Audio saved to {filename}")
-
     def stop(self):
         print("AriaNetMQStreamTransport Stopping stream...")
         self.visualizer.stop()

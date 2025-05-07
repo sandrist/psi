@@ -112,6 +112,5 @@ def main():
     streaming_manager.stop_streaming()
     device_client.disconnect(device)
 
-
 if __name__ == "__main__":
     main()
