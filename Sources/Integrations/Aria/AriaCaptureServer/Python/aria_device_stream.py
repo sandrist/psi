@@ -14,11 +14,10 @@
 
 import argparse
 import sys
+import time
 import aria.sdk as aria
-
 from common import update_iptables
-
-from aria_visualizer import AriaVisualizer, AriaNetMQStreamTransport
+from aria_visualizer import AriaNetMQStreamTransport  # Only import transport
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
@@ -47,70 +46,58 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--device-ip", help="IP address to connect to the device over wifi"
     )
+    parser.add_argument(
+        "--stream-seconds",
+        type=int,
+        default=60,
+        help="Number of seconds to stream before shutting down"
+    )
 
     return parser.parse_args()
-
 
 def main():
     args = parse_args()
     if args.update_iptables and sys.platform.startswith("linux"):
         update_iptables()
 
-    #  Optional: Set SDK's log level to Trace or Debug for more verbose logs. Defaults to Info
     aria.set_log_level(aria.Level.Info)
 
-    # 1. Create DeviceClient instance, setting the IP address if specified
     device_client = aria.DeviceClient()
-
     client_config = aria.DeviceClientConfig()
     if args.device_ip:
         client_config.ip_v4_address = args.device_ip
     device_client.set_client_config(client_config)
 
-    # 2. Connect to the device
     device = device_client.connect()
 
-    # 3. Retrieve the streaming_manager and streaming_client
     streaming_manager = device.streaming_manager
     streaming_client = streaming_manager.streaming_client
 
-    # 4. Set custom config for streaming
     streaming_config = aria.StreamingConfig()
     streaming_config.profile_name = args.profile_name
-
-    #    Note: by default streaming uses Wifi
     if args.streaming_interface == "usb":
         streaming_config.streaming_interface = aria.StreamingInterface.Usb
-
-    #    Use ephemeral streaming certificates
     streaming_config.security_options.use_ephemeral_certs = True
     streaming_manager.streaming_config = streaming_config
 
-    # 5. Start streaming
     streaming_manager.start_streaming()
 
-    # 6. Get streaming state
-    streaming_state = streaming_manager.streaming_state
-    print(f"Streaming state: {streaming_state}")
+    print(f"Streaming state: {streaming_manager.streaming_state}")
 
-    # 7. Create the visualizer observer and attach the NetMq Transport client
-    aria_visualizer = AriaVisualizer()
-    aria_netmq_stream_transport = AriaNetMQStreamTransport(aria_visualizer)     
-    
-    streaming_client.set_streaming_client_observer(
-        aria_netmq_stream_transport
-    )
-
+    # Headless: only use NetMQ transport, no visualizer
+    aria_transport = AriaNetMQStreamTransport()
+    streaming_client.set_streaming_client_observer(aria_transport)
     streaming_client.subscribe()
 
-    # 8. Visualize the streaming data until we close the window
-    aria_visualizer.render_loop()
+    # Keep streaming for given time
+    print(f"Streaming for {args.stream_seconds} seconds...")
+    time.sleep(args.stream_seconds)
 
-    # 9. Stop streaming and disconnect the device
-    print("Stop listening to image data")
+    print("Stopping stream...")
     streaming_client.unsubscribe()
     streaming_manager.stop_streaming()
     device_client.disconnect(device)
+    print("Disconnected.")
 
 if __name__ == "__main__":
     main()
