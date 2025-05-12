@@ -132,7 +132,6 @@ class AriaVisualizer:
             "audio": CVTemporalPlot("Audio Waveform", 1, window_duration_sec=2)
         }
         self.latest_images = {}
-        self.audio_transport = None  
 
 
     def render_loop(self):
@@ -159,8 +158,6 @@ class AriaVisualizer:
     
     def stop(self):
         print("AriaVisualizer Stopping stream ...")
-        # if self.audio_transport:
-        #    self.audio_transport.save_audio_to_wav("output_audio.wav")
         cv2.destroyAllWindows()
 
 
