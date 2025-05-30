@@ -11,8 +11,8 @@ namespace AriaCaptureServer
     using Microsoft.Psi.Imaging;
     using Microsoft.Psi.Interop.Format;
     using Microsoft.Psi.Interop.Transport;    
-    using System.Collections.Generic;
-    using System.Dynamic;    
+    using System.Dynamic;
+    using System.Numerics;
 
     internal class Program
     {
@@ -51,11 +51,47 @@ namespace AriaCaptureServer
                 "tcp://127.0.0.1:5553",
                 MessagePackFormat.Instance);
 
-            var audioSource = new NetMQSource<dynamic>(
-               pipeline,
-               "audio",
-               "tcp://127.0.0.1:5560",
-               MessagePackFormat.Instance);
+            var accel0Source = new NetMQSource<dynamic>(
+                pipeline,
+                "accel0",
+                "tcp://127.0.0.1:5554",
+                MessagePackFormat.Instance);
+
+            var accel1Source = new NetMQSource<dynamic>(
+                pipeline,
+                "accel1",
+                "tcp://127.0.0.1:5555",
+                MessagePackFormat.Instance);
+
+            var gyro0Source = new NetMQSource<dynamic>(
+                pipeline,
+                "gyro0",
+                "tcp://127.0.0.1:5556",
+                MessagePackFormat.Instance);
+
+            var gyro1Source = new NetMQSource<dynamic>(
+                pipeline,
+                "gyro1",
+                "tcp://127.0.0.1:5557",
+                MessagePackFormat.Instance);
+
+            var magnetoSource = new NetMQSource<dynamic>(
+                pipeline,
+                "magneto",
+                "tcp://127.0.0.1:5558",
+                MessagePackFormat.Instance);
+
+            var baroSource = new NetMQSource<dynamic>(
+                pipeline,
+                "baro",
+                "tcp://127.0.0.1:5559",
+                MessagePackFormat.Instance);
+
+            //var audioSource = new NetMQSource<dynamic>(
+            //   pipeline,
+            //   "audio",
+            //   "tcp://127.0.0.1:5560",
+            //   MessagePackFormat.Instance);
 
             // Start Image Processing 
             rgbSource.Select(iframe =>
@@ -110,17 +146,29 @@ namespace AriaCaptureServer
                 return psiImage;
             }).EncodeJpeg().Write("Eyes", store);
 
-            var audioFormat = WaveFormat.CreatePcm(48000, 32, 7);
+            //var audioFormat = WaveFormat.CreatePcm(48000, 32, 7);
 
-            var audio = audioSource.Select(iframe =>
+            //var audio = audioSource.Select(iframe =>
+            //{
+            //    var messageDict = (IDictionary<string, object>)(ExpandoObject)iframe;
+            //    var byteData = (byte[])messageDict["values"];
+            //    return new AudioBuffer(byteData, audioFormat);
+            //}, DeliveryPolicy.Unlimited);
+
+            //audio.Write("Audio", store, deliveryPolicy: DeliveryPolicy.Unlimited);
+            //audio.Resample(WaveFormat.Create16kHz1Channel16BitPcm(), DeliveryPolicy.Unlimited).Write("ResampledAudio", store, deliveryPolicy: DeliveryPolicy.Unlimited);
+
+            accel0Source.Process<dynamic, Vector3>((iframe, _, emitter) =>
             {
-                var messageDict = (IDictionary<string, object>)(ExpandoObject)iframe;
-                var byteData = (byte[])messageDict["values"];
-                return new AudioBuffer(byteData, audioFormat);
-            }, DeliveryPolicy.Unlimited);
-
-            audio.Write("Audio", store, deliveryPolicy: DeliveryPolicy.Unlimited);
-            audio.Resample(WaveFormat.Create16kHz1Channel16BitPcm()).Write("ResampledAudio", store, deliveryPolicy: DeliveryPolicy.Unlimited);
+                foreach (var value in iframe.values)
+                {
+                    var x = (float)value["sample"][0];
+                    var y = (float)value["sample"][1];
+                    var z = (float)value["sample"][2];
+                    var timestamp = new DateTime((long)value["originatingTime"]);
+                    emitter.Post(new Vector3(x, y, z), timestamp);
+                }
+            }).Write("Accel0", store);
 
             // Run pipeline asynchronously
             pipeline.RunAsync();

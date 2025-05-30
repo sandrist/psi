@@ -116,17 +116,22 @@ class AriaNetMQStreamTransport:
         self.send_on_netmq(f"camera_{camera_id}", image_data)
 
     def on_imu_received(self, samples: Sequence, imu_idx: int):
-        sample = samples[0]
-        timestamp = convert_ns_to_psi_ticks(sample.capture_timestamp_ns, self)
-        accel_array = np.array(sample.accel_msec2, dtype=np.float32)
-        gyro_array = np.array(sample.gyro_radsec, dtype=np.float32)
+        accel_values = []
+        gyro_values = []
+        timestamp = 0
 
+        for sample in samples:
+            timestamp = convert_ns_to_psi_ticks(sample.capture_timestamp_ns, self)
+            accel_values.append({"sample": np.array(sample.accel_msec2, dtype=np.float32).tolist(), "originatingTime": timestamp})
+            gyro_values.append({"sample": np.array(sample.gyro_radsec, dtype=np.float32).tolist(), "originatingTime": timestamp})
+        
+        # breakpoint()
         if imu_idx == 0:
-            self.send_on_netmq("accel0", {"values": accel_array.tolist(), "originatingTime": timestamp})
-            self.send_on_netmq("gyro0", {"values": gyro_array.tolist(), "originatingTime": timestamp})
+            self.send_on_netmq("accel0", {"values": accel_values, "originatingTime": timestamp})
+            self.send_on_netmq("gyro0", {"values": gyro_values, "originatingTime": timestamp})
         elif imu_idx == 1:
-            self.send_on_netmq("accel1", {"values": accel_array.tolist(), "originatingTime": timestamp})
-            self.send_on_netmq("gyro1", {"values": gyro_array.tolist(), "originatingTime": timestamp})
+            self.send_on_netmq("accel1", {"values": accel_values, "originatingTime": timestamp})
+            self.send_on_netmq("gyro1", {"values": gyro_values, "originatingTime": timestamp})
         else:
             raise ValueError(f"Unknown Imu: {imu_idx}")
 
