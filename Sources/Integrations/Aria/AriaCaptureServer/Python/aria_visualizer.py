@@ -27,6 +27,9 @@ from collections import deque
 from typing import Sequence
 import aria.sdk as aria
 from projectaria_tools.core.sensor_data import BarometerData, ImageDataRecord, MotionData
+import cv2
+import mediapipe as mp
+import numpy as np
 
 NANOSECOND = 1e-9
 
@@ -70,7 +73,6 @@ def get_utc_timestamp():
         # Ensure timestamps always increase
         last_timestamp = max(last_timestamp + 1, new_timestamp)
         return last_timestamp
-
 
 class CVTemporalPlot:
     def __init__(self, title: str, dim: int, window_duration_sec: float = 4, width=500, height=300):
@@ -133,7 +135,6 @@ class AriaVisualizer:
         }
         self.latest_images = {}
 
-
     def render_loop(self):
         print("Starting stream... Press 'q' to exit.")
         try:
@@ -161,7 +162,6 @@ class AriaVisualizer:
         cv2.destroyAllWindows()
 
 
-
 def convert_ns_to_psi_ticks(capture_timestamp_ns: int, context) -> int:
     """
     Converts device-relative nanosecond timestamps to Psi Studio-compatible 100ns ticks.
@@ -172,7 +172,6 @@ def convert_ns_to_psi_ticks(capture_timestamp_ns: int, context) -> int:
 
     relative_ns = capture_timestamp_ns - context.start_time_ns
     return context.start_time_ticks + (relative_ns // 100)
-
 
 class AriaNetMQStreamTransport:
     
@@ -186,6 +185,18 @@ class AriaNetMQStreamTransport:
         self.visualizer.audio_transport = self  # Link to visualizer
         self.start_time_ticks = None
         self.start_time_ns = None    
+
+        # Store MediaPipe modules as instance variables        
+        self.mp_hands = mp.solutions.hands
+        self.mp_drawing = mp.solutions.drawing_utils
+        self.hands = self.mp_hands.Hands(
+            static_image_mode=False,
+            max_num_hands=2,
+            min_detection_confidence=0.5,
+            min_tracking_confidence=0.5
+        )       
+       
+
 
     def send_data(self, topic: str, data: dict):
         try:
@@ -223,7 +234,26 @@ class AriaNetMQStreamTransport:
 
         timestamp = convert_ns_to_psi_ticks(record.capture_timestamp_ns, self)
         
-        self.visualizer.latest_images[camera_id] = image
+        if camera_id in {2}:        
+            rot_image = np.ascontiguousarray(np.rot90(image, -1))
+            img_rgb = cv2.cvtColor(rot_image, cv2.COLOR_BGR2RGB)
+            result = self.hands.process(img_rgb)
+            # If hands are detected, draw landmarks
+            if result.multi_hand_landmarks:
+                for hand_landmarks in result.multi_hand_landmarks:
+                    self.mp_drawing.draw_landmarks(
+                        rot_image, hand_landmarks, self.mp_hands.HAND_CONNECTIONS)
+
+                     # Wrist tracking
+                    wrist = hand_landmarks.landmark[0]
+                    h, w, _ = rot_image.shape
+                    cx, cy = int(wrist.x * w), int(wrist.y * h)
+                    cv2.circle(rot_image, (cx, cy), 5, (0, 255, 0), -1)
+                    cv2.putText(rot_image, 'Wrist', (cx + 10, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+
+            self.visualizer.latest_images[camera_id] = rot_image
+        else:
+            self.visualizer.latest_images[camera_id] = image
 
         # Define structured metadata
         image_data = {
@@ -240,7 +270,7 @@ class AriaNetMQStreamTransport:
         #    #print("Processing Slam Cameras")
            slam_image = np.rot90(image, -1)            
            image_data["image_bytes"] = slam_image.tobytes()    
-        
+
         # Send over NetMQ
         self.send_on_netmq(f"camera_{camera_id}", image_data)
           
