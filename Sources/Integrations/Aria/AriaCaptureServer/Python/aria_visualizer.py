@@ -196,6 +196,12 @@ class AriaNetMQStreamTransport:
             min_tracking_confidence=0.5
         )       
        
+        self.mp_pose = mp.solutions.pose
+        self.pose = self.mp_pose.Pose(static_image_mode=False,
+                              model_complexity=1,
+                              enable_segmentation=False,
+                              min_detection_confidence=0.5,
+                              min_tracking_confidence=0.5)
 
 
     def send_data(self, topic: str, data: dict):
@@ -237,6 +243,8 @@ class AriaNetMQStreamTransport:
         if camera_id in {2}:        
             rot_image = np.ascontiguousarray(np.rot90(image, -1))
             img_rgb = cv2.cvtColor(rot_image, cv2.COLOR_BGR2RGB)
+            
+            # Process for Hands
             result = self.hands.process(img_rgb)
             # If hands are detected, draw landmarks
             if result.multi_hand_landmarks:
@@ -250,6 +258,18 @@ class AriaNetMQStreamTransport:
                     cx, cy = int(wrist.x * w), int(wrist.y * h)
                     cv2.circle(rot_image, (cx, cy), 5, (0, 255, 0), -1)
                     cv2.putText(rot_image, 'Wrist', (cx + 10, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+
+            # --- Pose tracking ---
+            pose_result = self.pose.process(img_rgb)
+
+            if pose_result.pose_landmarks:
+                self.mp_drawing.draw_landmarks(
+                    rot_image,
+                    pose_result.pose_landmarks,
+                    self.mp_pose.POSE_CONNECTIONS,
+                    self.mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=2, circle_radius=2),
+                    self.mp_drawing.DrawingSpec(color=(255, 0, 0), thickness=2)
+                )
 
             self.visualizer.latest_images[camera_id] = rot_image
         else:
