@@ -204,6 +204,12 @@ class AriaNetMQStreamTransport:
                               min_tracking_confidence=0.5)
 
 
+        self.face_mesh = mp.solutions.face_mesh.FaceMesh(
+            max_num_faces=1,
+            refine_landmarks=True,
+            min_detection_confidence=0.2,
+            min_tracking_confidence=0.2)
+
     def send_data(self, topic: str, data: dict):
         try:
             publishers[topic].send_json(data)
@@ -272,6 +278,42 @@ class AriaNetMQStreamTransport:
                 )
 
             self.visualizer.latest_images[camera_id] = rot_image
+        
+        elif camera_id == 3:
+            
+            img_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            face_result = self.face_mesh.process(img_rgb)
+
+            if face_result.multi_face_landmarks:
+                print("Face landmarks detected")
+                for face_landmarks in face_result.multi_face_landmarks:
+                    h, w, _ = image.shape  # ✅ FIXED from rot_image
+
+                    left_eye_idxs = [33, 133, 159, 145]
+                    left_iris_idx = 468
+                    eye_points = [face_landmarks.landmark[i] for i in left_eye_idxs + [left_iris_idx]]
+                    eye_coords = np.array([[p.x * w, p.y * h] for p in eye_points])
+
+                    eye_center = np.mean(eye_coords[:4], axis=0)
+                    iris_center = eye_coords[4]
+                    gaze_vector = iris_center - eye_center
+                    gaze_endpoint = eye_center + 6 * gaze_vector  # More visible
+
+                    print("eye_center:", eye_center, "iris_center:", iris_center)
+
+                    cv2.circle(image, tuple(eye_center.astype(int)), 5, (0, 255, 255), -1)  # Yellow
+                    cv2.circle(image, tuple(iris_center.astype(int)), 5, (255, 0, 255), -1)  # Magenta
+                    cv2.arrowedLine(image,
+                                    tuple(eye_center.astype(int)),
+                                    tuple(gaze_endpoint.astype(int)),
+                                    (0, 255, 255), 3, tipLength=0.4)
+
+            else:
+                print("No face landmarks")
+
+
+            self.visualizer.latest_images[camera_id] = image
+
         else:
             self.visualizer.latest_images[camera_id] = image
 
