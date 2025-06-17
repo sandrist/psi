@@ -246,28 +246,23 @@ class AriaNetMQStreamTransport:
 
         timestamp = convert_ns_to_psi_ticks(record.capture_timestamp_ns, self)
         
-        if camera_id in {2}:        
+        if camera_id == 2:
             rot_image = np.ascontiguousarray(np.rot90(image, -1))
             img_rgb = cv2.cvtColor(rot_image, cv2.COLOR_BGR2RGB)
-            
-            # Process for Hands
+
+            # --- Hand Tracking ---
             result = self.hands.process(img_rgb)
-            # If hands are detected, draw landmarks
             if result.multi_hand_landmarks:
                 for hand_landmarks in result.multi_hand_landmarks:
-                    self.mp_drawing.draw_landmarks(
-                        rot_image, hand_landmarks, self.mp_hands.HAND_CONNECTIONS)
-
-                     # Wrist tracking
+                    self.mp_drawing.draw_landmarks(rot_image, hand_landmarks, self.mp_hands.HAND_CONNECTIONS)
                     wrist = hand_landmarks.landmark[0]
                     h, w, _ = rot_image.shape
                     cx, cy = int(wrist.x * w), int(wrist.y * h)
                     cv2.circle(rot_image, (cx, cy), 5, (0, 255, 0), -1)
                     cv2.putText(rot_image, 'Wrist', (cx + 10, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
 
-            # --- Pose tracking ---
+            # --- Pose Tracking ---
             pose_result = self.pose.process(img_rgb)
-
             if pose_result.pose_landmarks:
                 self.mp_drawing.draw_landmarks(
                     rot_image,
@@ -277,43 +272,36 @@ class AriaNetMQStreamTransport:
                     self.mp_drawing.DrawingSpec(color=(255, 0, 0), thickness=2)
                 )
 
-            self.visualizer.latest_images[camera_id] = rot_image
-        
-        elif camera_id == 3:
-            
-            img_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            # --- Face Mesh / Eye Gaze ---
             face_result = self.face_mesh.process(img_rgb)
-
             if face_result.multi_face_landmarks:
-                print("Face landmarks detected")
+                print("Face landmarks detected on Camera 2")
                 for face_landmarks in face_result.multi_face_landmarks:
-                    h, w, _ = image.shape  # ✅ FIXED from rot_image
-
+                    h, w, _ = rot_image.shape
                     left_eye_idxs = [33, 133, 159, 145]
                     left_iris_idx = 468
                     eye_points = [face_landmarks.landmark[i] for i in left_eye_idxs + [left_iris_idx]]
                     eye_coords = np.array([[p.x * w, p.y * h] for p in eye_points])
-
                     eye_center = np.mean(eye_coords[:4], axis=0)
                     iris_center = eye_coords[4]
                     gaze_vector = iris_center - eye_center
-                    gaze_endpoint = eye_center + 6 * gaze_vector  # More visible
+                    gaze_endpoint = eye_center + 6 * gaze_vector
 
                     print("eye_center:", eye_center, "iris_center:", iris_center)
 
-                    cv2.circle(image, tuple(eye_center.astype(int)), 5, (0, 255, 255), -1)  # Yellow
-                    cv2.circle(image, tuple(iris_center.astype(int)), 5, (255, 0, 255), -1)  # Magenta
-                    cv2.arrowedLine(image,
-                                    tuple(eye_center.astype(int)),
-                                    tuple(gaze_endpoint.astype(int)),
-                                    (0, 255, 255), 3, tipLength=0.4)
-
+                    cv2.circle(rot_image, tuple(eye_center.astype(int)), 5, (0, 255, 255), -1)  # Yellow
+                    cv2.circle(rot_image, tuple(iris_center.astype(int)), 5, (255, 0, 255), -1)  # Magenta
+                    cv2.arrowedLine(
+                        rot_image,
+                        tuple(eye_center.astype(int)),
+                        tuple(gaze_endpoint.astype(int)),
+                        (0, 255, 255), 3, tipLength=0.4
+                    )
             else:
-                print("No face landmarks")
+                print("No face landmarks on Camera 2")
 
-
-            self.visualizer.latest_images[camera_id] = image
-
+            self.visualizer.latest_images[camera_id] = rot_image
+                        
         else:
             self.visualizer.latest_images[camera_id] = image
 
