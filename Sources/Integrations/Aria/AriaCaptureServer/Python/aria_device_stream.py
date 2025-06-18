@@ -17,7 +17,7 @@ import sys
 import time
 import aria.sdk as aria
 from common import update_iptables
-from aria_visualizer import AriaNetMQStreamTransport  # Only import transport
+from aria_transport import AriaNetMQStreamTransport  # Only import transport
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
