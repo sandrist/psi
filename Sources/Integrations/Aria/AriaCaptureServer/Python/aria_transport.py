@@ -48,9 +48,10 @@ def convert_ns_to_psi_ticks(capture_timestamp_ns: int, context) -> int:
     return context.start_time_ticks + (relative_ns // 100)
 
 class AriaNetMQStreamTransport:
-    def __init__(self):
+    def __init__(self, visualizer=None):
         self.start_time_ticks = None
         self.start_time_ns = None
+        self.visualizer = visualizer 
 
     def on_image_received(self, image: np.array, record) -> None:
         camera_id = record.camera_id
@@ -69,23 +70,41 @@ class AriaNetMQStreamTransport:
             rgb_image = np.rot90(image, -1)
             rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
             image_data["image_bytes"] = rgb_image.tobytes()
+
+            if self.visualizer:
+                self.visualizer.latest_images[camera_id] = rgb_image
+
         elif camera_id == aria.CameraId.Slam1:
             camera_topic = "slam1"
             slam_image = np.rot90(image, -1)
             image_data["image_bytes"] = slam_image.tobytes()
+
+            if self.visualizer:
+                self.visualizer.latest_images[camera_id] = slam_image
+
         elif camera_id == aria.CameraId.Slam2:
             camera_topic = "slam2"
             slam_image = np.rot90(image, -1)
             image_data["image_bytes"] = slam_image.tobytes()
+
+            if self.visualizer:
+                self.visualizer.latest_images[camera_id] = slam_image
+
         elif camera_id == aria.CameraId.EyeTrack:
             camera_topic = "eyes"
             image_data["width"] = image.shape[0]
             image_data["height"] = image.shape[1]
             image_data["image_bytes"] = image.tobytes()
+                        
+            if self.visualizer:
+                self.visualizer.latest_images[camera_id] = image
+
         else:
             raise ValueError(f"Unknown Camera: {camera_id}")
 
         send_topic_message(sockets[camera_topic], camera_topic, image_data, timestamp, encodeBinary=True)
+
+
 
     def on_imu_received(self, samples: Sequence, imu_idx: int):
         accel_values = []
@@ -111,6 +130,14 @@ class AriaNetMQStreamTransport:
         timestamp = convert_ns_to_psi_ticks(sample.capture_timestamp_ns, self)
         mag_array = np.array(sample.mag_tesla, dtype=np.float32)
         send_topic_message(sockets["magneto"], "magneto", { "values": mag_array.tolist() }, timestamp)
+
+        # print("Calling on_magneto_received ")
+
+        if self.visualizer and self.visualizer.debug:
+            #print("Calling Visuals on_magneto_received ")
+            self.visualizer.sensor_plot["magneto"].add_samples(
+                sample.capture_timestamp_ns, sample.mag_tesla
+            )
 
     def on_baro_received(self, sample):
         timestamp = convert_ns_to_psi_ticks(sample.capture_timestamp_ns, self)

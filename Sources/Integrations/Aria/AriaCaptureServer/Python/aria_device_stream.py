@@ -15,9 +15,11 @@
 import argparse
 import sys
 import time
+import threading
 import aria.sdk as aria
 from common import update_iptables
 from aria_transport import AriaNetMQStreamTransport  # Only import transport
+from aria_debug import AriaVisualizer  
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
@@ -53,10 +55,18 @@ def parse_args() -> argparse.Namespace:
         help="Number of seconds to stream before shutting down"
     )
 
+    parser.add_argument(
+        "--debug",
+        default=False,
+        action="store_true",
+        help="Enable debug mode with visual overlays and additional logs."
+    )
+
     return parser.parse_args()
 
 def main():
     args = parse_args()
+
     if args.update_iptables and sys.platform.startswith("linux"):
         update_iptables()
 
@@ -69,7 +79,6 @@ def main():
     device_client.set_client_config(client_config)
 
     device = device_client.connect()
-
     streaming_manager = device.streaming_manager
     streaming_client = streaming_manager.streaming_client
 
@@ -81,17 +90,18 @@ def main():
     streaming_manager.streaming_config = streaming_config
 
     streaming_manager.start_streaming()
-
     print(f"Streaming state: {streaming_manager.streaming_state}")
 
-    # Headless: only use NetMQ transport, no visualizer
-    aria_transport = AriaNetMQStreamTransport()
-    streaming_client.set_streaming_client_observer(aria_transport)
+    visualizer = AriaVisualizer(debug=args.debug) if args.debug else None
+    transport = AriaNetMQStreamTransport(visualizer=visualizer)
+    streaming_client.set_streaming_client_observer(transport)
     streaming_client.subscribe()
 
-    # Keep streaming for given time
-    print(f"Streaming for {args.stream_seconds} seconds...")
-    time.sleep(args.stream_seconds)
+    if args.debug:
+        visualizer.render_loop()
+    else:
+        print(f"Streaming for {args.stream_seconds} seconds...")
+        time.sleep(args.stream_seconds)
 
     print("Stopping stream...")
     streaming_client.unsubscribe()
