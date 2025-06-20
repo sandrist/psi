@@ -107,7 +107,7 @@ class AriaVisualizer:
                         display_image = image
                         if len(image.shape) == 2:
                             display_image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
-                        cv2.imshow(f"XX Camera {camera_id}", display_image)
+                        cv2.imshow(f"Camera {camera_id}", display_image)
 
                 # Plot sensors
                 for plots in self.sensor_plot.values():
