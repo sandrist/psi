@@ -97,14 +97,13 @@ class AriaNetMQStreamTransport:
             image_data["image_bytes"] = image.tobytes()
                         
             if self.visualizer:
+                print("Calling Image Visualisation ")
                 self.visualizer.latest_images[camera_id] = image
 
         else:
             raise ValueError(f"Unknown Camera: {camera_id}")
 
         send_topic_message(sockets[camera_topic], camera_topic, image_data, timestamp, encodeBinary=True)
-
-
 
     def on_imu_received(self, samples: Sequence, imu_idx: int):
         accel_values = []

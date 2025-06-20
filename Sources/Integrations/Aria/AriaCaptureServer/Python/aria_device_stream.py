@@ -70,31 +70,46 @@ def main():
     if args.update_iptables and sys.platform.startswith("linux"):
         update_iptables()
 
+    # Optional: Set SDK's log level to Trace or 
+    # Debug for more verbose logs. Defaults to Info
     aria.set_log_level(aria.Level.Info)
 
+    # 1. Create DeviceClient instance, setting the IP address if specified
     device_client = aria.DeviceClient()
     client_config = aria.DeviceClientConfig()
     if args.device_ip:
         client_config.ip_v4_address = args.device_ip
     device_client.set_client_config(client_config)
 
+    # 2. Connect to the device
     device = device_client.connect()
+    
+    # 3. Retrieve the streaming_manager and streaming_client
     streaming_manager = device.streaming_manager
     streaming_client = streaming_manager.streaming_client
 
+    # 4. Set custom config for streaming
     streaming_config = aria.StreamingConfig()
     streaming_config.profile_name = args.profile_name
+
+
+    #    Note: by default streaming uses Wifi
     if args.streaming_interface == "usb":
         streaming_config.streaming_interface = aria.StreamingInterface.Usb
+    
+        
+    #    Use ephemeral streaming certificates    
     streaming_config.security_options.use_ephemeral_certs = True
     streaming_manager.streaming_config = streaming_config
 
+    # 5. Start streaming
     streaming_manager.start_streaming()
     print(f"Streaming state: {streaming_manager.streaming_state}")
 
     visualizer = AriaVisualizer(debug=args.debug) if args.debug else None
     transport = AriaNetMQStreamTransport(visualizer=visualizer)
     streaming_client.set_streaming_client_observer(transport)
+    
     streaming_client.subscribe()
 
     if args.debug:
