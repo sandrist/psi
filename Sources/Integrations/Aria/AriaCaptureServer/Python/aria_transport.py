@@ -115,6 +115,15 @@ class AriaNetMQStreamTransport:
             accel_values.append({"sample": np.array(sample.accel_msec2, dtype=np.float32).tolist(), "originatingTime": timestamp})
             gyro_values.append({"sample": np.array(sample.gyro_radsec, dtype=np.float32).tolist(), "originatingTime": timestamp})
         
+            # Realtime plot update for each sample
+            if self.visualizer and self.visualizer.debug:
+                self.visualizer.sensor_plot["accel"][imu_idx].add_samples(
+                    sample.capture_timestamp_ns, sample.accel_msec2
+                )
+                self.visualizer.sensor_plot["gyro"][imu_idx].add_samples(
+                    sample.capture_timestamp_ns, sample.gyro_radsec
+                )
+
         if timestamp != 0:
             if imu_idx == 0:
                 send_topic_message(sockets["accel0"], "accel0", { "values": accel_values }, timestamp)
@@ -131,7 +140,6 @@ class AriaNetMQStreamTransport:
         send_topic_message(sockets["magneto"], "magneto", { "values": mag_array.tolist() }, timestamp)
 
         # print("Calling on_magneto_received ")
-
         if self.visualizer and self.visualizer.debug:
             #print("Calling Visuals on_magneto_received ")
             self.visualizer.sensor_plot["magneto"].add_samples(
@@ -141,6 +149,13 @@ class AriaNetMQStreamTransport:
     def on_baro_received(self, sample):
         timestamp = convert_ns_to_psi_ticks(sample.capture_timestamp_ns, self)
         send_topic_message(sockets["baro"], "baro", { "value": sample.pressure }, timestamp)  
+
+        # Plot in visualizer
+        if self.visualizer and self.visualizer.debug:
+            self.visualizer.sensor_plot["baro"].add_samples(
+                sample.capture_timestamp_ns,
+                [sample.pressure]  # Baro expects 1D list
+            )
 
     def on_audio_received(self, audio_and_record, *args):
         if not hasattr(audio_and_record, "data") or audio_and_record.data is None:
@@ -153,6 +168,7 @@ class AriaNetMQStreamTransport:
             return
 
         send_topic_message(sockets["audio"], "audio", { "values": audio_data.tobytes() }, encodeBinary=True)
+
 
     def stop(self):
         print("AriaNetMQStreamTransport Stopping stream...")
