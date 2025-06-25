@@ -21,6 +21,33 @@ from common import update_iptables
 from aria_transport import AriaNetMQStreamTransport  # Only import transport
 from aria_debug import AriaVisualizer  
 
+# Keep global reference to devices so shutdown works
+device_client = None
+streaming_manager = None
+streaming_client = None
+device = None
+shutdown_initiated = False
+
+def shutdown_stream():
+    global shutdown_initiated
+    if shutdown_initiated:
+        return
+    shutdown_initiated = True
+
+    print("\nStopping stream...")
+    if streaming_client:
+        streaming_client.unsubscribe()
+    if streaming_manager:
+        streaming_manager.stop_streaming()
+    if device_client and device:
+        device_client.disconnect(device)
+    print("Disconnected.")
+
+def handle_sigint(sig, frame):
+    print("\nSIGINT received. Exiting...")
+    shutdown_stream()
+    sys.exit(0)
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -92,7 +119,6 @@ def main():
     streaming_config = aria.StreamingConfig()
     streaming_config.profile_name = args.profile_name
 
-
     #    Note: by default streaming uses Wifi
     if args.streaming_interface == "usb":
         streaming_config.streaming_interface = aria.StreamingInterface.Usb
@@ -113,7 +139,11 @@ def main():
     streaming_client.subscribe()
 
     if args.debug:
-        visualizer.render_loop()
+        try:
+            visualizer.render_loop()
+        except KeyboardInterrupt:
+            print("KeyboardInterrupt in render loop.")
+            shutdown_stream()
     else:
         print(f"Streaming for {args.stream_seconds} seconds...")
         time.sleep(args.stream_seconds)

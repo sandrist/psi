@@ -76,9 +76,10 @@ class CVTemporalPlot:
 
 
 class AriaVisualizer:
-    def __init__(self, debug: bool = False):
+    def __init__(self, debug: bool = False, on_shutdown: callable = None):
         self.debug = debug
         self.running = False  # Used to control the render loop
+        self.on_shutdown = on_shutdown 
         self.sensor_plot = {
             "accel": [CVTemporalPlot(f"IMU{idx} Accel", 3) for idx in range(2)],
             "gyro": [CVTemporalPlot(f"IMU{idx} Gyro", 3) for idx in range(2)],
@@ -117,14 +118,20 @@ class AriaVisualizer:
                     else:
                         plots.draw()
                 if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
+                     print("Detected 'q' — stopping visualizer.")
+                     self.stop()
+                     if self.on_shutdown:
+                        self.on_shutdown()
+                     break
               
         except Exception as e:
             print(f"[render_loop] Exception: {e}")
 
         finally:
             self.stop()
-    
+            if self.on_shutdown:
+                self.on_shutdown()
+   
 
     def stop(self):
         if self.debug:
