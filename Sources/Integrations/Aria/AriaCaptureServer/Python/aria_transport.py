@@ -19,6 +19,8 @@ from typing import Sequence
 import aria.sdk as aria
 from psi_common import *
 import time
+from aria_pipes import AriaTrackingProcessor
+
 
 PORTS = {
     "slam1": "tcp://*:5550",
@@ -52,7 +54,8 @@ class AriaNetMQStreamTransport:
     def __init__(self, visualizer=None):
         self.start_time_ticks = None
         self.start_time_ns = None
-        self.visualizer = visualizer 
+        self.visualizer = visualizer
+        self.tracker = AriaTrackingProcessor() 
 
     def on_image_received(self, image: np.array, record) -> None:
         camera_id = record.camera_id
@@ -70,6 +73,9 @@ class AriaNetMQStreamTransport:
             camera_topic = "rgb"
             rgb_image = np.rot90(image, -1)
             rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
+
+            rgb_image = self.tracker.process(rgb_image)
+
             image_data["image_bytes"] = rgb_image.tobytes()
 
             if self.visualizer:
