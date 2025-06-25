@@ -18,6 +18,7 @@ import cv2
 from typing import Sequence
 import aria.sdk as aria
 from psi_common import *
+import time
 
 PORTS = {
     "slam1": "tcp://*:5550",
@@ -169,6 +170,13 @@ class AriaNetMQStreamTransport:
 
         send_topic_message(sockets["audio"], "audio", { "values": audio_data.tobytes() }, encodeBinary=True)
 
+        # Generate timestamp               
+        if self.visualizer and self.visualizer.debug:
+            norm_audio = audio_data.astype(np.float32) / (np.max(np.abs(audio_data)) + 1e-6)
+            timestamp_ns = time.time() * 1e9
+            # Downsample to 1 sample (or mean) for the timestamp
+            value = np.mean(norm_audio)  # or norm_audio[0]
+            self.visualizer.sensor_plot["audio"].add_samples(timestamp_ns, [value])
 
     def stop(self):
         print("AriaNetMQStreamTransport Stopping stream...")
