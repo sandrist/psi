@@ -56,27 +56,38 @@ class AriaTrackingProcessor:
                 self.mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=2, circle_radius=2),
                 self.mp_drawing.DrawingSpec(color=(255, 0, 0), thickness=2)
             )
-
-        # Face/eye tracking
+                    
+        # Face/eye tracking (left and right)
         face_result = self.face_mesh.process(image_rgb)
         if face_result.multi_face_landmarks:
             for face_landmarks in face_result.multi_face_landmarks:
+                # === Left Eye ===
                 left_eye_idxs = [33, 133, 159, 145]
                 left_iris_idx = 468
-                eye_points = [face_landmarks.landmark[i] for i in left_eye_idxs + [left_iris_idx]]
-                eye_coords = np.array([[p.x * w, p.y * h] for p in eye_points])
-                eye_center = np.mean(eye_coords[:4], axis=0)
-                iris_center = eye_coords[4]
-                gaze_vector = iris_center - eye_center
-                gaze_endpoint = eye_center + 6 * gaze_vector
 
-                cv2.circle(annotated_image, tuple(eye_center.astype(int)), 5, (0, 255, 255), -1)
-                cv2.circle(annotated_image, tuple(iris_center.astype(int)), 5, (255, 0, 255), -1)
-                cv2.arrowedLine(
-                    annotated_image,
-                    tuple(eye_center.astype(int)),
-                    tuple(gaze_endpoint.astype(int)),
-                    (0, 255, 255), 3, tipLength=0.4
-                )
+                # === Right Eye ===
+                right_eye_idxs = [362, 263, 386, 374]
+                right_iris_idx = 473
+
+                def draw_eye(eye_indices, iris_index, color_eye, color_iris, color_vector):
+                    eye_points = [face_landmarks.landmark[i] for i in eye_indices + [iris_index]]
+                    eye_coords = np.array([[p.x * w, p.y * h] for p in eye_points])
+                    eye_center = np.mean(eye_coords[:4], axis=0)
+                    iris_center = eye_coords[4]
+                    gaze_vector = iris_center - eye_center
+                    gaze_endpoint = eye_center + 6 * gaze_vector
+
+                    cv2.circle(annotated_image, tuple(eye_center.astype(int)), 5, color_eye, -1)
+                    cv2.circle(annotated_image, tuple(iris_center.astype(int)), 5, color_iris, -1)
+                    cv2.arrowedLine(
+                        annotated_image,
+                        tuple(eye_center.astype(int)),
+                        tuple(gaze_endpoint.astype(int)),
+                        color_vector, 3, tipLength=0.4
+                    )
+
+                draw_eye(left_eye_idxs, left_iris_idx, (0, 255, 255), (255, 0, 255), (0, 255, 255))   # Yellow
+                draw_eye(right_eye_idxs, right_iris_idx, (0, 200, 200), (200, 0, 200), (0, 200, 255)) # Light blue
+
 
         return annotated_image
