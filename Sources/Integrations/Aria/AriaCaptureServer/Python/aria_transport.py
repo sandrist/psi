@@ -34,8 +34,8 @@ PORTS = {
     "baro": "tcp://*:5559",
     "audio": "tcp://*:5560",
     "hands": "tcp://*:5561",
-    "skeleton": "tcp://*:5562",
-    "gaze": "tcp://*:5563",
+    "skeleton":"tcp://*:5562",
+    "gaze":"tcp://*:5563",
 }
 
 sockets = {}
@@ -76,27 +76,23 @@ class AriaNetMQStreamTransport:
 
             rgb_image = np.rot90(image, -1)
             rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
-
-            # ✅ Correctly unpack annotated image and tracking results
+                        
             annotated_image, tracking_data = self.tracker.process(rgb_image)
 
             image_data["image_bytes"] = annotated_image.tobytes()
-
-            # === Send hands, skeleton, gaze to their respective ports ===
+                        
             if tracking_data.get("hands"):
                 send_topic_message(
                     sockets["hands"], "hands",
                     { "values": tracking_data["hands"] },
                     timestamp
                 )
-
             if tracking_data.get("skeleton"):
                 send_topic_message(
                     sockets["skeleton"], "skeleton",
                     { "values": tracking_data["skeleton"] },
                     timestamp
                 )
-
             if tracking_data.get("gaze"):
                 send_topic_message(
                     sockets["gaze"], "gaze",
