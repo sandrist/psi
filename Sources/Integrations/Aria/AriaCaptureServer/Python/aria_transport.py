@@ -1,4 +1,4 @@
-# Copyright (c) Meta Platforms, Inc. and affiliates.
+﻿# Copyright (c) Meta Platforms, Inc. and affiliates.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ from psi_common import *
 import time
 from aria_pipes import AriaTrackingProcessor
 
-
 PORTS = {
     "slam1": "tcp://*:5550",
     "slam2": "tcp://*:5551",
@@ -34,6 +33,9 @@ PORTS = {
     "magneto": "tcp://*:5558",
     "baro": "tcp://*:5559",
     "audio": "tcp://*:5560",
+    "hands": "tcp://*:5561",
+    "skeleton": "tcp://*:5562",
+    "gaze": "tcp://*:5563",
 }
 
 sockets = {}
@@ -56,7 +58,7 @@ class AriaNetMQStreamTransport:
         self.start_time_ns = None
         self.visualizer = visualizer
         self.tracker = AriaTrackingProcessor() 
-
+ 
     def on_image_received(self, image: np.array, record) -> None:
         camera_id = record.camera_id
         timestamp = convert_ns_to_psi_ticks(record.capture_timestamp_ns, self)
@@ -71,15 +73,39 @@ class AriaNetMQStreamTransport:
 
         if camera_id == aria.CameraId.Rgb:
             camera_topic = "rgb"
+
             rgb_image = np.rot90(image, -1)
             rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
 
-            rgb_image = self.tracker.process(rgb_image)
+            # ✅ Correctly unpack annotated image and tracking results
+            annotated_image, tracking_data = self.tracker.process(rgb_image)
 
-            image_data["image_bytes"] = rgb_image.tobytes()
+            image_data["image_bytes"] = annotated_image.tobytes()
+
+            # === Send hands, skeleton, gaze to their respective ports ===
+            if tracking_data.get("hands"):
+                send_topic_message(
+                    sockets["hands"], "hands",
+                    { "values": tracking_data["hands"] },
+                    timestamp
+                )
+
+            if tracking_data.get("skeleton"):
+                send_topic_message(
+                    sockets["skeleton"], "skeleton",
+                    { "values": tracking_data["skeleton"] },
+                    timestamp
+                )
+
+            if tracking_data.get("gaze"):
+                send_topic_message(
+                    sockets["gaze"], "gaze",
+                    { "values": tracking_data["gaze"] },
+                    timestamp
+                )
 
             if self.visualizer:
-                self.visualizer.latest_images[camera_id] = rgb_image
+                self.visualizer.latest_images[camera_id] = annotated_image
 
         elif camera_id == aria.CameraId.Slam1:
             camera_topic = "slam1"
@@ -102,15 +128,16 @@ class AriaNetMQStreamTransport:
             image_data["width"] = image.shape[0]
             image_data["height"] = image.shape[1]
             image_data["image_bytes"] = image.tobytes()
-                        
+
             if self.visualizer:
-                print("Calling Image Visualisation ")
+                print("Calling Image Visualisation")
                 self.visualizer.latest_images[camera_id] = image
 
         else:
             raise ValueError(f"Unknown Camera: {camera_id}")
 
         send_topic_message(sockets[camera_topic], camera_topic, image_data, timestamp, encodeBinary=True)
+
 
     def on_imu_received(self, samples: Sequence, imu_idx: int):
         accel_values = []
