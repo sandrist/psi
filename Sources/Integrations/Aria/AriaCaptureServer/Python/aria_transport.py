@@ -53,11 +53,13 @@ def convert_ns_to_psi_ticks(capture_timestamp_ns: int, context) -> int:
     return context.start_time_ticks + (relative_ns // 100)
 
 class AriaNetMQStreamTransport:
-    def __init__(self, visualizer=None):
+    def __init__(self, visualizer=None, enable_pipes=False):
         self.start_time_ticks = None
         self.start_time_ns = None
         self.visualizer = visualizer
-        self.tracker = AriaTrackingProcessor() 
+        self.enable_pipes = enable_pipes
+        self.tracker = AriaTrackingProcessor() if enable_pipes else None
+
  
     def on_image_received(self, image: np.array, record) -> None:
         camera_id = record.camera_id
@@ -76,32 +78,29 @@ class AriaNetMQStreamTransport:
 
             rgb_image = np.rot90(image, -1)
             rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
-                        
-            annotated_image, tracking_data = self.tracker.process(rgb_image)
+            
+            if self.enable_pipes:
+                annotated_image, tracking_data = self.tracker.process(rgb_image)
+                image_data["image_bytes"] = annotated_image.tobytes()
 
-            image_data["image_bytes"] = annotated_image.tobytes()
-                        
-            if tracking_data.get("hands"):
-                send_topic_message(
-                    sockets["hands"], "hands",
-                    { "values": tracking_data["hands"] },
-                    timestamp
-                )
-            if tracking_data.get("skeleton"):
-                send_topic_message(
-                    sockets["skeleton"], "skeleton",
-                    { "values": tracking_data["skeleton"] },
-                    timestamp
-                )
-            if tracking_data.get("gaze"):
-                send_topic_message(
-                    sockets["gaze"], "gaze",
-                    { "values": tracking_data["gaze"] },
-                    timestamp
-                )
+                if tracking_data.get("hands"):
+                    print("[SEND] hands:", { "values": tracking_data["hands"], "timestamp": timestamp })
+                    send_topic_message(sockets["hands"], "hands", { "values": tracking_data["hands"] }, timestamp)
 
-            if self.visualizer:
-                self.visualizer.latest_images[camera_id] = annotated_image
+                if tracking_data.get("skeleton"):
+                    print("[SEND] skeleton:", { "values": tracking_data["skeleton"], "timestamp": timestamp })
+                    send_topic_message(sockets["skeleton"], "skeleton", { "values": tracking_data["skeleton"] }, timestamp)
+
+                if tracking_data.get("gaze"):
+                    print("[SEND] gaze:", { "values": tracking_data["gaze"], "timestamp": timestamp })
+                    send_topic_message(sockets["gaze"], "gaze", { "values": tracking_data["gaze"] }, timestamp)
+
+                if self.visualizer:
+                    self.visualizer.latest_images[camera_id] = annotated_image
+            else:
+                image_data["image_bytes"] = rgb_image.tobytes()
+                if self.visualizer:
+                    self.visualizer.latest_images[camera_id] = rgb_image
 
         elif camera_id == aria.CameraId.Slam1:
             camera_topic = "slam1"
