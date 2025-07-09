@@ -50,9 +50,9 @@ namespace AriaCaptureServer
             var baroSource = CreateSource("baro", 5559);
 
 
-            var handsSource = CreateSource("hands", 5561);
-            var skeletonSource = CreateSource("skeleton", 5562);
-            var gazeSource = CreateSource("gaze", 5563);
+            // var handsSource = CreateSource("hands", 5561);
+            // var skeletonSource = CreateSource("skeleton", 5562);
+            // var gazeSource = CreateSource("gaze", 5563);
 
 
             // Start Image Processing 
@@ -66,7 +66,7 @@ namespace AriaCaptureServer
             audio.Write("Audio", store, deliveryPolicy: DeliveryPolicy.Unlimited);
             audio.Resample(WaveFormat.Create16kHz1Channel16BitPcm(), DeliveryPolicy.Unlimited).Write("ResampledAudio", store, deliveryPolicy: DeliveryPolicy.Unlimited);
 
-            handsSource.ProcessHands().Write("Hands", store);
+            // handsSource.ProcessHands().Write("Hands", store);
             
             // skeletonSource.ProcessSkeleton().Write("Skeleton", store);
             // gazeSource.ProcessGaze().Write("Gaze", store);
