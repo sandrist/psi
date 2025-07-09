@@ -55,53 +55,53 @@ namespace AriaCaptureServer
 
 
         public static IProducer<List<Vector3>> ProcessHands(this IProducer<dynamic> inputStream, DeliveryPolicy deliveryPolicy = null) =>
-    inputStream.Process<dynamic, List<Vector3>>((iframe, _, emitter) =>
-    {
-        try
-        {
-            // Extract timestamp safely from iframe
-            DateTime timestamp;
-            try
+            inputStream.Process<dynamic, List<Vector3>>((iframe, _, emitter) =>
             {
-                timestamp = new DateTime((long)iframe.originatingTime);
-            }
-            catch
-            {
-                timestamp = DateTime.UtcNow;
-            }
-
-            // Iterate over each hand
-            foreach (var handObj in iframe.values)
-            {
-                var handPoints = new List<Vector3>();
-
                 try
                 {
-                    var pointList = (IEnumerable<object>)handObj;
-
-                    foreach (var pt in pointList)
+                    // Extract timestamp safely from iframe
+                    DateTime timestamp;
+                    try
                     {
-                        var coords = (IList<object>)pt;
-                        float x = Convert.ToSingle(coords[0]);
-                        float y = Convert.ToSingle(coords[1]);
-                        float z = Convert.ToSingle(coords[2]);
-
-                        handPoints.Add(new Vector3(x, y, z));
+                        timestamp = new DateTime((long)iframe.originatingTime);
+                    }
+                    catch
+                    {
+                        timestamp = DateTime.UtcNow;
                     }
 
-                    emitter.Post(handPoints, timestamp);
+                    // Iterate over each hand
+                    foreach (var handObj in iframe.values)
+                    {
+                        var handPoints = new List<Vector3>();
+
+                        try
+                        {
+                            var pointList = (IEnumerable<object>)handObj;
+
+                            foreach (var pt in pointList)
+                            {
+                                var coords = (IList<object>)pt;
+                                float x = Convert.ToSingle(coords[0]);
+                                float y = Convert.ToSingle(coords[1]);
+                                float z = Convert.ToSingle(coords[2]);
+
+                                handPoints.Add(new Vector3(x, y, z));
+                            }
+
+                            emitter.Post(handPoints, timestamp);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"[ProcessHands] Hand parse error: {ex.Message}");
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"[ProcessHands] Hand parse error: {ex.Message}");
+                    Console.WriteLine($"[ProcessHands] Frame error: {ex.Message}");
                 }
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"[ProcessHands] Frame error: {ex.Message}");
-        }
-    }, deliveryPolicy);
+            }, deliveryPolicy);
 
 
 
