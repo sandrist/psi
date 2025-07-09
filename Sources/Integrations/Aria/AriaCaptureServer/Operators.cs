@@ -51,9 +51,6 @@ namespace AriaCaptureServer
                 return new AudioBuffer(byteData, audioFormat);
             }, deliveryPolicy);
 
-        
-
-
 
     }
 }

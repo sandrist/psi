@@ -49,12 +49,6 @@ namespace AriaCaptureServer
             var magnetoSource = CreateSource("magneto", 5558);
             var baroSource = CreateSource("baro", 5559);
 
-
-            // var handsSource = CreateSource("hands", 5561);
-            // var skeletonSource = CreateSource("skeleton", 5562);
-            // var gazeSource = CreateSource("gaze", 5563);
-
-
             // Start Image Processing 
             rgbSource.ProcessImage(PixelFormat.BGR_24bpp).EncodeJpeg().Write("RGB", store);
             slam1Source.ProcessImage(PixelFormat.Gray_8bpp).EncodeJpeg().Write("Slam1", store);
@@ -65,11 +59,6 @@ namespace AriaCaptureServer
             var audio = audioSource.ProcessAudio(WaveFormat.CreatePcm(48000, 32, 7), DeliveryPolicy.Unlimited);
             audio.Write("Audio", store, deliveryPolicy: DeliveryPolicy.Unlimited);
             audio.Resample(WaveFormat.Create16kHz1Channel16BitPcm(), DeliveryPolicy.Unlimited).Write("ResampledAudio", store, deliveryPolicy: DeliveryPolicy.Unlimited);
-
-            // handsSource.ProcessHands().Write("Hands", store);
-            
-            // skeletonSource.ProcessSkeleton().Write("Skeleton", store);
-            // gazeSource.ProcessGaze().Write("Gaze", store);
 
             // Process IMU and other data
             accel0Source.ProcessIMU().Write("Accel0", store);
