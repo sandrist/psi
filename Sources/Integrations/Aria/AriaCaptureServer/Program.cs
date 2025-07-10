@@ -48,6 +48,10 @@ namespace AriaCaptureServer
             var magnetoSource = CreateSource("magneto", 5558);
             var baroSource = CreateSource("baro", 5559);
 
+            var handsSource = CreateSource("hands", 5557);
+            var skeletonSource = CreateSource("skeleton", 5558);
+            var gazeSource = CreateSource("gaze", 5559);
+
             // Start Image Processing 
             rgbSource.ProcessImage(PixelFormat.BGR_24bpp).EncodeJpeg().Write("RGB", store);
             slam1Source.ProcessImage(PixelFormat.Gray_8bpp).EncodeJpeg().Write("Slam1", store);
@@ -66,6 +70,11 @@ namespace AriaCaptureServer
             gyro1Source.ProcessIMU().Write("Gyro1", store);
             magnetoSource.Select(iframe => new Vector3((float)iframe.values[0], (float)iframe.values[1], (float)iframe.values[2])).Write("Magneto", store);
             baroSource.Select(iframe => (double)iframe.value).Write("Baro", store);
+
+            handsSource.ProcessHands().Write("Hands", store);
+            skeletonSource.ProcessSkeleton().Write("Skeleton", store);
+            gazeSource.ProcessGaze().Write("Gaze", store);
+
 
             // Run pipeline asynchronously
             pipeline.RunAsync();
