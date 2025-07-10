@@ -8,8 +8,7 @@ namespace AriaCaptureServer
     using Microsoft.Psi.Imaging;
     using Microsoft.Psi.Interop.Format;
     using Microsoft.Psi.Interop.Transport;
-    using System;
-    using System.Collections.Generic;
+    using System;    
     using System.Numerics;
 
     internal class Program

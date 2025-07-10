@@ -84,15 +84,12 @@ class AriaNetMQStreamTransport:
                 image_data["image_bytes"] = annotated_image.tobytes()
 
                 if tracking_data.get("hands"):
-                    print("[SEND] hands:", { "values": tracking_data["hands"], "timestamp": timestamp })
                     send_topic_message(sockets["hands"], "hands", { "values": tracking_data["hands"] }, timestamp)
 
                 if tracking_data.get("skeleton"):
-                    print("[SEND] skeleton:", { "values": tracking_data["skeleton"], "timestamp": timestamp })
                     send_topic_message(sockets["skeleton"], "skeleton", { "values": tracking_data["skeleton"] }, timestamp)
 
                 if tracking_data.get("gaze"):
-                    print("[SEND] gaze:", { "values": tracking_data["gaze"], "timestamp": timestamp })
                     send_topic_message(sockets["gaze"], "gaze", { "values": tracking_data["gaze"] }, timestamp)
 
                 if self.visualizer:
@@ -125,7 +122,6 @@ class AriaNetMQStreamTransport:
             image_data["image_bytes"] = image.tobytes()
 
             if self.visualizer:
-                print("Calling Image Visualisation")
                 self.visualizer.latest_images[camera_id] = image
 
         else:
