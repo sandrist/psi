@@ -81,14 +81,14 @@ class AriaNetMQStreamTransport:
             rgb_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2RGB)
             
             if self.enable_pipes:
-                annotated_image, tracking_data = self.tracker.process(rgb_image)
-
-                # Send image with or without overlay based on the flag
                 if self.enable_overlay:
+                    annotated_image, tracking_data = self.tracker.process(rgb_image)
                     image_data["image_bytes"] = annotated_image.tobytes()
                     if self.visualizer:
                         self.visualizer.latest_images[camera_id] = annotated_image
                 else:
+                    # Run tracking just to extract data, but don’t draw overlays
+                    _, tracking_data = self.tracker.process(rgb_image)
                     image_data["image_bytes"] = rgb_image.tobytes()
                     if self.visualizer:
                         self.visualizer.latest_images[camera_id] = rgb_image

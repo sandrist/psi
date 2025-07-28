@@ -15,6 +15,7 @@
 import argparse
 import sys
 import time
+import signal
 import threading
 import aria.sdk as aria
 from common import update_iptables
@@ -104,6 +105,8 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 def main():
+    global device_client, streaming_manager, streaming_client, device
+    
     args = parse_args()
 
     if args.update_iptables and sys.platform.startswith("linux"):
@@ -112,6 +115,17 @@ def main():
     # Optional: Set SDK's log level to Trace or 
     # Debug for more verbose logs. Defaults to Info
     aria.set_log_level(aria.Level.Info)
+
+    # Signal handler to ensure clean shutdown
+    def handle_sigint(sig, frame):
+        print("\nSIGINT received. Shutting down...")
+        shutdown_stream()
+        sys.exit(0)
+
+    signal.signal(signal.SIGINT, handle_sigint)
+
+    print(f"[Config] Debug: {args.debug}, Pipes: {args.pipes}, Overlay: {args.overlay}")
+
 
     # 1. Create DeviceClient instance, setting the IP address if specified
     device_client = aria.DeviceClient()
@@ -150,21 +164,18 @@ def main():
     
     streaming_client.subscribe()
 
-    if args.debug:
-        try:
+    try:
+        if args.debug:
             visualizer.render_loop()
-        except KeyboardInterrupt:
-            print("KeyboardInterrupt in render loop.")
-            shutdown_stream()
-    else:
-        print(f"Streaming for {args.stream_seconds} seconds...")
-        time.sleep(args.stream_seconds)
-
-    print("Stopping stream...")
-    streaming_client.unsubscribe()
-    streaming_manager.stop_streaming()
-    device_client.disconnect(device)
-    print("Disconnected.")
-
+        else:
+            print(f"Streaming for {args.stream_seconds} seconds... Press Ctrl+C to stop early.")
+            start_time = time.time()
+            while time.time() - start_time < args.stream_seconds:
+                time.sleep(0.5)
+    except KeyboardInterrupt:
+            print("KeyboardInterrupt received. Cleaning up...")
+    finally:
+        shutdown_stream()            
+    
 if __name__ == "__main__":
     main()
