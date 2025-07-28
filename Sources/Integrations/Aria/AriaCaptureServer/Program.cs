@@ -71,6 +71,11 @@ namespace AriaCaptureServer
             magnetoSource.Select(iframe => new Vector3((float)iframe.values[0], (float)iframe.values[1], (float)iframe.values[2])).Write("Magneto", store);
             baroSource.Select(iframe => (double)iframe.value).Write("Baro", store);
 
+            
+            handsSource.ProcessHands2D().Write("Hands2D", store);
+            skeletonSource.ProcessSkeleton2D().Write("Skeleton2D", store);
+            gazeSource.ProcessGaze2D().Write("Gaze2D", store);
+
             handsSource.ProcessHands().Write("Hands", store);
             skeletonSource.ProcessSkeleton().Write("Skeleton", store);
             gazeSource.ProcessGaze().Write("Gaze", store);

@@ -3,13 +3,15 @@
 
 namespace AriaCaptureServer
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Dynamic;
-    using System.Numerics;
     using Microsoft.Psi;
     using Microsoft.Psi.Audio;
     using Microsoft.Psi.Imaging;
+    using System;
+    using System.Collections.Generic;
+    using System.Dynamic;
+    using System.Linq;
+    using System.Numerics;
+    using System.Windows;
 
     /// <summary>
     /// Stream operators and extension methods for processing Aria data.
@@ -49,6 +51,123 @@ namespace AriaCaptureServer
                 var messageDict = (IDictionary<string, object>)(ExpandoObject)iframe;
                 var byteData = (byte[])messageDict["values"];
                 return new AudioBuffer(byteData, audioFormat);
+            }, deliveryPolicy);
+
+
+        public static IProducer<Point[]> ProcessHands2D(this IProducer<dynamic> inputStream, DeliveryPolicy deliveryPolicy = null) =>
+            inputStream.Process<dynamic, Point[]>((iframe, _, emitter) =>
+            {
+                try
+                {
+                    DateTime timestamp;
+                    try
+                    {
+                        timestamp = new DateTime((long)iframe.originatingTime);
+                    }
+                    catch
+                    {
+                        timestamp = DateTime.UtcNow;
+                    }
+
+                    foreach (var handObj in iframe.values)
+                    {
+                        var points2D = new List<Point>();
+
+                        try
+                        {
+                            var pointList = (IEnumerable<object>)handObj;
+
+                            foreach (var pt in pointList)
+                            {
+                                var coords = (IList<object>)pt;
+                                double x = Convert.ToDouble(coords[0]);
+                                double y = Convert.ToDouble(coords[1]);
+
+                                points2D.Add(new Point(x, y));
+                            }
+
+                            emitter.Post(points2D.ToArray(), timestamp);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"[ProcessHands2D] Hand parse error: {ex.Message}");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[ProcessHands2D] Frame error: {ex.Message}");
+                }
+            }, deliveryPolicy);
+
+        public static IProducer<Point[]> ProcessSkeleton2D(this IProducer<dynamic> inputStream, DeliveryPolicy deliveryPolicy = null) =>
+            inputStream.Process<dynamic, Point[]>((iframe, _, emitter) =>
+            {
+                try
+                {
+                    var points2D = new List<Point>();
+
+                    foreach (var joint in iframe.values)
+                    {
+                        var point = (IList<object>)joint;
+                        double x = Convert.ToDouble(point[0]);
+                        double y = Convert.ToDouble(point[1]);
+                        points2D.Add(new Point(x, y));
+                    }
+
+                    //KiranM: This needs to be revisited with Sean.. I am not sure
+                    // if it is right to do this.. to keep the PSI handling happpy
+                    // Try to get timestamp from iframe or fallback
+
+                    DateTime timestamp;
+                    try
+                    {
+                        timestamp = iframe.originatingTime != null ? new DateTime((long)iframe.originatingTime) : DateTime.UtcNow;
+                    }
+                    catch
+                    {
+                        timestamp = DateTime.UtcNow;
+                    }
+
+                    emitter.Post(points2D.ToArray(), timestamp);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[ProcessSkeleton2D] Error: {ex.Message}");
+                }
+            }, deliveryPolicy);
+
+        public static IProducer<Point> ProcessGaze2D(this IProducer<dynamic> inputStream, DeliveryPolicy deliveryPolicy = null) =>
+            inputStream.Process<dynamic, Point>((iframe, _, emitter) =>
+            {
+                try
+                {
+                    if (iframe?.values is IEnumerable<object> values)
+                    {
+                        var gazePoint = ((IList<object>)values.FirstOrDefault());
+                        if (gazePoint?.Count >= 2)
+                        {
+                            double x = Convert.ToDouble(gazePoint[0]);
+                            double y = Convert.ToDouble(gazePoint[1]);
+
+                            DateTime timestamp;
+                            try
+                            {
+                                timestamp = iframe.originatingTime != null ? new DateTime((long)iframe.originatingTime) : DateTime.UtcNow;
+                            }
+                            catch
+                            {
+                                timestamp = DateTime.UtcNow;
+                            }
+
+                            emitter.Post(new Point(x, y), timestamp);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[ProcessGaze2D] Error: {ex.Message}");
+                }
             }, deliveryPolicy);
 
         public static IProducer<List<Vector3>> ProcessHands(this IProducer<dynamic> inputStream, DeliveryPolicy deliveryPolicy = null) =>
