@@ -53,11 +53,12 @@ def convert_ns_to_psi_ticks(capture_timestamp_ns: int, context) -> int:
     return context.start_time_ticks + (relative_ns // 100)
 
 class AriaNetMQStreamTransport:
-    def __init__(self, visualizer=None, enable_pipes=False):
+    def __init__(self, visualizer=None, enable_pipes=False,enable_overlay=False):
         self.start_time_ticks = None
         self.start_time_ns = None
         self.visualizer = visualizer
         self.enable_pipes = enable_pipes
+        self.enable_overlay = enable_overlay
         self.tracker = AriaTrackingProcessor() if enable_pipes else None
 
  
@@ -81,8 +82,18 @@ class AriaNetMQStreamTransport:
             
             if self.enable_pipes:
                 annotated_image, tracking_data = self.tracker.process(rgb_image)
-                image_data["image_bytes"] = annotated_image.tobytes()
 
+                # Send image with or without overlay based on the flag
+                if self.enable_overlay:
+                    image_data["image_bytes"] = annotated_image.tobytes()
+                    if self.visualizer:
+                        self.visualizer.latest_images[camera_id] = annotated_image
+                else:
+                    image_data["image_bytes"] = rgb_image.tobytes()
+                    if self.visualizer:
+                        self.visualizer.latest_images[camera_id] = rgb_image
+
+                 # Send auxiliary tracking data to ZMQ sockets
                 if tracking_data.get("hands"):
                     send_topic_message(sockets["hands"], "hands", { "values": tracking_data["hands"] }, timestamp)
 
@@ -91,9 +102,7 @@ class AriaNetMQStreamTransport:
 
                 if tracking_data.get("gaze"):
                     send_topic_message(sockets["gaze"], "gaze", { "values": tracking_data["gaze"] }, timestamp)
-
-                if self.visualizer:
-                    self.visualizer.latest_images[camera_id] = annotated_image
+                                    
             else:
                 image_data["image_bytes"] = rgb_image.tobytes()
                 if self.visualizer:

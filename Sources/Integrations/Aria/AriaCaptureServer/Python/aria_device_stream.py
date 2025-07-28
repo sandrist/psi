@@ -95,6 +95,12 @@ def parse_args() -> argparse.Namespace:
         help="Enable pose/hand/gaze tracking and pipe to ZMQ ports"
     )
 
+    parser.add_argument(
+        "--overlay",
+        action="store_true",
+        help="Enable pose/hand/gaze tracking to overlay on the RGB stream"
+    )
+
     return parser.parse_args()
 
 def main():
@@ -139,7 +145,7 @@ def main():
     print(f"Streaming state: {streaming_manager.streaming_state}")
 
     visualizer = AriaVisualizer(debug=args.debug) if args.debug else None
-    transport = AriaNetMQStreamTransport(visualizer=visualizer,enable_pipes=args.pipes)
+    transport = AriaNetMQStreamTransport(visualizer=visualizer,enable_pipes=args.pipes,enable_overlay=args.overlay)
     streaming_client.set_streaming_client_observer(transport)
     
     streaming_client.subscribe()
