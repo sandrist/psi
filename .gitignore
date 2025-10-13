@@ -269,3 +269,6 @@ paket-files/
 /.sass-cache/
 Gemfile.lock
 Sources/Integrations/Aria/AriaCaptureServer/Python/__pycache__/
+/Sources/Integrations/Aria/DROID-SLAM
+/.gitignore
+/.gitignore
